@@ -7,7 +7,7 @@
 *.so
 
 sb
-
+lib/skyhwd/build
 build
 data
 pkg
