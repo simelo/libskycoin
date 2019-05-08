@@ -5,7 +5,7 @@
 *.exe
 *.o
 *.so
-
+deps_curl/
 sb
 lib/skyhwd/build
 build
