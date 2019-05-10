@@ -145,7 +145,6 @@ env:
 
 
 install:
-  - if [[ -z "$QEMU_PLATFORM" ]]; then make install-lib-skyhwd ; fi
   - if [[ -z "$QEMU_PLATFORM" ]]; then go get github.com/gz-c/gox ; fi
   - if [[ -z "$QEMU_PLATFORM" ]]; then go get -t ./... ; fi
   - if [[ -z "$QEMU_PLATFORM" ]]; then make install-linters ; fi
