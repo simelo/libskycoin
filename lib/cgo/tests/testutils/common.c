@@ -1,16 +1,15 @@
 #include "common.h"
 
-#include <stddef.h>
+#include <string.h>
+#include <stdio.h>
 
-int isU8Eq(unsigned char p1[], unsigned char p2[], int len)
-{
-  size_t i;
-   for (i= 0; i < len; i++) {
-    if (p1[i] != p2[i])
-    {
-      return 0;
-    }
+GoInt_ isU8Eq(unsigned char p1[], unsigned char p2[], size_t len) {
+
+  if (strncmp(p1, p2, len) == 0) {
+
+    return 1;
   }
-
-  return 1;
-} 
+  printf("p1 %s\n", p1);
+  printf("p2 %s\n", p2);
+  return 0;
+}
