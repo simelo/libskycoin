@@ -13,6 +13,7 @@
 
 Suite *cipher_bitcoin(void);
 Suite *cipher_address(void);
+Suite *common_check_cipher_hash(void);
 Suite *cipher_testsuite(void);
 Suite *cipher_crypto(void);
 Suite *cipher_encrypt_scrypt_chacha20poly1305(void);
