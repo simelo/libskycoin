@@ -6,8 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Added functions `SKY_base58_String2Hex`
 ### Fixed
-
 - `/api/v1/health` will return correct build info when running Docker containers based on `skycoin/skycoin` mainnet image.
 
 ### Changed
