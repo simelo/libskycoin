@@ -250,31 +250,6 @@ START_TEST(TestDoubleSHA256)
 }
 END_TEST
 
-START_TEST(TestAddSHA256)
-{
-
-    unsigned char bbuff[130];
-    GoSlice b = {bbuff, 0, 130};
-    randBytes(&b, 128);
-    cipher__SHA256 h;
-    SKY_cipher_SumSHA256(b, &h);
-
-    unsigned char cbuff[130];
-    GoSlice c = {cbuff, 0, 130};
-    randBytes(&c, 64);
-    cipher__SHA256 i;
-    SKY_cipher_SumSHA256(c, &i);
-
-    cipher__SHA256 add;
-    cipher__SHA256 tmp;
-
-    SKY_cipher_AddSHA256(&h, &i, &add);
-    ck_assert(!isU8Eq(add, tmp, 32));
-    ck_assert(!isU8Eq(add, h, 32));
-    ck_assert(!isU8Eq(add, i, 32));
-}
-END_TEST
-
 START_TEST(TestXorSHA256)
 {
 
