@@ -358,7 +358,6 @@ Suite* cipher_hash(void)
     tcase_add_test(tc, TestSumSHA256);
     tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestDoubleSHA256);
-    tcase_add_test(tc, TestAddSHA256);
     tcase_add_test(tc, TestXorSHA256);
     tcase_add_test(tc, TestMerkle);
     tcase_add_test(tc, TestSHA256Null);
