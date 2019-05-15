@@ -140,30 +140,6 @@ START_TEST(TestAddressFromBytes)
 }
 END_TEST
 
-START_TEST(TestAddressNull)
-{
-    cipher__Address a;
-    memset(&a, 0, sizeof(cipher__Address));
-    GoUint32 result;
-    GoUint8 isNull;
-    result = SKY_cipher_Address_Null(&a, &isNull);
-    ck_assert_msg(result == SKY_OK, "SKY_cipher_Address_Null");
-    ck_assert(isNull == 1);
-
-    cipher__PubKey p;
-    cipher__SecKey s;
-
-    result = SKY_cipher_GenerateKeyPair(&p, &s);
-    ck_assert_msg(result == SKY_OK, "SKY_cipher_GenerateKeyPair failed");
-
-    result = SKY_cipher_AddressFromPubKey(&p, &a);
-    ck_assert_msg(result == SKY_OK, "SKY_cipher_AddressFromPubKey failed");
-    result = SKY_cipher_Address_Null(&a, &isNull);
-    ck_assert_msg(result == SKY_OK, "SKY_cipher_Address_Null");
-    ck_assert(isNull == 0);
-}
-END_TEST
-
 // define test suite and cases
 Suite* cipher_address(void)
 {
@@ -174,7 +150,6 @@ Suite* cipher_address(void)
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestDecodeBase58Address);
     tcase_add_test(tc, TestAddressFromBytes);
-    tcase_add_test(tc, TestAddressNull);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
