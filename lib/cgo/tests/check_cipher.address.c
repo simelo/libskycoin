@@ -10,10 +10,9 @@
 #define SKYCOIN_ADDRESS_VALID "2GgFvqoyk9RjwVzj8tqfcXVXB4orBwoc9qv"
 
 // TestSuite(cipher_address, .init = setup, .fini = teardown);
-//
-// buffer big enough to hold all kind of data needed by test cases
-unsigned char buff[1024];
-//
+
+extern unsigned char buff[1024];
+
 START_TEST(TestDecodeBase58Address)
 {
     GoString strAddr = {SKYCOIN_ADDRESS_VALID, 35};
@@ -141,32 +140,6 @@ START_TEST(TestAddressFromBytes)
 }
 END_TEST
 
-START_TEST(TestAddressString)
-{
-    cipher__PubKey pk;
-    cipher__SecKey sk;
-    cipher__Address addr, addr2, addr3;
-    GoString str = {buff, 0};
-
-    GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
-    ck_assert(err == SKY_OK);
-    err = SKY_cipher_AddressFromPubKey(&pk, &addr);
-    ck_assert(err == SKY_OK);
-    GoString_ tmpstr = {str.p, str.n};
-
-    err = SKY_cipher_Address_String(&addr, &tmpstr);
-    ck_assert(err == SKY_OK);
-    str.n = tmpstr.n;
-    str.p = tmpstr.p;
-    ck_assert(SKY_cipher_DecodeBase58Address(str, &addr2) == SKY_OK);
-    ck_assert(isAddressEq(&addr, &addr2));
-
-    SKY_cipher_Address_String(&addr2, (GoString_*)&str);
-    ck_assert(SKY_cipher_DecodeBase58Address(str, &addr3) == SKY_OK);
-    ck_assert(isAddressEq(&addr, &addr2));
-}
-END_TEST
-
 START_TEST(TestAddressBulk)
 {
     unsigned char buff[50];
@@ -235,7 +208,6 @@ Suite* cipher_address(void)
     tcase_add_test(tc, TestDecodeBase58Address);
     tcase_add_test(tc, TestAddressFromBytes);
     tcase_add_test(tc, TestAddressVerify);
-    tcase_add_test(tc, TestAddressString);
     tcase_add_test(tc, TestAddressBulk);
     tcase_add_test(tc, TestAddressNull);
     suite_add_tcase(s, tc);
