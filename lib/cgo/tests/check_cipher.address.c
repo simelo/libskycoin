@@ -140,39 +140,6 @@ START_TEST(TestAddressFromBytes)
 }
 END_TEST
 
-START_TEST(TestAddressBulk)
-{
-    unsigned char buff[50];
-    GoSlice slice = {buff, 0, 50};
-    int i;
-    for (i = 0; i < 1024; ++i) {
-        GoUint32 err;
-        randBytes(&slice, 32);
-        cipher__PubKey pubkey;
-        cipher__SecKey seckey;
-        err = SKY_cipher_GenerateDeterministicKeyPair(slice, &pubkey, &seckey);
-        ck_assert(err == SKY_OK);
-        cipher__Address addr;
-        err = SKY_cipher_AddressFromPubKey(&pubkey, &addr);
-        ck_assert(err == SKY_OK);
-        err = SKY_cipher_Address_Verify(&addr, &pubkey);
-        ck_assert(err == SKY_OK);
-
-        GoString_ tempstrAddr;
-        err = SKY_cipher_Address_String(&addr, &tempstrAddr);
-        ck_assert(err == SKY_OK);
-        registerMemCleanup((void*)tempstrAddr.p);
-        cipher__Address addr2;
-        GoString strAddr;
-        strAddr.n = tempstrAddr.n;
-        strAddr.p = tempstrAddr.p;
-        err = SKY_cipher_DecodeBase58Address(strAddr, &addr2);
-        ck_assert(err == SKY_OK);
-        ck_assert(isAddressEq(&addr, &addr2));
-    }
-}
-END_TEST
-
 START_TEST(TestAddressNull)
 {
     cipher__Address a;
@@ -207,8 +174,6 @@ Suite* cipher_address(void)
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestDecodeBase58Address);
     tcase_add_test(tc, TestAddressFromBytes);
-    tcase_add_test(tc, TestAddressVerify);
-    tcase_add_test(tc, TestAddressBulk);
     tcase_add_test(tc, TestAddressNull);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
