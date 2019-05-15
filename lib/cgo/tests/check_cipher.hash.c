@@ -105,50 +105,6 @@ START_TEST(TestSHA256Hex)
 }
 END_TEST
 
-START_TEST(TestSHA256KnownValue)
-{
-    typedef struct
-    {
-        char* input;
-        char* output;
-    } tmpstruct;
-
-    tmpstruct vals[3];
-
-    vals[0].input = "skycoin";
-    vals[0].output =
-        "5a42c0643bdb465d90bf673b99c14f5fa02db71513249d904573d2b8b63d353d";
-
-    vals[1].input = "hello world";
-    vals[1].output =
-        "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9";
-
-    vals[2].input = "hello world asd awd awd awdapodawpokawpod ";
-    vals[2].output =
-        "99d71f95cafe05ea2dddebc35b6083bd5af0e44850c9dc5139b4476c99950be4";
-    int i;
-    for (i = 0; i < 3; ++i) {
-        GoSlice slice_input;
-        GoSlice slice_output;
-
-        slice_input.data = vals[i].input;
-        slice_input.len = strlen(vals[i].input);
-        slice_input.cap = strlen(vals[i].input) + 1;
-
-        cipher__SHA256 sha;
-
-        SKY_cipher_SumSHA256(slice_input, &sha);
-
-        GoString_ tmp_output;
-
-        SKY_cipher_SHA256_Hex(&sha, &tmp_output);
-        registerMemCleanup((void*)tmp_output.p);
-
-        ck_assert(strcmp(tmp_output.p, vals[i].output) == SKY_OK);
-    }
-}
-END_TEST
-
 START_TEST(TestSumSHA256)
 {
     unsigned char bbuff[257], cbuff[257];
