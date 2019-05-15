@@ -15,6 +15,11 @@ void freshSumRipemd160(GoSlice bytes, cipher__Ripemd160* rp160)
     SKY_cipher_HashRipemd160(bytes, rp160);
 }
 
+void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256)
+{
+    SKY_cipher_SumSHA256(bytes, sha256);
+}
+
 START_TEST(TestAddSHA256)
 {
 
@@ -108,6 +113,26 @@ START_TEST(TestSHA256KnownValue)
 }
 END_TEST
 
+START_TEST(TestSumSHA256)
+{
+    unsigned char bbuff[257], cbuff[257];
+    GoSlice b = {bbuff, 0, 257};
+    cipher__SHA256 h1;
+    randBytes(&b, 256);
+    SKY_cipher_SumSHA256(b, &h1);
+    cipher__SHA256 tmp;
+    ck_assert(!isU8Eq(h1, tmp, 32));
+    GoSlice c = {cbuff, 0, 257};
+    randBytes(&c, 256);
+    cipher__SHA256 h2;
+    SKY_cipher_SumSHA256(c, &h2);
+    ck_assert(!isU8Eq(h1, tmp, 32));
+    cipher__SHA256 tmp_h2;
+    freshSumSHA256(c, &tmp_h2);
+    ck_assert(isU8Eq(h2, tmp_h2, 32));
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_hash(void)
 {
@@ -118,6 +143,7 @@ Suite *common_check_cipher_hash(void)
   tcase_add_test(tc, TestAddSHA256);
   tcase_add_test(tc, TestHashRipemd160);
   tcase_add_test(tc, TestSHA256KnownValue);
+  tcase_add_test(tc, TestSumSHA256);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 

@@ -10,11 +10,6 @@
 
 // TestSuite(cipher_hash, .init = setup, .fini = teardown);
 
-void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256)
-{
-    SKY_cipher_SumSHA256(bytes, sha256);
-}
-
 START_TEST(TestRipemd160Set)
 {
     cipher__Ripemd160 h;
@@ -102,26 +97,6 @@ START_TEST(TestSHA256Hex)
     SKY_cipher_SHA256_Hex(&h2, &s2);
     registerMemCleanup((void*)s2.p);
     ck_assert_str_eq(s.p, s2.p);
-}
-END_TEST
-
-START_TEST(TestSumSHA256)
-{
-    unsigned char bbuff[257], cbuff[257];
-    GoSlice b = {bbuff, 0, 257};
-    cipher__SHA256 h1;
-    randBytes(&b, 256);
-    SKY_cipher_SumSHA256(b, &h1);
-    cipher__SHA256 tmp;
-    ck_assert(!isU8Eq(h1, tmp, 32));
-    GoSlice c = {cbuff, 0, 257};
-    randBytes(&c, 256);
-    cipher__SHA256 h2;
-    SKY_cipher_SumSHA256(c, &h2);
-    ck_assert(!isU8Eq(h1, tmp, 32));
-    cipher__SHA256 tmp_h2;
-    freshSumSHA256(c, &tmp_h2);
-    ck_assert(isU8Eq(h2, tmp_h2, 32));
 }
 END_TEST
 
@@ -277,12 +252,9 @@ Suite* cipher_hash(void)
 
     tc = tcase_create("cipher.hash");
     tcase_add_checked_fixture(tc, setup, teardown);
-    tcase_add_test(tc, TestHashRipemd160);
     tcase_add_test(tc, TestRipemd160Set);
     tcase_add_test(tc, TestSHA256Set);
     tcase_add_test(tc, TestSHA256Hex);
-    tcase_add_test(tc, TestSHA256KnownValue);
-    tcase_add_test(tc, TestSumSHA256);
     tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestDoubleSHA256);
     tcase_add_test(tc, TestXorSHA256);
