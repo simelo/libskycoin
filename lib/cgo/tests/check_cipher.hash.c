@@ -10,39 +10,10 @@
 
 // TestSuite(cipher_hash, .init = setup, .fini = teardown);
 
-void freshSumRipemd160(GoSlice bytes, cipher__Ripemd160* rp160)
-{
-    SKY_cipher_HashRipemd160(bytes, rp160);
-}
-
 void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256)
 {
     SKY_cipher_SumSHA256(bytes, sha256);
 }
-
-START_TEST(TestHashRipemd160)
-{
-    cipher__Ripemd160 tmp;
-    cipher__Ripemd160 r;
-    cipher__Ripemd160 r2;
-    unsigned char buff[257];
-    GoSlice slice = {buff, 0, 257};
-
-    randBytes(&slice, 128);
-    SKY_cipher_HashRipemd160(slice, &tmp);
-    randBytes(&slice, 160);
-    SKY_cipher_HashRipemd160(slice, &r);
-    ck_assert(!isU8Eq(tmp, r, sizeof(cipher__Ripemd160)));
-
-    unsigned char buff1[257];
-    GoSlice b = {buff1, 0, 257};
-    randBytes(&b, 256);
-    SKY_cipher_HashRipemd160(b, &r2);
-    ck_assert(!isU8Eq(tmp, r2, sizeof(cipher__Ripemd160)));
-    freshSumRipemd160(b, &tmp);
-    ck_assert(isU8Eq(tmp, r2, sizeof(cipher__Ripemd160)));
-}
-END_TEST
 
 START_TEST(TestRipemd160Set)
 {
