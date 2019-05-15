@@ -20,8 +20,8 @@
 //Define function SKY_handle_close to avoid including libskycoin.h
 void SKY_handle_close(Handle p0);
 
-int MEMPOOLIDX = 0;
-void *MEMPOOL[1024 * 256];
+extern int MEMPOOLIDX = 0;
+extern void *MEMPOOL[1024 * 256];
 
 int JSONPOOLIDX = 0;
 json_value* JSON_POOL[128];
@@ -39,18 +39,6 @@ wallet_register WALLET_POOL[64];
 
 int stdout_backup;
 int pipefd[2];
-
-void * registerMemCleanup(void *p) {
-  int i;
-  for (i = 0; i < MEMPOOLIDX; i++) {
-    if(MEMPOOL[i] == NULL){
-      MEMPOOL[i] = p;
-      return p;
-    }
-  }
-  MEMPOOL[MEMPOOLIDX++] = p;
-  return p;
-}
 
 void freeRegisteredMemCleanup(void *p){
   int i;
