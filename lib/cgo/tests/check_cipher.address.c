@@ -95,51 +95,6 @@ START_TEST(TestDecodeBase58Address)
 }
 END_TEST
 
-START_TEST(TestAddressFromBytes)
-{
-    cipher__Address addr, addr2;
-    cipher__SecKey sk;
-    cipher__PubKey pk;
-    GoSlice bytes;
-    GoSlice_ tempBytes;
-
-    GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
-    ck_assert(err == SKY_OK);
-    SKY_cipher_AddressFromPubKey(&pk, &addr);
-
-    tempBytes.data = buff;
-    tempBytes.len = 0;
-    tempBytes.cap = sizeof(buff);
-
-    SKY_cipher_Address_Bytes(&addr, &tempBytes);
-    ck_assert_msg(tempBytes.len > 0, "address bytes written");
-    copyGoSlice_toGoSlice(&bytes, &tempBytes, tempBytes.len);
-    err = SKY_cipher_AddressFromBytes(bytes, &addr2);
-    ck_assert_msg(err == SKY_OK, "convert bytes to SKY address");
-
-    ck_assert_msg(isAddressEq(&addr, &addr2), "Not equal Address");
-
-    int bytes_len = bytes.len;
-
-    bytes.len = bytes.len - 2;
-    ck_assert_msg(SKY_cipher_AddressFromBytes(bytes, &addr2) ==
-                      SKY_ErrAddressInvalidLength,
-        "no SKY address due to short bytes length");
-
-    bytes.len = bytes_len;
-    ((char*)bytes.data)[bytes.len - 1] = '2';
-    err = SKY_cipher_AddressFromBytes(bytes, &addr2);
-    ck_assert_msg(err == SKY_ErrAddressInvalidChecksum,
-        "no SKY address due to corrupted bytes %X", err);
-
-    addr.Version = 2;
-    SKY_cipher_Address_Bytes(&addr, &tempBytes);
-    copyGoSlice_toGoSlice(&bytes, &tempBytes, tempBytes.len);
-    err = SKY_cipher_AddressFromBytes(bytes, &addr2);
-    ck_assert_msg(err == SKY_ErrAddressInvalidVersion, "Invalid version");
-}
-END_TEST
-
 // define test suite and cases
 Suite* cipher_address(void)
 {
@@ -149,7 +104,6 @@ Suite* cipher_address(void)
     tc = tcase_create("cipher.address");
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestDecodeBase58Address);
-    tcase_add_test(tc, TestAddressFromBytes);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
