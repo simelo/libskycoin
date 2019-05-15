@@ -42,39 +42,6 @@ START_TEST(TestRipemd160Set)
 }
 END_TEST
 
-START_TEST(TestSHA256FromHex)
-{
-    unsigned int error;
-    cipher__SHA256 tmp;
-    // Invalid hex hash
-    GoString tmp_string = {"cawcd", 5};
-    error = SKY_cipher_SHA256FromHex(tmp_string, &tmp);
-    ck_assert(error == SKY_ERROR);
-    // Truncated hex hash
-    cipher__SHA256 h;
-    unsigned char buff[130];
-    char sbuff[300];
-    GoSlice slice = {buff, 0, 130};
-    randBytes(&slice, 128);
-    SKY_cipher_SumSHA256(slice, &h);
-    bytesnhex(h, sbuff, sizeof(h) >> 1);
-    GoString s1 = {sbuff, strlen(sbuff)};
-    error = SKY_cipher_SHA256FromHex(s1, &h);
-    ck_assert(error == SKY_ErrInvalidHexLength);
-
-    // Valid hex hash
-    GoString_ s2;
-    memset(&s2, 0, sizeof(GoString_));
-    SKY_cipher_SHA256_Hex(&h, &s2);
-    registerMemCleanup((void*)s2.p);
-    cipher__SHA256 h2;
-    GoString tmps2 = {s2.p, s2.n};
-    error = SKY_cipher_SHA256FromHex(tmps2, &h2);
-    ck_assert(error == SKY_OK);
-    ck_assert(isU8Eq(h, h2, 32));
-}
-END_TEST
-
 START_TEST(TestDoubleSHA256)
 {
     unsigned char bbuff[130];
@@ -195,7 +162,6 @@ Suite* cipher_hash(void)
     tc = tcase_create("cipher.hash");
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestRipemd160Set);
-    tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestDoubleSHA256);
     tcase_add_test(tc, TestXorSHA256);
     tcase_add_test(tc, TestMerkle);
