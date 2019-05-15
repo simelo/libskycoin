@@ -224,6 +224,23 @@ START_TEST(TestSHA256FromHex)
 }
 END_TEST
 
+START_TEST(TestSHA256Null)
+{
+    cipher__SHA256 x;
+    memset(&x, 0, sizeof(cipher__SHA256));
+    GoUint32 result;
+    GoUint8 isNull;
+    ck_assert(SKY_cipher_SHA256_Null(&x, &isNull) == SKY_OK);
+    ck_assert(isNull);
+    char buff[130];
+    GoSlice b = {buff, 0, 129};
+    randBytes(&b, 128);
+    ck_assert(SKY_cipher_SumSHA256(b, &x) == SKY_OK);
+    ck_assert(SKY_cipher_SHA256_Null(&x, &isNull) == SKY_OK);
+    ck_assert(isNull == 0);
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_hash(void)
 {
