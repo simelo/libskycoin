@@ -133,6 +133,34 @@ START_TEST(TestSumSHA256)
 }
 END_TEST
 
+START_TEST(TestSHA256Hex)
+{
+    cipher__SHA256 h;
+    unsigned char buff[101];
+    GoSlice slice = {buff, 0, 101};
+    int error;
+
+    memset(&h, 0, sizeof(h));
+    randBytes(&slice, 32);
+    SKY_cipher_SHA256_Set(&h, slice);
+    GoString_ s;
+
+    SKY_cipher_SHA256_Hex(&h, &s);
+    registerMemCleanup((void*)s.p);
+
+    cipher__SHA256 h2;
+    GoString tmpS = {s.p, s.n};
+    error = SKY_cipher_SHA256FromHex(tmpS, &h2);
+    ck_assert(error == SKY_OK);
+    ck_assert(isU8Eq(h, h2, 32));
+
+    GoString_ s2;
+    SKY_cipher_SHA256_Hex(&h2, &s2);
+    registerMemCleanup((void*)s2.p);
+    ck_assert_str_eq(s.p, s2.p);
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_hash(void)
 {
@@ -144,6 +172,7 @@ Suite *common_check_cipher_hash(void)
   tcase_add_test(tc, TestHashRipemd160);
   tcase_add_test(tc, TestSHA256KnownValue);
   tcase_add_test(tc, TestSumSHA256);
+  tcase_add_test(tc, TestSHA256Hex);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 

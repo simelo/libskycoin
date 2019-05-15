@@ -72,34 +72,6 @@ START_TEST(TestSHA256Set)
 }
 END_TEST
 
-START_TEST(TestSHA256Hex)
-{
-    cipher__SHA256 h;
-    unsigned char buff[101];
-    GoSlice slice = {buff, 0, 101};
-    int error;
-
-    memset(&h, 0, sizeof(h));
-    randBytes(&slice, 32);
-    SKY_cipher_SHA256_Set(&h, slice);
-    GoString_ s;
-
-    SKY_cipher_SHA256_Hex(&h, &s);
-    registerMemCleanup((void*)s.p);
-
-    cipher__SHA256 h2;
-    GoString tmpS = {s.p, s.n};
-    error = SKY_cipher_SHA256FromHex(tmpS, &h2);
-    ck_assert(error == SKY_OK);
-    ck_assert(isU8Eq(h, h2, 32));
-
-    GoString_ s2;
-    SKY_cipher_SHA256_Hex(&h2, &s2);
-    registerMemCleanup((void*)s2.p);
-    ck_assert_str_eq(s.p, s2.p);
-}
-END_TEST
-
 START_TEST(TestSHA256FromHex)
 {
     unsigned int error;
@@ -254,7 +226,6 @@ Suite* cipher_hash(void)
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestRipemd160Set);
     tcase_add_test(tc, TestSHA256Set);
-    tcase_add_test(tc, TestSHA256Hex);
     tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestDoubleSHA256);
     tcase_add_test(tc, TestXorSHA256);
