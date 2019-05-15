@@ -42,36 +42,6 @@ START_TEST(TestRipemd160Set)
 }
 END_TEST
 
-START_TEST(TestSHA256Set)
-{
-    cipher__SHA256 h;
-    unsigned char buff[101];
-    GoSlice slice = {buff, 0, 101};
-    int error;
-
-    randBytes(&slice, 33);
-    error = SKY_cipher_SHA256_Set(&h, slice);
-    ck_assert(error == SKY_ErrInvalidLengthSHA256);
-
-    randBytes(&slice, 100);
-    error = SKY_cipher_SHA256_Set(&h, slice);
-    ck_assert(error == SKY_ErrInvalidLengthSHA256);
-
-    randBytes(&slice, 31);
-    error = SKY_cipher_SHA256_Set(&h, slice);
-    ck_assert(error == SKY_ErrInvalidLengthSHA256);
-
-    randBytes(&slice, 0);
-    error = SKY_cipher_SHA256_Set(&h, slice);
-    ck_assert(error == SKY_ErrInvalidLengthSHA256);
-
-    randBytes(&slice, 32);
-    error = SKY_cipher_SHA256_Set(&h, slice);
-    ck_assert(error == SKY_OK);
-    ck_assert(isU8Eq(h, slice.data, 32));
-}
-END_TEST
-
 START_TEST(TestSHA256FromHex)
 {
     unsigned int error;
@@ -225,7 +195,6 @@ Suite* cipher_hash(void)
     tc = tcase_create("cipher.hash");
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestRipemd160Set);
-    tcase_add_test(tc, TestSHA256Set);
     tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestDoubleSHA256);
     tcase_add_test(tc, TestXorSHA256);
