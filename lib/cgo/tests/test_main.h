@@ -10,6 +10,7 @@
 #include "skytest.h"
 #include "skytypes.h"
 #include "skyerrors.h"
+#include "test_main_common.h"
 
 Suite *cipher_bitcoin(void);
 Suite *cipher_address(void);

@@ -8,6 +8,7 @@ int main(void)
     SRunner* sr = srunner_create(cipher_address());
     SRunner* sr_fork = srunner_create(coin_transaction_fork());
     srunner_add_suite(sr, common_check_cipher_hash());
+    srunner_add_suite(sr, common_check_cipher_address());
     srunner_add_suite(sr, cipher_bitcoin());
     srunner_add_suite(sr, cipher_crypto());
     srunner_add_suite(sr, cipher_encrypt_scrypt_chacha20poly1305());
