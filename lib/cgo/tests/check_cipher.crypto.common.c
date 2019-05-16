@@ -52,6 +52,46 @@ START_TEST(TestNewPubKey)
 }
 END_TEST
 
+START_TEST(TestPubKeyFromHex)
+{
+    cipher__PubKey p, p1;
+    cipher__SecKey sk;
+    GoString s;
+    unsigned char buff[51];
+    char sbuff[101];
+    GoSlice slice = {(void*)buff, 0, 51};
+    unsigned int errorcode;
+
+    // Invalid hex
+    s.n = 0;
+    errorcode = SKY_cipher_PubKeyFromHex(s, &p1);
+    ck_assert_msg(errorcode == SKY_ErrInvalidLengthPubKey, "TestPubKeyFromHex: Invalid hex. Empty string");
+
+    s.p = "cascs";
+    s.n = strlen(s.p);
+    errorcode = SKY_cipher_PubKeyFromHex(s, &p1);
+    ck_assert_msg(errorcode == SKY_ErrInvalidPubKey, "TestPubKeyFromHex: Invalid hex. Bad chars");
+
+    // Invalid hex length
+    SKY_cipher_GenerateKeyPair(&p, &sk);
+    memcpy(slice.data, (void*)p, sizeof(p));
+    slice.len = sizeof(p);
+    bytesnhex(&p[0], sbuff, slice.len >> 1);
+    s.p = sbuff;
+    s.n = strlen(s.p);
+    errorcode = SKY_cipher_PubKeyFromHex(s, &p1);
+    ck_assert_msg(errorcode == SKY_ErrInvalidLengthPubKey, "TestPubKeyFromHex: Invalid hex length");
+
+    // Valid
+    bytesnhex(p, sbuff, sizeof(p));
+    s.p = sbuff;
+    s.n = sizeof(p) << 1;
+    errorcode = SKY_cipher_PubKeyFromHex(s, &p1);
+    ck_assert_msg(errorcode == SKY_OK, "TestPubKeyFromHex: Valid. No panic.");
+    ck_assert(isPubKeyEq(&p, &p1));
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_crypto(void)
 {
@@ -60,6 +100,7 @@ Suite *common_check_cipher_crypto(void)
 
   tc = tcase_create("check_cipher.crypto");
   tcase_add_test(tc, TestNewPubKey);
+  tcase_add_test(tc, TestPubKeyFromHex);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 
