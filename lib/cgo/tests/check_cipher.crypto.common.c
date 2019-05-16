@@ -197,6 +197,44 @@ START_TEST(TestPubKeyToAddress2)
 }
 END_TEST
 
+START_TEST(TestNewSig)
+{
+    unsigned char buff[101];
+    GoSlice b;
+    cipher__Sig s;
+    int errorcode;
+
+    b.data = buff;
+    b.len = 0;
+    b.cap = 101;
+
+    randBytes(&b, 64);
+    errorcode = SKY_cipher_NewSig(b, &s);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
+
+    randBytes(&b, 66);
+    errorcode = SKY_cipher_NewSig(b, &s);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
+
+    randBytes(&b, 67);
+    errorcode = SKY_cipher_NewSig(b, &s);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
+
+    randBytes(&b, 0);
+    errorcode = SKY_cipher_NewSig(b, &s);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
+
+    randBytes(&b, 100);
+    errorcode = SKY_cipher_NewSig(b, &s);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
+
+    randBytes(&b, 65);
+    errorcode = SKY_cipher_NewSig(b, &s);
+    ck_assert(errorcode == SKY_OK);
+    ck_assert(isU8Eq(buff, s, 65));
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_crypto(void)
 {
@@ -211,6 +249,7 @@ Suite *common_check_cipher_crypto(void)
   tcase_add_test(tc, TestPubKeyVerifyNil);
   tcase_add_test(tc, TestPubKeyVerifyDefault1);
   tcase_add_test(tc, TestPubKeyToAddress2);
+  tcase_add_test(tc, TestNewSig);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 

@@ -227,44 +227,6 @@ START_TEST(TestECDHloop)
 }
 END_TEST
 
-START_TEST(TestNewSig)
-{
-    unsigned char buff[101];
-    GoSlice b;
-    cipher__Sig s;
-    int errorcode;
-
-    b.data = buff;
-    b.len = 0;
-    b.cap = 101;
-
-    randBytes(&b, 64);
-    errorcode = SKY_cipher_NewSig(b, &s);
-    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
-
-    randBytes(&b, 66);
-    errorcode = SKY_cipher_NewSig(b, &s);
-    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
-
-    randBytes(&b, 67);
-    errorcode = SKY_cipher_NewSig(b, &s);
-    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
-
-    randBytes(&b, 0);
-    errorcode = SKY_cipher_NewSig(b, &s);
-    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
-
-    randBytes(&b, 100);
-    errorcode = SKY_cipher_NewSig(b, &s);
-    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
-
-    randBytes(&b, 65);
-    errorcode = SKY_cipher_NewSig(b, &s);
-    ck_assert(errorcode == SKY_OK);
-    ck_assert(isU8Eq(buff, s, 65));
-}
-END_TEST
-
 START_TEST(TestMustSigFromHex)
 {
     unsigned char buff[101];
@@ -675,7 +637,6 @@ Suite* cipher_crypto(void)
     tcase_add_test(tc, TestSecKeyVerify);
     tcase_add_test(tc, TestECDHonce);
     tcase_add_test(tc, TestECDHloop);
-    tcase_add_test(tc, TestNewSig);
     tcase_add_test(tc, TestMustSigFromHex);
     tcase_add_test(tc, TestSigHex);
     tcase_add_test(tc, TestVerifyAddressSignedHash);
