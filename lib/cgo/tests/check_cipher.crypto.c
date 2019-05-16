@@ -59,34 +59,6 @@ START_TEST(TestPubKeyToAddress)
 }
 END_TEST
 
-START_TEST(TestPubKeyToAddress2)
-{
-    cipher__PubKey p;
-    cipher__SecKey s;
-    cipher__Address addr;
-    GoString_ addrStr;
-    int i;
-    GoUint32 errorcode;
-
-    for (i = 0; i < 1024; i++) {
-        SKY_cipher_GenerateKeyPair(&p, &s);
-        SKY_cipher_AddressFromPubKey(&p, &addr);
-        //func (self Address) Verify(key PubKey) error
-        errorcode = SKY_cipher_Address_Verify(&addr, &p);
-        ck_assert(errorcode == SKY_OK);
-        SKY_cipher_Address_String(&addr, &addrStr);
-        unsigned char buff[50];
-        GoString addrStr_tmp = {buff, 0};
-        addrStr_tmp.p = addrStr.p;
-        addrStr_tmp.n = addrStr.n;
-        registerMemCleanup((void*)addrStr.p);
-        errorcode = SKY_cipher_DecodeBase58Address(addrStr_tmp, &addr);
-        //func DecodeBase58Address(addr string) (Address, error)
-        ck_assert(errorcode == SKY_OK);
-    }
-}
-END_TEST
-
 START_TEST(TestSecKeyFromHex)
 {
     unsigned char buff[50];
@@ -698,7 +670,6 @@ Suite* cipher_crypto(void)
     tc = tcase_create("cipher.crypto");
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestPubKeyRipemd160);
-    tcase_add_test(tc, TestPubKeyToAddress2);
     tcase_add_test(tc, TestSecKeyFromHex);
     tcase_add_test(tc, TestMustSecKeyFromHex);
     tcase_add_test(tc, TestSecKeyVerify);
