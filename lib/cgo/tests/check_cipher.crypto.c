@@ -14,40 +14,6 @@
 
 
 
-START_TEST(TestPubKeyHex)
-{
-    cipher__PubKey p, p2;
-    cipher__SecKey sk;
-    GoString s3, s4;
-    unsigned char buff[50];
-    unsigned char buff_s3[50];
-    GoSlice slice = {buff, 0, 50};
-    unsigned int errorcode;
-
-    GoUint32 err = SKY_cipher_GenerateKeyPair(&p, &sk);
-    ck_assert(err == SKY_OK);
-    GoString_ tmp_s3 = {buff_s3, 0};
-    err = SKY_cipher_PubKey_Hex(&p, &tmp_s3);
-    ck_assert(err == SKY_OK);
-    s3.n = tmp_s3.n;
-    s3.p = tmp_s3.p;
-    registerMemCleanup((void*)s3.p);
-    errorcode = SKY_cipher_PubKeyFromHex(s3, &p2);
-    ck_assert(errorcode == SKY_OK);
-    ck_assert(isPubKeyEq(&p, &p2));
-
-    unsigned char s4_buff[50];
-    GoString_ tmp_s4 = {s4_buff, 0};
-    err = SKY_cipher_PubKey_Hex(&p2, &tmp_s4);
-    ck_assert(err == SKY_OK);
-    s4.n = s4.n;
-    s4.p = s4.p;
-    registerMemCleanup((void*)s4.p);
-    // // TODO: Translate into cr_assert(eq(type(GoString), s3, s4));
-    ck_assert(isGoStringEq(s3, s4) == 0);
-}
-END_TEST
-
 START_TEST(TestPubKeyVerify)
 {
     cipher__PubKey p;
@@ -779,7 +745,6 @@ Suite* cipher_crypto(void)
 
     tc = tcase_create("cipher.crypto");
     tcase_add_checked_fixture(tc, setup, teardown);
-    tcase_add_test(tc, TestPubKeyHex);
     tcase_add_test(tc, TestPubKeyVerify);
     tcase_add_test(tc, TestPubKeyVerifyNil);
     tcase_add_test(tc, TestPubKeyVerifyDefault1);
