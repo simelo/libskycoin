@@ -9,17 +9,6 @@
 
 // TestSuite(cipher_crypto, .init = setup, .fini = teardown);
 
-START_TEST(TestPubKeyVerifyDefault1)
-{
-    cipher__PubKey p;
-    cipher__SecKey s;
-
-    SKY_cipher_GenerateKeyPair(&p, &s);
-    GoUint32 errorcode = SKY_cipher_PubKey_Verify(&p);
-    ck_assert(errorcode == SKY_OK);
-}
-END_TEST
-
 START_TEST(TestPubKeyVerifyDefault2)
 {
     cipher__PubKey p;
@@ -708,7 +697,6 @@ Suite* cipher_crypto(void)
 
     tc = tcase_create("cipher.crypto");
     tcase_add_checked_fixture(tc, setup, teardown);
-    tcase_add_test(tc, TestPubKeyVerifyDefault1);
     tcase_add_test(tc, TestPubKeyRipemd160);
     tcase_add_test(tc, TestPubKeyToAddress2);
     tcase_add_test(tc, TestSecKeyFromHex);

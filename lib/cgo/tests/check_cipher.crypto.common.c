@@ -158,6 +158,17 @@ START_TEST(TestPubKeyVerifyNil)
 }
 END_TEST
 
+START_TEST(TestPubKeyVerifyDefault1)
+{
+    cipher__PubKey p;
+    cipher__SecKey s;
+
+    SKY_cipher_GenerateKeyPair(&p, &s);
+    GoUint32 errorcode = SKY_cipher_PubKey_Verify(&p);
+    ck_assert(errorcode == SKY_OK);
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_crypto(void)
 {
@@ -170,6 +181,7 @@ Suite *common_check_cipher_crypto(void)
   tcase_add_test(tc, TestPubKeyHex);
   tcase_add_test(tc, TestPubKeyVerify);
   tcase_add_test(tc, TestPubKeyVerifyNil);
+  tcase_add_test(tc, TestPubKeyVerifyDefault1);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 
