@@ -9,24 +9,6 @@
 
 // TestSuite(cipher_crypto, .init = setup, .fini = teardown);
 
-
-
-
-
-START_TEST(TestPubKeyVerifyNil)
-{
-    cipher__PubKey p = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0};
-    unsigned int errorcode;
-
-    errorcode = SKY_cipher_PubKey_Verify(&p);
-    ck_assert(errorcode == SKY_ErrInvalidPubKey);
-}
-END_TEST
-
 START_TEST(TestPubKeyVerifyDefault1)
 {
     cipher__PubKey p;
@@ -726,7 +708,6 @@ Suite* cipher_crypto(void)
 
     tc = tcase_create("cipher.crypto");
     tcase_add_checked_fixture(tc, setup, teardown);
-    tcase_add_test(tc, TestPubKeyVerifyNil);
     tcase_add_test(tc, TestPubKeyVerifyDefault1);
     tcase_add_test(tc, TestPubKeyRipemd160);
     tcase_add_test(tc, TestPubKeyToAddress2);
