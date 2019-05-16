@@ -235,6 +235,46 @@ START_TEST(TestNewSig)
 }
 END_TEST
 
+START_TEST(TestMustSigFromHex)
+{
+    unsigned char buff[101];
+    char strBuff[257];
+    GoSlice b = {buff, 0, 101};
+    GoString str;
+    cipher__Sig s, s2;
+    int errorcode;
+
+    // Invalid hex
+    str.p = "";
+    str.n = strlen(str.p);
+    errorcode = SKY_cipher_SigFromHex(str, &s2);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
+
+    str.p = "cascs";
+    str.n = strlen(str.p);
+    errorcode = SKY_cipher_SigFromHex(str, &s2);
+    ck_assert(errorcode == SKY_ErrInvalidSig);
+
+    // Invalid hex length
+    randBytes(&b, 65);
+    errorcode = SKY_cipher_NewSig(b, &s);
+    ck_assert(errorcode == SKY_OK);
+    str.p = strBuff;
+    str.n = 0;
+    bytesnhex(s, (char*)str.p, 32);
+    str.n = strlen(str.p);
+    errorcode = SKY_cipher_SigFromHex(str, &s2);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSig);
+
+    // Valid
+    bytesnhex(s, (char*)str.p, 65);
+    str.n = strlen(str.p);
+    errorcode = SKY_cipher_SigFromHex(str, &s2);
+    ck_assert(errorcode == SKY_OK);
+    ck_assert(isU8Eq(s2, s, 65));
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_crypto(void)
 {
@@ -250,6 +290,7 @@ Suite *common_check_cipher_crypto(void)
   tcase_add_test(tc, TestPubKeyVerifyDefault1);
   tcase_add_test(tc, TestPubKeyToAddress2);
   tcase_add_test(tc, TestNewSig);
+  tcase_add_test(tc, TestMustSigFromHex);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 
