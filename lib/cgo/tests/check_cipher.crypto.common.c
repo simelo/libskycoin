@@ -275,6 +275,43 @@ START_TEST(TestMustSigFromHex)
 }
 END_TEST
 
+START_TEST(TestSigHex)
+{
+    unsigned char buff[66];
+    GoSlice b = {buff, 0, 66};
+    char strBuff[150],
+        strBuff2[150];
+    GoString str = {NULL, 0},
+             str2 = {NULL, 0};
+    cipher__Sig s, s2;
+    int errorcode;
+
+    randBytes(&b, 65);
+    errorcode = SKY_cipher_NewSig(b, &s);
+
+    ck_assert(errorcode == SKY_OK);
+    char buffer[100];
+    GoString_ tmp_str = {buffer, 0};
+    SKY_cipher_Sig_Hex(&s, &tmp_str);
+    str.p = tmp_str.p;
+    str.n = tmp_str.n;
+    registerMemCleanup((void*)str.p);
+    errorcode = SKY_cipher_SigFromHex(str, &s2);
+
+    ck_assert(errorcode == SKY_OK);
+    ck_assert(isU8Eq(s, s2, 65));
+
+    char buffer2[100];
+    GoString_ tmp_str2 = {buffer, 0};
+    SKY_cipher_Sig_Hex(&s2, &tmp_str);
+    str2.p = tmp_str.p;
+    str2.n = tmp_str.n;
+    registerMemCleanup((void*)str2.p);
+    // ck_assert(isGoStringEq(str, str2));
+    ck_assert_str_eq(str.p, str2.p);
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_crypto(void)
 {
@@ -291,6 +328,7 @@ Suite *common_check_cipher_crypto(void)
   tcase_add_test(tc, TestPubKeyToAddress2);
   tcase_add_test(tc, TestNewSig);
   tcase_add_test(tc, TestMustSigFromHex);
+  tcase_add_test(tc, TestSigHex);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 
