@@ -126,6 +126,24 @@ START_TEST(TestPubKeyHex)
 }
 END_TEST
 
+START_TEST(TestPubKeyVerify)
+{
+    cipher__PubKey p;
+    unsigned char buff[50];
+    GoSlice slice = {buff, 0, 50};
+    unsigned int errorcode;
+    int failed = 1;
+
+    int i = 0;
+    for (; i < 10; i++) {
+        randBytes(&slice, 33);
+        memcpy((void*)&p, slice.data, 33);
+        failed = 1 || (errorcode = SKY_cipher_PubKey_Verify(&p));
+    }
+    ck_assert(failed);
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_crypto(void)
 {
@@ -136,6 +154,7 @@ Suite *common_check_cipher_crypto(void)
   tcase_add_test(tc, TestNewPubKey);
   tcase_add_test(tc, TestPubKeyFromHex);
   tcase_add_test(tc, TestPubKeyHex);
+  tcase_add_test(tc, TestPubKeyVerify);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 

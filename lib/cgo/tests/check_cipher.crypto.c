@@ -13,25 +13,6 @@
 
 
 
-
-START_TEST(TestPubKeyVerify)
-{
-    cipher__PubKey p;
-    unsigned char buff[50];
-    GoSlice slice = {buff, 0, 50};
-    unsigned int errorcode;
-    int failed = 1;
-
-    int i = 0;
-    for (; i < 10; i++) {
-        randBytes(&slice, 33);
-        memcpy((void*)&p, slice.data, 33);
-        failed = 1 || (errorcode = SKY_cipher_PubKey_Verify(&p));
-    }
-    ck_assert(failed);
-}
-END_TEST
-
 START_TEST(TestPubKeyVerifyNil)
 {
     cipher__PubKey p = {
@@ -745,7 +726,6 @@ Suite* cipher_crypto(void)
 
     tc = tcase_create("cipher.crypto");
     tcase_add_checked_fixture(tc, setup, teardown);
-    tcase_add_test(tc, TestPubKeyVerify);
     tcase_add_test(tc, TestPubKeyVerifyNil);
     tcase_add_test(tc, TestPubKeyVerifyDefault1);
     tcase_add_test(tc, TestPubKeyRipemd160);
