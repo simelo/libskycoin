@@ -312,6 +312,33 @@ START_TEST(TestSigHex)
 }
 END_TEST
 
+START_TEST(TestPubKeyFromSecKey)
+{
+    cipher__PubKey pk, pk2;
+    cipher__SecKey sk;
+    unsigned char buff[101];
+    GoSlice b = {buff, 0, 101};
+    int errorcode;
+
+    SKY_cipher_GenerateKeyPair(&pk, &sk);
+    errorcode = SKY_cipher_PubKeyFromSecKey(&sk, &pk2);
+    ck_assert(errorcode == SKY_OK);
+    ck_assert(isU8Eq(pk, pk2, 33));
+
+    memset(&sk, 0, sizeof(sk));
+    errorcode = SKY_cipher_PubKeyFromSecKey(&sk, &pk);
+    ck_assert(errorcode == SKY_ErrPubKeyFromNullSecKey);
+
+    randBytes(&b, 99);
+    errorcode = SKY_cipher_NewSecKey(b, &sk);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSecKey);
+
+    randBytes(&b, 31);
+    errorcode = SKY_cipher_NewSecKey(b, &sk);
+    ck_assert(errorcode == SKY_ErrInvalidLengthSecKey);
+}
+END_TEST
+
 // define test suite and cases
 Suite *common_check_cipher_crypto(void)
 {
@@ -329,6 +356,7 @@ Suite *common_check_cipher_crypto(void)
   tcase_add_test(tc, TestNewSig);
   tcase_add_test(tc, TestMustSigFromHex);
   tcase_add_test(tc, TestSigHex);
+  tcase_add_test(tc, TestPubKeyFromSecKey);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 
