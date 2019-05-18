@@ -469,32 +469,6 @@ START_TEST(TestSecKeyHashTest)
 }
 END_TEST
 
-START_TEST(TestPubKeyFromSig)
-{
-    cipher__PubKey pk, pk2;
-    cipher__SecKey sk;
-    cipher__SHA256 h;
-    cipher__Sig sig;
-    unsigned char buff[257];
-    GoSlice b = {buff, 0, 257};
-    int errorcode;
-
-    SKY_cipher_GenerateKeyPair(&pk, &sk);
-
-    randBytes(&b, 256);
-    SKY_cipher_SumSHA256(b, &h);
-    SKY_cipher_SignHash(&h, &sk, &sig);
-    errorcode = SKY_cipher_PubKeyFromSig(&sig, &h, &pk2);
-
-    ck_assert(errorcode == SKY_OK);
-    ck_assert(isU8Eq(pk, pk2, 33));
-
-    memset(&sig, 0, sizeof(sig));
-    errorcode = SKY_cipher_PubKeyFromSig(&sig, &h, &pk2);
-    ck_assert(errorcode == SKY_ErrInvalidSigPubKeyRecovery);
-}
-END_TEST
-
 Suite* cipher_crypto(void)
 {
     Suite* s = suite_create("Load cipher.crypto");
@@ -514,7 +488,6 @@ Suite* cipher_crypto(void)
     tcase_add_test(tc, TestSecKeTest);
     tcase_add_test(tc, TestSecKeyHashTest);
     tcase_add_test(tc, TestGenerateKeyPair);
-    tcase_add_test(tc, TestPubKeyFromSig);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
