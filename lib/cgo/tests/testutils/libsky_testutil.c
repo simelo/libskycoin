@@ -20,7 +20,7 @@
 //Define function SKY_handle_close to avoid including libskycoin.h
 void SKY_handle_close(Handle p0);
 
-extern int MEMPOOLIDX = 0;
+extern int MEMPOOLIDX;
 extern void *MEMPOOL[1024 * 256];
 
 int JSONPOOLIDX = 0;

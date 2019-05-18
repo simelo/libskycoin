@@ -10,6 +10,8 @@
 
 // TestSuite(cipher_hash, .init = setup, .fini = teardown);
 
+extern void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256);
+
 START_TEST(TestRipemd160Set)
 {
     cipher__Ripemd160 h;
