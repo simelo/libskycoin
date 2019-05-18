@@ -255,6 +255,7 @@ Suite *common_check_cipher_hash(void)
   tcase_add_test(tc, TestSumSHA256);
   tcase_add_test(tc, TestSHA256Hex);
   tcase_add_test(tc, TestSHA256FromHex);
+  tcase_add_test(tc, TestSHA256Null);
   suite_add_tcase(s, tc);
   tcase_set_timeout(tc, 150);
 
