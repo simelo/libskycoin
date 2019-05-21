@@ -469,6 +469,57 @@ START_TEST(TestSecKeyHashTest)
 }
 END_TEST
 
+START_TEST(TestECDHonce)
+{
+    cipher__PubKey pub1, pub2;
+    cipher__SecKey sec1, sec2;
+    unsigned char buff1[50], buff2[50];
+    GoSlice_ buf1, buf2;
+
+    buf1.data = buff1;
+    buf1.len = 0;
+    buf1.cap = 50;
+    buf2.data = buff2;
+    buf2.len = 0;
+    buf2.cap = 50;
+
+    SKY_cipher_GenerateKeyPair(&pub1, &sec1);
+    SKY_cipher_GenerateKeyPair(&pub2, &sec2);
+
+    SKY_cipher_ECDH(&pub2, &sec1, &buf1);
+    SKY_cipher_ECDH(&pub1, &sec2, &buf2);
+
+    // ECDH shared secrets are 32 bytes SHA256 hashes in the end
+    ck_assert(isSecKeyEq(&sec1, &sec2) == 0);
+    // ck_assert(eq(u8[32], buff1, buff2));
+}
+END_TEST
+
+START_TEST(TestECDHloop)
+{
+    int i;
+    cipher__PubKey pub1, pub2;
+    cipher__SecKey sec1, sec2;
+    unsigned char buff1[50], buff2[50];
+    GoSlice_ buf1, buf2;
+
+    buf1.data = buff1;
+    buf1.len = 0;
+    buf1.cap = 50;
+    buf2.data = buff2;
+    buf2.len = 0;
+    buf2.cap = 50;
+
+    for (i = 0; i < 128; i++) {
+        SKY_cipher_GenerateKeyPair(&pub1, &sec1);
+        SKY_cipher_GenerateKeyPair(&pub2, &sec2);
+        SKY_cipher_ECDH(&pub2, &sec1, &buf1);
+        SKY_cipher_ECDH(&pub1, &sec2, &buf2);
+        ck_assert_msg(isSecKeyEq(&sec1, &sec2) == 0, "Fail in %d", i);
+    }
+}
+END_TEST
+
 Suite* cipher_crypto(void)
 {
     Suite* s = suite_create("Load cipher.crypto");
@@ -488,6 +539,8 @@ Suite* cipher_crypto(void)
     tcase_add_test(tc, TestSecKeTest);
     tcase_add_test(tc, TestSecKeyHashTest);
     tcase_add_test(tc, TestGenerateKeyPair);
+    tcase_add_test(tc, TestECDHonce);
+    tcase_add_test(tc, TestECDHloop);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
