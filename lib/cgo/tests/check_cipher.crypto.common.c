@@ -16,7 +16,8 @@ START_TEST(TestNewPubKey)
     cipher__SecKey sk;
 
     slice.data = buff;
-    slice.cap = 101;
+    slice.len = 0;
+    slice.cap = sizeof(buff);
 
     randBytes(&slice, 31);
     slice.len = 31;
@@ -291,7 +292,7 @@ START_TEST(TestSigHex)
 
     ck_assert(errorcode == SKY_OK);
     char buffer[100];
-    GoString_ tmp_str = {buffer, 0};
+    GoString_ tmp_str = {.p = buffer, .n = sizeof(buffer)};
     SKY_cipher_Sig_Hex(&s, &tmp_str);
     str.p = tmp_str.p;
     str.n = tmp_str.n;
