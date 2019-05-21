@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 .PHONY: test-libc test-lint build-libc check
-.PHONY: install-linters format clean-libc format-libc lint-libc
+.PHONY: install-linters format clean-libc format-libc lint-libc docs
 
 COIN ?= skycoin
 
@@ -28,7 +28,8 @@ BIN_DIR = bin
 DOC_DIR = docs
 INCLUDE_DIR = include
 LIBSRC_DIR = lib/cgo
-LIBDOC_DIR = $(DOC_DIR)/libc
+LIBSKYDOC_DIR = $(DOC_DIR)/libc
+LIBCURLDOC_DIR = $(DOC_DIR)/curl
 SWAGGER_SPEC_DIR = lib/swagger
 SWAGGER_CLIENT_DIR = lib/curl
 
@@ -92,14 +93,13 @@ $(BUILDLIB_DIR)/libskycoin.a: $(LIB_FILES) $(SRC_FILES) $(HEADER_FILES)
 	go build -buildmode=c-archive -o $(BUILDLIB_DIR)/libskycoin.a  $(LIB_FILES)
 	mv $(BUILDLIB_DIR)/libskycoin.h $(INCLUDE_DIR)/
 
-## Build libskycoin C static library
-build-libc-static: $(BUILDLIB_DIR)/libskycoin.a
+build-libc-static: $(BUILDLIB_DIR)/libskycoin.a ## Build libskycoin C static library
 
-## Build libskycoin C shared library
-build-libc-shared: $(BUILDLIB_DIR)/libskycoin.so
+build-libc-shared: $(BUILDLIB_DIR)/libskycoin.so ## Build libskycoin C shared library
 
-## Build libskycoin C client libraries
-build-libc: configure-build build-libc-static build-libc-shared
+build-libc: configure-build build-libc-static build-libc-shared ## Build libskycoin C client libraries
+
+build: build-libc ## Build all C libraries
 
 ## Build libskycoin C client library and executable C test suites
 ## with debug symbols. Use this target to debug the source code
@@ -120,11 +120,14 @@ test-hw-crypto: ## Run tests for hardware wallet crypto API
 	$(CC) -o $(BIN_DIR)/test_hardwarewallet $(LIB_DIR)/cgo/tests/*.common.c $(LIB_DIR)/cgo/tests/testutils/libsky_string.c $(LIB_DIR)/cgo/tests/testutils/libsky_assert.c $(LIB_DIR)/cgo/tests/testutils/common.c $(LIB_DIR)/cgo/tests/test_main_hw.c -L$(HARDWARE_WALLET_ROOT_DIR)/skycoin-api -lskycoin-crypto-wrapper -lskycoin-crypto `pkg-config --cflags --libs check` -lpthread -Ilib/cgo -Iinclude -Ibuild/usr/include -I$(HARDWARE_WALLET_ROOT_DIR)
 	$(BIN_DIR)/test_hardwarewallet
 
-docs-libc:
-	doxygen ./.Doxyfile
-	moxygen -o $(LIBDOC_DIR)/API.md $(LIBDOC_DIR)/xml/
+docs-skyapi: ## Generate SkyApi (libcurl) documentation
+	openapi-generator generate -g html2 -i lib/swagger/skycoin.v0.25.1.openapi.v2.yml -o $(LIBCURLDOC_DIR)
 
-docs: docs-libc
+docs-libc: ## Generate libskycoin documentation
+	doxygen ./.Doxyfile
+	moxygen -o $(LIBSKYDOC_DIR)/API.md $(LIBSKYDOC_DIR)/xml/
+
+docs: docs-libc docs-skyapi ## Generate documentation for all libraries
 
 lint: ## Run linters. Use make install-linters first.
 	vendorcheck ./...
@@ -141,6 +144,7 @@ lint-libc: format-libc
 check: lint test-libc lint-libc ## Run tests and linters
 
 install-linters-Linux: ## Install linters on GNU/Linux
+	sudo apt-get update
 	sudo apt-get install $(PKG_CLANG_FORMAT)
 	sudo apt-get install $(PKG_CLANG_LINTER)
 
@@ -156,7 +160,7 @@ install-deps-Linux: ## Install deps on GNU/Linux
 install-deps-Darwin: ## Install deps on Mac OSX
 	brew install $(PKG_LIB_TEST)
 
-install-libraries-deps: ## Install deps on GNU/Linux
+install-libraries-deps: ## Install deps for lib\curl wrapper of Skycoin REST API
 	if [[ "$(UNAME_S)" == "Linux" ]]; then (cd build && wget --no-check-certificate https://cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz && echo "f3546812c11ce7f5d64dc132a566b749 *cmake-3.3.2-Linux-x86_64.tar.gz" > cmake_md5.txt && md5sum -c cmake_md5.txt && tar -xvf cmake-3.3.2-Linux-x86_64.tar.gz > /dev/null && mv cmake-3.3.2-Linux-x86_64 cmake-install && PATH=$(pwd)/build/cmake-install:$(pwd)/build/cmake-install/bin:$PATH ) ; fi
 	(cd build && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz && tar -xvf curl-7.58.0.tar.gz && cd curl-7.58.0/ && bash ./configure && make && sudo make install)
 	if [[ "$(UNAME_S)" == "Darwin" ]]; then brew install curl ; fi
@@ -166,10 +170,7 @@ install-libraries-deps: ## Install deps on GNU/Linux
 
 install-linters: install-linters-$(UNAME_S) ## Install linters
 	go get -u github.com/FiloSottile/vendorcheck
-	# For some reason this install method is not recommended, see https://github.com/golangci/golangci-lint#install
-	# However, they suggest `curl ... | bash` which we should not do
-	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-	VERSION=1.10.2 ./ci-scripts/install-golangci-lint.sh
+	cat ./ci-scripts/install-golangci-lint.sh | sh -s -- -b $(GOPATH)/bin v1.10.2
 
 install-deps-libc: install-deps-libc-$(OSNAME) install-libraries-deps
 
