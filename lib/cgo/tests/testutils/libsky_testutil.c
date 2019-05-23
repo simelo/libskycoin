@@ -226,7 +226,7 @@ json_value* loadJsonFile(const char* filename){
 void setup(void) { srand(time(NULL)); }
 
 void teardown(void) {
-//  cleanupMem();
+  cleanupMem();
 }
 
 // TODO: Move to libsky_io.c
