@@ -116,7 +116,7 @@ test-libc: build-libc ## Run tests for libskycoin C client library
 	$(LDPATHVAR)="$(LDPATH):$(BUILD_DIR)/usr/lib:$(BUILDLIB_DIR)" $(BIN_DIR)/test_libskycoin_shared
 	$(LDPATHVAR)="$(LDPATH):$(BUILD_DIR)/usr/lib"         $(BIN_DIR)/test_libskycoin_static
 
-test-hw-crypto: ## Run tests for hardware wallet crypto API
+test-hw-crypto: install-deps-libc-linux install-lib-curl build-libc ## Run tests for hardware wallet crypto API
 	$(CC) -o $(BIN_DIR)/test_hardwarewallet $(LIB_DIR)/cgo/tests/*.common.c $(LIB_DIR)/cgo/tests/testutils/libsky_string.c $(LIB_DIR)/cgo/tests/testutils/libsky_assert.c $(LIB_DIR)/cgo/tests/testutils/common.c $(LIB_DIR)/cgo/tests/test_main_hw.c -L$(HARDWARE_WALLET_ROOT_DIR)/skycoin-api -Wl,-rpath,$(HARDWARE_WALLET_ROOT_DIR)/skycoin-api -lskycoin-crypto-wrapper -lskycoin-crypto `pkg-config --cflags --libs check` -lpthread -Ilib/cgo -Iinclude -Ibuild/usr/include -I$(HARDWARE_WALLET_ROOT_DIR)
 	$(BIN_DIR)/test_hardwarewallet
 
