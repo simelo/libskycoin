@@ -47,8 +47,7 @@ START_TEST(TestAddressString)
     cipher__PubKey pk;
     cipher__SecKey sk;
     cipher__Address addr, addr2, addr3;
-    char buf[1024] = {0};
-    GoString str = {.p=buff, .n=sizeof(buff)};
+    GoString str = {buff, 0};
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
     ck_assert(err == SKY_OK);
@@ -132,23 +131,19 @@ START_TEST(TestAddressFromBytes)
     cipher__SecKey sk;
     cipher__PubKey pk;
     GoSlice bytes;
-    coin__UxArray tempBytes;
+    GoSlice_ tempBytes;
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
     ck_assert(err == SKY_OK);
     SKY_cipher_AddressFromPubKey(&pk, &addr);
 
     tempBytes.data = buff;
-    tempBytes.len = sizeof(buff);
+    tempBytes.len = 0;
     tempBytes.cap = sizeof(buff);
 
     SKY_cipher_Address_Bytes(&addr, &tempBytes);
     ck_assert_msg(tempBytes.len > 0, "address bytes written");
-    copyGoSlice_toGoSlice(&bytes, &tempBytes, sizeof(*buff));
-    bytes.cap = tempBytes.cap;
-    bytes.len = tempBytes.len;
-    bytes.data = calloc(tempBytes.cap, sizeof(*buff));
-    memcpy(bytes.data, tempBytes.data, tempBytes.len);
+    copyGoSlice_toGoSlice(&bytes, &tempBytes, tempBytes.len);
     err = SKY_cipher_AddressFromBytes(bytes, &addr2);
     ck_assert_msg(err == SKY_OK, "convert bytes to SKY address");
 

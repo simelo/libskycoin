@@ -32,14 +32,14 @@ void * registerMemCleanup(void *p) {
   return p;
 }
 
-// FIXME this should be documented as memory initializer
-// a better approach can be follow the RAII pattern instead of using the
-// registerMemCleanup
 int copyGoSlice_toGoSlice(GoSlice* pdest, GoSlice_* psource, int elem_size){
   pdest->len = psource->len;
-  pdest->cap = psource->cap;
-  pdest->data = calloc(psource->cap, elem_size);
-  registerMemCleanup(pdest->data);
-  memcpy(pdest->data, psource->data, psource->len * elem_size);
+  pdest->cap = psource->len;
+  int size = pdest->len * elem_size;
+  pdest->data = malloc(size);
+  if( pdest->data == NULL )
+    return SKY_ERROR;
+  registerMemCleanup( pdest->data );
+  memcpy(pdest->data, psource->data, size );
   return SKY_OK;
 }
