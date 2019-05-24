@@ -192,6 +192,12 @@
 			"revisionTime": "2019-03-03T16:38:25Z"
 		},
 		{
+			"checksumSHA1": "q3wwwNuiuKZ2cZQfoaRXJfQu1hk=",
+			"path": "github.com/skycoin/libskycoin/lib/cgo",
+			"revision": "e9e247318d06c0583f73697e621cbb47e3bbab87",
+			"revisionTime": "2019-05-24T15:08:13Z"
+		},
+		{
 			"checksumSHA1": "xtsTTofQspBNQueoLeZuArefvUc=",
 			"path": "github.com/skycoin/skycoin/src/api/webrpc",
 			"revision": "943c61fdf38f5b785ad6bb5af052b08a2438a84c",

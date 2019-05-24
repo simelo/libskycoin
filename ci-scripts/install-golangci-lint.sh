@@ -175,8 +175,7 @@ log_crit() {
 uname_os() {
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
   case "$os" in
-    msys_nt) os="windows" ;;
-    msys_nt-10.0) os="windows" ;;
+    msys_nt*) os="windows" ;;
   esac
   echo "$os"
 }
