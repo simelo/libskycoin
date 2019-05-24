@@ -195,6 +195,9 @@ uname_arch() {
 }
 uname_os_check() {
   os=$(uname_os)
+  if [ "$os" = "msys_nt-10.0" ]; then
+    os="windows"
+  fi
   case "$os" in
     darwin) return 0 ;;
     dragonfly) return 0 ;;
@@ -357,9 +360,6 @@ PREFIX="$OWNER/$REPO"
 log_prefix() {
 	echo "$PREFIX"
 }
-if [ $OS = "msys_nt-10.0" ]; then
-  export OS="windows"
-if
 
 PLATFORM="${OS}/${ARCH}"
 GITHUB_DOWNLOAD=https://github.com/${OWNER}/${REPO}/releases/download
