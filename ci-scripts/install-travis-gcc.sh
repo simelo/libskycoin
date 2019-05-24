@@ -3,6 +3,7 @@
 
 if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
   sudo apt-get install -qq gcc-6 g++-6
+  sudo apt-get install cmake
 fi
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then

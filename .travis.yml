@@ -30,9 +30,6 @@ install:
   - go get github.com/gz-c/gox
   - go get -t ./...
   - make install-linters
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    sudo apt-get install cmake ;
-    fi
   # - make install-deps-libc
   # - make install-lib-curl
 script:

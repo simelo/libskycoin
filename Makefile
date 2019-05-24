@@ -143,6 +143,9 @@ install-linters-Linux: ## Install linters on GNU/Linux
 	sudo apt-get install $(PKG_CLANG_FORMAT)
 	sudo apt-get install $(PKG_CLANG_LINTER)
 
+install-linters-MSYS_NT-10.0: ## Install linters on Windows
+
+
 install-linters-Darwin: ## Install linters on Mac OSX
 	# brew install $(PKG_CLANG_FORMAT)
 	brew install llvm
