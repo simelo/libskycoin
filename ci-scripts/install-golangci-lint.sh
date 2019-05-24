@@ -206,6 +206,7 @@ uname_os_check() {
     plan9) return 0 ;;
     solaris) return 0 ;;
     windows) return 0 ;;
+    msys_nt-10.0) return 0 ;;
   esac
   log_crit "uname_os_check '$(uname -s)' got converted to '$os' which is not a GOOS value. Please file bug at https://github.com/client9/shlib"
   return 1
