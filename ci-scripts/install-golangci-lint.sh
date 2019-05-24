@@ -71,6 +71,7 @@ is_supported_platform() {
     windows/386) found=0 ;;
     linux/amd64) found=0 ;;
     linux/386) found=0 ;;
+    msys_nt-10.0/amd64) found=0 ;;
   esac
   return $found
 }
