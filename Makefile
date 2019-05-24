@@ -174,10 +174,12 @@ install-linters: install-linters-$(UNAME_S) ## Install linters
 
 install-deps-libc: install-deps-libc-$(OSNAME) install-libraries-deps
 
-install-deps-libc-linux: configure-build ## Install locally dependencies for testing libskycoin
+check-0.12.0/configure:
 	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
 	tar -xzf check-0.12.0.tar.gz
 	cd check-0.12.0 && ./configure --prefix=/usr --disable-static && make && sudo make install
+
+install-deps-libc-linux: configure-build check-0.12.0/configure ## Install locally dependencies for testing libskycoin
 
 install-lib-curl: ## Install Sky Api curl based rest wrapper
 	bash .travis/install_lib_curl.sh
