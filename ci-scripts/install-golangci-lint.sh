@@ -176,6 +176,7 @@ uname_os() {
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
   case "$os" in
     msys_nt) os="windows" ;;
+    msys_nt-10.0) os="windows" ;;
   esac
   echo "$os"
 }
@@ -195,9 +196,6 @@ uname_arch() {
 }
 uname_os_check() {
   os=$(uname_os)
-  if [ "$os" = "msys_nt-10.0" ]; then
-    os="windows"
-  fi
   case "$os" in
     darwin) return 0 ;;
     dragonfly) return 0 ;;
@@ -210,7 +208,6 @@ uname_os_check() {
     plan9) return 0 ;;
     solaris) return 0 ;;
     windows) return 0 ;;
-    msys_nt-10.0) return 0 ;;
   esac
   log_crit "uname_os_check '$(uname -s)' got converted to '$os' which is not a GOOS value. Please file bug at https://github.com/client9/shlib"
   return 1
