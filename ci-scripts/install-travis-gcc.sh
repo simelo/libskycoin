@@ -17,5 +17,9 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
   brew install gcc\@6 || brew link --overwrite gcc\@6
 fi
 
+if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
+  choco install make
+fi
+
 cd $TRAVIS_BUILD_DIR
 
