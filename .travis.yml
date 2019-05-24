@@ -6,10 +6,10 @@ go:
   - "1.11.x"
 matrix:
   include:
-    - os: linux
-      dist: xenial
-    - os: osx
-      osx_image: xcode8.3
+    # - os: linux
+      # dist: xenial
+    # - os: osx
+      # osx_image: xcode8.3
     - os: windows
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -33,8 +33,8 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     sudo apt-get install cmake ;
     fi
-  - make install-deps-libc
-  - make install-lib-curl
+  # - make install-deps-libc
+  # - make install-lib-curl
 script:
   - make check
 before_deploy:
