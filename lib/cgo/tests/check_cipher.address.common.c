@@ -143,7 +143,7 @@ START_TEST(TestAddressFromBytes)
 
     SKY_cipher_Address_Bytes(&addr, &tempBytes);
     ck_assert_msg(tempBytes.len > 0, "address bytes written");
-    copyGoSlice_toGoSlice(&bytes, &tempBytes, tempBytes.len);
+    copyGoSlice_toGoSlice(&bytes, &tempBytes, sizeof(*buff));
     err = SKY_cipher_AddressFromBytes(bytes, &addr2);
     ck_assert_msg(err == SKY_OK, "convert bytes to SKY address");
 

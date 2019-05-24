@@ -213,7 +213,6 @@ START_TEST(TestSHA256FromHex)
 
     // Valid hex hash
     GoString_ s2;
-    memset(&s2, 0, sizeof(GoString_));
     SKY_cipher_SHA256_Hex(&h, &s2);
     registerMemCleanup((void*)s2.p);
     cipher__SHA256 h2;
