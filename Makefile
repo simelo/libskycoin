@@ -194,7 +194,9 @@ install-deps-libc: install-deps-libc-$(UNAME_S) ## Install deps for libc
 
 install-deps-skyapi: install-deps-skyapi-$(UNAME_S) ## Install skyapi(libcurl based) library.
 
-install-deps-libc-Linux: configure-build ## Install locally dependencies for testing libskycoin
+install-deps-libc-Linux: configure-build check-0.12.0/src/.libs/libcheck.so ## Install locally dependencies for testing libskycoin
+
+check-0.12.0/src/.libs/libcheck.so: ## Install libcheck
 	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
 	tar -xzf check-0.12.0.tar.gz
 	cd check-0.12.0 && ./configure --prefix=/usr --disable-static && make && sudo make install
