@@ -93,7 +93,6 @@ START_TEST(TestSHA256KnownValue)
     int i;
     for (i = 0; i < 3; ++i) {
         GoSlice slice_input;
-        GoSlice slice_output;
 
         slice_input.data = vals[i].input;
         slice_input.len = strlen(vals[i].input);
@@ -227,7 +226,6 @@ START_TEST(TestSHA256Null)
 {
     cipher__SHA256 x;
     memset(&x, 0, sizeof(cipher__SHA256));
-    GoUint32 result;
     GoUint8 isNull;
     ck_assert(SKY_cipher_SHA256_Null(&x, &isNull) == SKY_OK);
     ck_assert(isNull);

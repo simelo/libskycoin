@@ -11,7 +11,7 @@ void *MEMPOOL[1024 * 256];
 
 GoInt_ isU8Eq(unsigned char p1[], unsigned char p2[], size_t len) {
 
-  if (strncmp(p1, p2, len) == 0) {
+  if (strncmp((const char*)p1, (const char*)p2, len) == 0) {
 
     return 1;
   }

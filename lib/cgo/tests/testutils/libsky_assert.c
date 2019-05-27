@@ -59,7 +59,7 @@ GoInt_ isSigEq(cipher__Sig *sig1, cipher__Sig *sig2) {
 }
 
 GoInt_ isSHA256Eq(cipher__SHA256 *sh1, cipher__SHA256 *sh2) {
-  return (memcmp((void *)sh1, (void *)sh1, sizeof(cipher__SHA256)) == 0);
+  return (memcmp((void *)sh1, (void *)sh2, sizeof(cipher__SHA256)) == 0);
 }
 
 GoInt_ isGoSliceEq(GoSlice *slice1, GoSlice *slice2) {

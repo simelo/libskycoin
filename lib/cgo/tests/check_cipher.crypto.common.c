@@ -97,9 +97,7 @@ START_TEST(TestPubKeyHex)
     cipher__PubKey p, p2;
     cipher__SecKey sk;
     GoString s3, s4;
-    unsigned char buff[50];
-    unsigned char buff_s3[50];
-    GoSlice slice = {buff, 0, 50};
+    const char buff_s3[50];
     unsigned int errorcode;
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&p, &sk);
@@ -109,18 +107,16 @@ START_TEST(TestPubKeyHex)
     ck_assert(err == SKY_OK);
     s3.n = tmp_s3.n;
     s3.p = tmp_s3.p;
-    registerMemCleanup((void*)s3.p);
     errorcode = SKY_cipher_PubKeyFromHex(s3, &p2);
     ck_assert(errorcode == SKY_OK);
     ck_assert(isPubKeyEq(&p, &p2));
 
-    unsigned char s4_buff[50];
+    char s4_buff[sizeof(cipher__PubKey) * 2];
     GoString_ tmp_s4 = {s4_buff, 0};
     err = SKY_cipher_PubKey_Hex(&p2, &tmp_s4);
     ck_assert(err == SKY_OK);
-    s4.n = s4.n;
-    s4.p = s4.p;
-    registerMemCleanup((void*)s4.p);
+    s4.n = tmp_s4.n;
+    s4.p = tmp_s4.p;
     // // TODO: Translate into cr_assert(eq(type(GoString), s3, s4));
     ck_assert(isGoStringEq(s3, s4) == 0);
 }
@@ -186,7 +182,7 @@ START_TEST(TestPubKeyToAddress2)
         ck_assert(errorcode == SKY_OK);
         SKY_cipher_Address_String(&addr, &addrStr);
         unsigned char buff[50];
-        GoString addrStr_tmp = {buff, 0};
+        GoString addrStr_tmp = {(const char*)buff, 0};
         addrStr_tmp.p = addrStr.p;
         addrStr_tmp.n = addrStr.n;
         registerMemCleanup((void*)addrStr.p);
@@ -279,8 +275,6 @@ START_TEST(TestSigHex)
 {
     unsigned char buff[66];
     GoSlice b = {buff, 0, 66};
-    char strBuff[150],
-        strBuff2[150];
     GoString str = {NULL, 0},
              str2 = {NULL, 0};
     cipher__Sig s, s2;
@@ -290,19 +284,16 @@ START_TEST(TestSigHex)
     errorcode = SKY_cipher_NewSig(b, &s);
 
     ck_assert(errorcode == SKY_OK);
-    char buffer[100];
+    const char buffer[sizeof(s) * 2];
     GoString_ tmp_str = {buffer, 0};
     SKY_cipher_Sig_Hex(&s, &tmp_str);
     str.p = tmp_str.p;
     str.n = tmp_str.n;
-    registerMemCleanup((void*)str.p);
     errorcode = SKY_cipher_SigFromHex(str, &s2);
 
     ck_assert(errorcode == SKY_OK);
     ck_assert(isU8Eq(s, s2, 65));
 
-    char buffer2[100];
-    GoString_ tmp_str2 = {buffer, 0};
     SKY_cipher_Sig_Hex(&s2, &tmp_str);
     str2.p = tmp_str.p;
     str2.n = tmp_str.n;

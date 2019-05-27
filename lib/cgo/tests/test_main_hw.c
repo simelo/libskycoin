@@ -7,7 +7,6 @@
 int main(void)
 {
     int number_failed = 0;
-    int number_failed_fork = 0;
     SRunner *sr = srunner_create(common_check_cipher_hash());
     srunner_add_suite(sr, common_check_cipher_address());
     srunner_add_suite(sr, common_check_cipher_crypto());

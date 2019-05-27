@@ -17,7 +17,6 @@ START_TEST(TestAddressVerify)
 {
     cipher__PubKey pubkey;
     cipher__SecKey seckey;
-    cipher__PubKey pubkey2;
     cipher__SecKey seckey2;
     cipher__Address addr;
 
@@ -47,7 +46,7 @@ START_TEST(TestAddressString)
     cipher__PubKey pk;
     cipher__SecKey sk;
     cipher__Address addr, addr2, addr3;
-    GoString str = {buff, 0};
+    GoString str = {(char*)buff, 0};
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
     ck_assert(err == SKY_OK);
@@ -70,8 +69,8 @@ END_TEST
 
 START_TEST(TestAddressBulk)
 {
-    unsigned char buff[50];
-    GoSlice slice = {buff, 0, 50};
+    unsigned char buff2[50];
+    GoSlice slice = {buff2, 0, 50};
     int i;
     for (i = 0; i < 1024; ++i) {
         GoUint32 err;
