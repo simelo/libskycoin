@@ -117,8 +117,8 @@ START_TEST(TestPubKeyHex)
     ck_assert(err == SKY_OK);
     s4.n = tmp_s4.n;
     s4.p = tmp_s4.p;
-    // // TODO: Translate into cr_assert(eq(type(GoString), s3, s4));
-    ck_assert(isGoStringEq(s3, s4) == 0);
+    // TODO: Translate into cr_assert(eq(type(GoString), s3, s4));
+    ck_assert(isGoStringEq(s3, s4) == 1);
 }
 END_TEST
 
