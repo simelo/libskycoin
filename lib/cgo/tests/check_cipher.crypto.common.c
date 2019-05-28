@@ -97,13 +97,13 @@ START_TEST(TestPubKeyHex)
     cipher__PubKey p, p2;
     cipher__SecKey sk;
     GoString s3, s4;
-    const char buff_s3[50];
     unsigned int errorcode;
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&p, &sk);
     ck_assert(err == SKY_OK);
-    GoString_ tmp_s3 = {buff_s3, 0};
+    GoString_ tmp_s3;
     err = SKY_cipher_PubKey_Hex(&p, &tmp_s3);
+    registerMemCleanup((void*)tmp_s3.p);
     ck_assert(err == SKY_OK);
     s3.n = tmp_s3.n;
     s3.p = tmp_s3.p;
@@ -111,9 +111,9 @@ START_TEST(TestPubKeyHex)
     ck_assert(errorcode == SKY_OK);
     ck_assert(isPubKeyEq(&p, &p2));
 
-    char s4_buff[sizeof(cipher__PubKey) * 2];
-    GoString_ tmp_s4 = {s4_buff, 0};
+    GoString_ tmp_s4;
     err = SKY_cipher_PubKey_Hex(&p2, &tmp_s4);
+    registerMemCleanup((void*)tmp_s4.p);
     ck_assert(err == SKY_OK);
     s4.n = tmp_s4.n;
     s4.p = tmp_s4.p;
