@@ -76,7 +76,10 @@ workflows:
       - bananapi_m1_plus
       - publish-github-release_32:
           requires:
-            - build
+            - raspberrypi3
+            - orangepi-plus2
+            - raspberrypi2
+            - bananapi_m1_plus
           filters:
             tags:
               only: /v*/
