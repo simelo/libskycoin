@@ -82,4 +82,4 @@ workflows:
             - bananapi_m1_plus
           filters:
             tags:
-              only: /v*/
+              only: /^v.*/
