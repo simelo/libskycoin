@@ -1,5 +1,5 @@
 ARG QEMU_PLATFORM
-FROM balenalib/${QEMU_PLATFORM}-debian-golang
+FROM balenalib/${QEMU_PLATFORM}-ubuntu-golang
 
 ARG GITHUB_OAUTH_TOKEN
 ARG PROJECT_USERNAME
