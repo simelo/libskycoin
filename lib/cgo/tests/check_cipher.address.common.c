@@ -85,10 +85,10 @@ START_TEST(TestAddressBulk)
         err = SKY_cipher_Address_Verify(&addr, &pubkey);
         ck_assert(err == SKY_OK);
 
-        GoString_ tempstrAddr;
+        int8_t buf[256] = {0};
+        GoString_ tempstrAddr = {.p = buf, .n = sizeof(buff)};
         err = SKY_cipher_Address_String(&addr, &tempstrAddr);
         ck_assert(err == SKY_OK);
-        registerMemCleanup((void*)tempstrAddr.p);
         cipher__Address addr2;
         GoString strAddr;
         strAddr.n = tempstrAddr.n;
