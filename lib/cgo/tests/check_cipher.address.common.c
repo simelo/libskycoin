@@ -52,7 +52,7 @@ START_TEST(TestAddressString)
     ck_assert(err == SKY_OK);
     err = SKY_cipher_AddressFromPubKey(&pk, &addr);
     ck_assert(err == SKY_OK);
-    GoString_ tmpstr = {str.p, str.n};
+    GoString_ tmpstr = {str.p, sizeof(buff)};
 
     err = SKY_cipher_Address_String(&addr, &tmpstr);
     ck_assert(err == SKY_OK);
