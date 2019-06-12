@@ -167,6 +167,10 @@ install-deps-Linux: ## Install deps on GNU/Linux
 install-deps-Darwin: ## Install deps on Mac OSX
 	brew install $(PKG_LIB_TEST)
 
+install-deps-libc-MSYS_NT-10.0: ## Install deps on Windows
+	git clone --recursive https://github.com/libcheck/check.git
+	cd check && ./configure  && make && make install
+
 install-linters: install-linters-$(UNAME_S) ## Install linters
 	go get -u github.com/FiloSottile/vendorcheck
 	cat ./ci-scripts/install-golangci-lint.sh | sh -s -- -b $(GOPATH)/bin v1.10.2
