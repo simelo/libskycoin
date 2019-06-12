@@ -29,8 +29,6 @@ install:
   # Install gox
   - go get github.com/gz-c/gox
   - go get -t ./...
-  - go get github.com/kardianos/govendor
-  - govendor add -long  +outside +local
   - make install-linters
   - make install-deps-libc
   - make install-deps-skyapi
