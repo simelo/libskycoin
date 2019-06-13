@@ -57,11 +57,6 @@ jobs:
       - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=ubuntu --file $GOPATH/src/github.com/skycoin/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/skycoin/libskycoin -t skydev-test
 
   publish-github-release_32:
-    requires:
-      - bananapi_m1_plus
-      - raspberrypi2
-      - raspberrypi3
-      - orangepi-plus2
     docker:
       - image: docker:18.06.0-ce-git
     working_directory: $GOPATH/src/github.com/skycoin/libskycoin
@@ -79,4 +74,9 @@ workflows:
   version: 2
   arm_test:
     jobs:
-      - publish-github-release_32
+      - publish-github-release_32:
+          requires:
+            - bananapi_m1_plus
+            - raspberrypi2
+            - raspberrypi3
+            - orangepi-plus2
