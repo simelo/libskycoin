@@ -16,7 +16,7 @@ RUN make -C $GOPATH/src/github.com/skycoin/libskycoin install-deps-skyapi-Linux
 RUN go get github.com/gz-c/gox
 RUN go get -t ./...
 ENV CGO_ENABLED=1
-RUN export VERSION="$(git describe --tags --exact-match HEAD 2> /dev/null)"
+RUN export VERSION="$(git tag -l --points-at HEAD)"
 RUN export ARCH="$(uname -m)"
 RUN export OS="$(uname -s)"
 RUN make -C $GOPATH/src/github.com/skycoin/libskycoin build
