@@ -170,9 +170,8 @@ install-linters: install-linters-$(UNAME_S) ## Install linters
 
 install-deps-skyapi-Linux:
 	mkdir -p deps
-	sudo apt-get install cmake
-	sudo apt-get install libcurl3-gnutls
-	sudo apt remove curl
+	sudo apt-get install cmake libcurl3-gnutls -y
+	sudo apt-get remove curl -y
 	(cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz && tar -xvf curl-7.58.0.tar.gz && cd curl-7.58.0/ && ./configure && make && sudo make install)
 	(cd deps && git clone https://github.com/uncrustify/uncrustify.git && cd uncrustify && mkdir build && cd build && cmake .. && make && sudo make install)
 
