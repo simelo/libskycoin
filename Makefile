@@ -170,8 +170,6 @@ install-linters: install-linters-$(UNAME_S) ## Install linters
 
 install-deps-skyapi-Linux:
 	mkdir -p deps
-	sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
-	sudo apt-get update
 	sudo apt-get install cmake
 	sudo apt-get install libcurl3-gnutls
 	sudo apt remove curl
