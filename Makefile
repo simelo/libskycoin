@@ -168,8 +168,8 @@ install-deps-Darwin: ## Install deps on Mac OSX
 	brew install $(PKG_LIB_TEST)
 
 install-deps-libc-MSYS_NT-10.0: ## Install deps on Windows
-	git clone --recursive https://github.com/libcheck/check.git
-	cd check && ./configure  && make && make install
+	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz && tar -xvf check-0.12.0.tar.gz
+	cd check-0.12.0 && ./configure  && make check && make install
 
 install-linters: install-linters-$(UNAME_S) ## Install linters
 	go get -u github.com/FiloSottile/vendorcheck
