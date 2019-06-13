@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 apt-get update
-apt-get install gcc-6 g++-6 curl wget -y
+apt-get install gcc-6 g++-6 curl wget python python3 python-dev python3-dev -y
 
 wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
 tar -xzf check-0.12.0.tar.gz
