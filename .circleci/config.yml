@@ -57,6 +57,11 @@ jobs:
       - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=ubuntu --file $GOPATH/src/github.com/skycoin/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/skycoin/libskycoin -t skydev-test
 
   publish-github-release_32:
+    requires:
+      - bananapi_m1_plus
+      - raspberrypi2
+      - raspberrypi3
+      - orangepi-plus2
     docker:
       - image: docker:18.06.0-ce-git
     working_directory: $GOPATH/src/github.com/skycoin/libskycoin
@@ -64,7 +69,7 @@ jobs:
       TAG_DEPLOY: $(git tag -l --points-at HEAD)
     steps:
       - run: mkdir -p $GOPATH/src/github.com/ $GOPATH/src/github.com/skycoin
-      - run: echo $TAG_DEPLOY
+      - run: if [[ $TAG_DEPLOY ]]; then echo $TAG_DEPLOY ; fi
       - checkout
       - setup_remote_docker:
           version: 18.06.0-ce
