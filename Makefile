@@ -167,9 +167,7 @@ install-deps-Linux: ## Install deps on GNU/Linux
 install-deps-Darwin: ## Install deps on Mac OSX
 	brew install $(PKG_LIB_TEST)
 
-install-deps-libc-MSYS_NT-10.0: ## Install deps on Windows
-	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz && tar -xvf check-0.12.0.tar.gz
-	cd check-0.12.0 && ./configure  && make check && make install
+
 
 install-linters: install-linters-$(UNAME_S) ## Install linters
 	go get -u github.com/FiloSottile/vendorcheck
@@ -204,6 +202,11 @@ install-deps-libc-Linux: configure-build ## Install locally dependencies for tes
 
 install-deps-libc-Darwin: configure-build ## Install locally dependencies for testing libskycoin
 	brew install check
+
+install-deps-libc-MSYS_NT-10.0: ## Install deps on Windows
+	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
+	tar -xvf check-0.12.0.tar.gz
+	cd check-0.12.0 && ./configure --disable-static && make && make install
 
 install-deps: install-deps-libc install-deps-skyapi ## Install deps for libc and skyapi
 
