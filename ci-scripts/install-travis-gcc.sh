@@ -21,6 +21,7 @@ fi
 if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
   choco install make
   choco install pkgconfiglite
+  choco install curl
 fi
 
 cd $TRAVIS_BUILD_DIR

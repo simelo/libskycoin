@@ -4,6 +4,8 @@
 
 COIN ?= skycoin
 
+CC = gcc
+
 # Resource paths
 # --- Absolute path to repository root
 LIBSRC_ABS_PATH        = $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
