@@ -206,9 +206,10 @@ install-deps-libc-Darwin: configure-build ## Install locally dependencies for te
 	brew install check
 
 install-deps-libc-MSYS_NT-10.0: ## Install deps on Windows
+	mkdir C:/program
 	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
 	tar -xvf check-0.12.0.tar.gz
-	cd check-0.12.0 && ./configure --disable-static
+	cd check-0.12.0 && ./configure --prefix=/usr --disable-static
 	cd check-0.12.0 && make 
 	cd check-0.12.0 && make check
 	cd check-0.12.0 && make install
