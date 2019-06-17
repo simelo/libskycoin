@@ -171,13 +171,13 @@ END_TEST
 
 START_TEST(TestDecodeBase58Address)
 {
-    GoString strAddr = {SKYCOIN_ADDRESS_VALID, 35};
+    GoString strAddr = {.p = SKYCOIN_ADDRESS_VALID, .n = 35};
     cipher__Address addr;
     GoUint32 err = SKY_cipher_DecodeBase58Address(strAddr, &addr);
     ck_assert_int_eq(err, SKY_OK);
 
     char tempStr[50];
-    int errorcode;
+    GoUint32 errorcode;
 
     // preceding whitespace is invalid
     strcpy(tempStr, " ");
@@ -229,9 +229,9 @@ START_TEST(TestDecodeBase58Address)
     b.data = Cub.data;
     b.len = Cub.len;
 
-    int len_b = b.len;
+    const GoInt len_b = b.len;
     char bufferHead[1024];
-    GoString_ h = {bufferHead, 0};
+    GoString_ h = {bufferHead, sizeof(bufferHead)};
     b.len = (GoInt)(len_b / 2);
     errorcode = SKY_base58_Hex2Base58(b, &h);
     ck_assert(errorcode == SKY_OK);
@@ -242,6 +242,7 @@ START_TEST(TestDecodeBase58Address)
     errorcode = SKY_cipher_DecodeBase58Address(tmph, &addr);
     ck_assert_msg(errorcode == SKY_ErrAddressInvalidLength, "Fail %X", errorcode);
     b.len = len_b;
+    h.n = sizeof(bufferHead);
     errorcode = SKY_base58_Hex2Base58(b, &h);
     ck_assert(errorcode == SKY_OK);
     tmph.n = h.n;
