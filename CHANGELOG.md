@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.26.0] - 2019-06-26
 
 ### Added
 - Added datatype `api__TransactionInput`
@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Changed
+- Update functions in Skycoin 0.26.0 core API's for `skyapi` wrapper
 
 ### Removed
 - Removed symbolic links from vendor
