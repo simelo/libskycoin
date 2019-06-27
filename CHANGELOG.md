@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added datatype `transaction__UxBalance`
 - Added function `SKY_transaction_NewUxBalances`, 
 - Added function `SKY_transaction_DistributeCoinHoursProportional`, `SKY_transaction_DistributeSpendHours`
-
+- See [this](https://github.com/skycoin/skycoin/blob/develop/CHANGELOG.md#0260---2019-05-21) for API changelog for skyapi functions
 
 ### Fixed
 
