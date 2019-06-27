@@ -127,7 +127,7 @@ test-skyapi: build-skyapi ## Run test for skyapi(libcurl based) library
 test: test-libc test-skyapi ## Run all test for libskycoin
 
 docs-skyapi: ## Generate SkyApi (libcurl) documentation
-	openapi-generator generate -g html2 -i lib/swagger/skycoin.v0.25.1.openapi.v2.yml -o $(LIBCURLDOC_DIR)
+	openapi-generator generate -g html2 -i lib/swagger/skycoin.v0.26.0.openapi.v2.yml -o $(LIBCURLDOC_DIR)
 
 docs-libc: ## Generate libskycoin documentation
 	doxygen ./.Doxyfile
