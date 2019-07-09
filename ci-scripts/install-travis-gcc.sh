@@ -22,7 +22,7 @@ if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then
   choco install make
   choco install pkgconfiglite
   choco install sudo
-  choco install curl --version 7.58.0
+  choco install curl --force --version 7.58.0
 fi
 
 cd $TRAVIS_BUILD_DIR
