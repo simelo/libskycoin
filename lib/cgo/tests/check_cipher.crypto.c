@@ -7,8 +7,6 @@
 #include "skytest.h"
 #include <check.h>
 
-// TestSuite(cipher_crypto, .init = setup, .fini = teardown);
-
 START_TEST(TestNewPubKey)
 {
     unsigned char buff[101];
@@ -841,7 +839,6 @@ Suite* cipher_crypto(void)
     tcase_add_test(tc, TestPubKeyFromSecKey);
     tcase_add_test(tc, TestPubKeyFromSig);
     tcase_add_test(tc, TestVerifyPubKeySignedHash);
-    // tcase_add_test(tc, TestVerifySignedHash);
     tcase_add_test(tc, TestGenerateDeterministicKeyPair);
     tcase_add_test(tc, TestSecKeTest);
     tcase_add_test(tc, TestSecKeyHashTest);
