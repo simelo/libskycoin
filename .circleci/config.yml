@@ -60,7 +60,8 @@ jobs:
           docker_layer_caching: true
       - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/skycoin/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/skycoin/libskycoin -t skydev-test
 
-  publish-github-release_32:
+
+  deploy_arm:
     docker:
       - image: circleci/golang:1.12
     working_directory: $GOPATH/src/github.com/skycoin/libskycoin
@@ -76,8 +77,17 @@ workflows:
   version: 2
   arm_test:
     jobs:
-      # - raspberrypi3
-      # - orangepi-plus2
-      # - raspberrypi2
-      # - bananapi_m1_plus
-      - publish-github-release_32
+      - raspberrypi3
+      - orangepi-plus2
+      - raspberrypi2
+      - bananapi_m1_plus
+      - hold: 
+          type: approval 
+          requires:
+           - raspberrypi3
+           - orangepi-plus2
+           - raspberrypi2
+           - bananapi_m1_plus
+      - deploy_arm:
+          requires:
+            - hold
