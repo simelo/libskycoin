@@ -28,16 +28,19 @@ env:
 install:
   # Install gox
   - go get github.com/gz-c/gox
+  - go get -u github.com/kardianos/govendor
+  - govendor init
+  - govendor sync
   - go get -t ./...
   - make install-linters
   - make install-deps-libc
   - make install-deps-skyapi
 script:
-  - make build-skyapi
   - make lint
-  - make test-libc
-  - make lint-libc
-  - make test-skyapi
+  - make build-skyapi
+  # - make test-libc
+  # - make lint-libc
+  # - make test-skyapi
 
 before_deploy:
   - export VERSION="$(git describe --tags --exact-match HEAD 2> /dev/null)"
