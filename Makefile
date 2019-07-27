@@ -197,7 +197,7 @@ install-deps-skyapi-Darwin:
 
 install-deps-skyapi-MSYS_NT-10.0:
 	(cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz && tar -xf curl-7.58.0.tar.gz && cd curl-7.58.0/ && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ .. && make && sudo make install)
-	
+
 install-deps-libc: install-deps-libc-$(UNAME_S) ## Install deps for libc
 
 install-deps-skyapi: install-deps-skyapi-$(UNAME_S) ## Install skyapi(libcurl based) library.
@@ -211,12 +211,12 @@ install-deps-libc-Darwin: configure-build ## Install locally dependencies for te
 	brew install check
 
 install-deps-libc-MSYS_NT-10.0: ## Install deps on Windows
-	mkdir C:/program
-	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
-	tar -xvf check-0.12.0.tar.gz
-	cd check-0.12.0 && ./configure --prefix=/usr --disable-static
-	cd check-0.12.0 && make 
-	cd check-0.12.0 && make install
+	# mkdir C:/program
+	# wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
+	# tar -xvf check-0.12.0.tar.gz
+	# cd check-0.12.0 && ./configure --prefix=/usr --disable-static
+	# cd check-0.12.0 && make 
+	# cd check-0.12.0 && make install
 
 install-deps: install-deps-libc install-deps-skyapi ## Install deps for libc and skyapi
 
