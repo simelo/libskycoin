@@ -10,7 +10,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 set(pkgName "skyapi")
 
-find_package(CURL 7.58.0 EXACT REQUIRED)
+#find_package(CURL 7.58.0 EXACT REQUIRED)
 
 set(SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/list.c
