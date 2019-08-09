@@ -168,8 +168,8 @@ check: lint test-libc lint-libc test-skyapi ## Run tests and linters
 
 install-linters-Linux: ## Install linters on GNU/Linux
 	sudo apt-get update
-	sudo apt-get install $(PKG_CLANG_FORMAT)
-	sudo apt-get install $(PKG_CLANG_LINTER)
+	sudo apt-get install $(PKG_CLANG_FORMAT) -y
+	sudo apt-get install $(PKG_CLANG_LINTER) -y
 
 install-linters-Darwin: ## Install linters on Mac OSX
 	# brew install $(PKG_CLANG_FORMAT)
