@@ -208,6 +208,11 @@ typedef Handle CollectionWallet__Handle;
 typedef Handle MetaWallet__Handle;
 
 /**
+ * MetaWallet__Handle Handle, slice of Wallet
+ */
+typedef Handle WalletSeedResponse__Handle;
+
+/**
  * Instances of Go interface types.
  */
 typedef struct {

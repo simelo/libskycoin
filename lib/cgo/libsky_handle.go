@@ -518,3 +518,17 @@ func lookupBlockHeaderHandle(handle C.BlockHeader__Handle) (*coin.BlockHeader, b
 	}
 	return nil, false
 }
+
+func registerWalletSeedResponseHandle(obj *api.WalletSeedResponse) C.WalletSeedResponse__Handle {
+	return (C.WalletResponse__Handle)(registerHandle(obj))
+}
+
+func lookupWalletResponseHandle(handle C.WalletSeedResponse__Handle) (*api.WalletSeedResponse, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*api.WalletSeedResponse); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}

@@ -290,43 +290,6 @@ func SKY_api_Client_Wallets(_c C.Client__Handle, _arg0 *C.Wallets__Handle) (____
 	return
 }
 
-//export SKY_api_Client_CreateUnencryptedWallet
-func SKY_api_Client_CreateUnencryptedWallet(_c C.Client__Handle, _seed, _label string, _scanN int, _arg2 *C.WalletResponse__Handle) (____error_code uint32) {
-	c, okc := lookupClientHandle(_c)
-	if !okc {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	seed := _seed
-	label := _label
-	scanN := _scanN
-	__arg2, ____return_err := c.CreateUnencryptedWallet(seed, label, scanN)
-	____error_code = libErrorCode(____return_err)
-	if ____return_err == nil {
-		*_arg2 = registerWalletResponseHandle(__arg2)
-	}
-	return
-}
-
-//export SKY_api_Client_CreateEncryptedWallet
-func SKY_api_Client_CreateEncryptedWallet(_c C.Client__Handle, _seed, _label, _password string, _scanN int, _arg2 *C.WalletResponse__Handle) (____error_code uint32) {
-	c, okc := lookupClientHandle(_c)
-	if !okc {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	seed := _seed
-	label := _label
-	password := _password
-	scanN := _scanN
-	__arg2, ____return_err := c.CreateEncryptedWallet(seed, label, password, scanN)
-	____error_code = libErrorCode(____return_err)
-	if ____return_err == nil {
-		*_arg2 = registerWalletResponseHandle(__arg2)
-	}
-	return
-}
-
 //export SKY_api_Client_NewWalletAddress
 func SKY_api_Client_NewWalletAddress(_c C.Client__Handle, _id string, _n int, _password string, _arg3 *C.Strings__Handle) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
@@ -429,7 +392,7 @@ func SKY_api_Client_NewSeed(_c C.Client__Handle, _entropy int, _arg1 *C.GoString
 }
 
 //export SKY_api_Client_WalletSeed
-func SKY_api_Client_WalletSeed(_c C.Client__Handle, _id string, _password string, _arg2 *C.GoString_) (____error_code uint32) {
+func SKY_api_Client_WalletSeed(_c C.Client__Handle, _id string, _password string, _arg2 *C.WalletSeedResponse__Handle) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -440,7 +403,7 @@ func SKY_api_Client_WalletSeed(_c C.Client__Handle, _id string, _password string
 	__arg2, ____return_err := c.WalletSeed(id, password)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyString(__arg2, _arg2)
+		_arg2 = registerWalletSeedResponseHandle(__arg2)
 	}
 	return
 }

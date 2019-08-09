@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_wallet_MetaWallet_Filename`
 - Added function `SKY_wallet_MetaWallet_Version`
 - Added function `SKY_wallet_MetaWallet_Type`
+- Added datatype `WalletSeedResponse__Handle`
 
 ### Removed
 
@@ -35,11 +36,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Removed function `SKY_wallet_Wallet_Version`
 - Removed function `SKY_wallet_Wallet_Type`
 - Removed function `SKY_cli_Config_FullWalletPath`
+- Removed function `SKY_api_Client_CreateUnencryptedWallet`
+- Removed function `SKY_api_Client_CreateEncryptedWallet`
 
 ### Changed
 
 - Update `lib/curl` to v0.27.0
 - Change datatype `SKY_cli_AddPrivateKey`
+- Change datatype `SKY_api_Client_WalletSeed`
 
 ## [0.26.0] - 2019-07-12
 
