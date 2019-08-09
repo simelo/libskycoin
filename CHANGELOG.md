@@ -42,6 +42,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Removed function `SKY_params_GetDistributionAddresses`
 - Removed function `SKY_params_GetUnlockedDistributionAddresses`
 - Removed function `SKY_params_GetLockedDistributionAddresses`
+- Removed function `SKY_wallet_LoadReadableWallet`
+- Removed function `SKY_wallet_ReadableWallet_Save`
+- Removed function `SKY_wallet_ReadableWallet_Load`
+- Removed function `SKY_wallet_ReadableWallet_Erase`
 
 ### Changed
 
