@@ -523,7 +523,7 @@ func registerWalletSeedResponseHandle(obj *api.WalletSeedResponse) C.WalletSeedR
 	return (C.WalletResponse__Handle)(registerHandle(obj))
 }
 
-func lookupWalletResponseHandle(handle C.WalletSeedResponse__Handle) (*api.WalletSeedResponse, bool) {
+func lookupWalletSeedResponseHandle(handle C.WalletSeedResponse__Handle) (*api.WalletSeedResponse, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*api.WalletSeedResponse); isOK {

@@ -403,7 +403,7 @@ func SKY_api_Client_WalletSeed(_c C.Client__Handle, _id string, _password string
 	__arg2, ____return_err := c.WalletSeed(id, password)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		_arg2 = registerWalletSeedResponseHandle(__arg2)
+		*_arg2 = registerWalletSeedResponseHandle(__arg2)
 	}
 	return
 }
