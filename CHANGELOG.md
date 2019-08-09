@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Removed function `SKY_wallet_Wallet_File`
 - Removed function `SKY_wallet_Wallet_Version`
 - Removed function `SKY_wallet_Wallet_Type`
+- Removed function `SKY_cli_Config_FullWalletPath`
 
 ### Changed
 
