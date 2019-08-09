@@ -14,8 +14,8 @@ import (
 import "C"
 
 //export SKY_cli_AddPrivateKey
-func SKY_cli_AddPrivateKey(_wlt C.Wallet__Handle, _key string) (____error_code uint32) {
-	wlt, okwlt := lookupWalletHandle(_wlt)
+func SKY_cli_AddPrivateKey(_wlt C.CollectionWallet__Handle, _key string) (____error_code uint32) {
+	wlt, okwlt := lookupCollectionWalletHandle(_wlt)
 	if !okwlt {
 		____error_code = SKY_BAD_HANDLE
 		return

@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Update `lib/curl` to v0.27.0
+- Change datatype `SKY_cli_AddPrivateKey`
 
 ## [0.26.0] - 2019-07-12
 
