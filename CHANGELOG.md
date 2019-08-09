@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Removed function `SKY_api_Client_CreateEncryptedWallet`
 - Removed function `SKY_cli_GenerateWallet`
 - Removed function `SKY_params_GetDistributionAddresses`
+- Removed function `SKY_params_GetUnlockedDistributionAddresses`
+- Removed function `SKY_params_GetLockedDistributionAddresses`
 
 ### Changed
 
