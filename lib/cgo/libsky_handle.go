@@ -65,14 +65,42 @@ func lookupWalletHandle(handle C.Wallet__Handle) (*wallet.Wallet, bool) {
 	return nil, false
 }
 
-func registerReadableWalletHandle(obj *wallet.ReadableWallet) C.ReadableWallet__Handle {
+func registerCollectionWalletHandle(obj *wallet.CollectionWallet) C.CollectionWallet__Handle {
+	return (C.Wallet__Handle)(registerHandle(obj))
+}
+
+func lookupCollectionWalletHandle(handle C.Wallet__Handle) (*wallet.CollectionWallet, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*wallet.CollectionWallet); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerMetaWalletHandle(obj *wallet.Meta) C.MetaWallet__Handle {
+	return (C.MetaWallet__Handle)(registerHandle(obj))
+}
+
+func lookupMetaWalletHandle(handle C.MetaWallet__Handle) (*wallet.Meta, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*wallet.Meta); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerReadableWalletHandle(obj *wallet.Readable) C.ReadableWallet__Handle {
 	return (C.ReadableWallet__Handle)(registerHandle(obj))
 }
 
-func lookupReadableWalletHandle(handle C.ReadableWallet__Handle) (*wallet.ReadableWallet, bool) {
+func lookupReadableWalletHandle(handle C.ReadableWallet__Handle) (*wallet.Readable, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
-		if obj, isOK := (obj).(*wallet.ReadableWallet); isOK {
+		if obj, isOK := (obj).(*wallet.Readable); isOK {
 			return obj, true
 		}
 	}

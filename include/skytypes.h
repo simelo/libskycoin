@@ -196,6 +196,17 @@ typedef Handle ReadableOutputSet_Handle;
  */
 typedef Handle CreateTransactionParams__Handle;
 
+
+/**
+ * CollectionWallets Handle, slice of Wallet
+ */
+typedef Handle CollectionWallet__Handle;
+
+/**
+ * MetaWallet__Handle Handle, slice of Wallet
+ */
+typedef Handle MetaWallet__Handle;
+
 /**
  * Instances of Go interface types.
  */
