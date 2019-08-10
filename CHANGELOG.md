@@ -46,6 +46,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Removed function `SKY_wallet_ReadableWallet_Save`
 - Removed function `SKY_wallet_ReadableWallet_Load`
 - Removed function `SKY_wallet_ReadableWallet_Erase`
+- Removed function `SKY_api_Handle_GetWalletMeta`
+- Removed function `SKY_api_Handle_GetWalletEntriesCount`
+- Removed function `SKY_api_Handle_WalletGetEntry`
+- Removed function `SKY_api_Handle_WalletResponseGetCryptoType`
 
 ### Changed
 
