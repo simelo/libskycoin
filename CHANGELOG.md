@@ -52,6 +52,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Update `lib/curl` to v0.27.0
 - Change datatype `SKY_cli_AddPrivateKey`
 - Change datatype `SKY_api_Client_WalletSeed`
+- Rename function `SKY_wallet_Wallet_Lock` => `SKY_wallet_Lock`
+- Rename function `SKY_wallet_Wallet_Unlock` => `SKY_wallet_Unlock`
 
 ## [0.26.0] - 2019-07-12
 

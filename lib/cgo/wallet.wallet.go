@@ -36,13 +36,13 @@ func SKY_wallet_NewWallet(_wltName string, _opts C.Options__Handle, _arg2 *C.Wal
 	__arg2, ____return_err := wallet.NewWallet(_wltName, opts)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		*_arg2 = registerWalletHandle(__arg2)
+		*_arg2 = registerWalletHandle(&__arg2)
 	}
 	return
 }
 
-//export SKY_wallet_Wallet_Lock
-func SKY_wallet_Wallet_Lock(_w C.Wallet__Handle, _password []byte, _cryptoType string) (____error_code uint32) {
+//export SKY_wallet_Lock
+func SKY_wallet_Lock(_w C.Wallet__Handle, _password []byte, _cryptoType string) (____error_code uint32) {
 	w, okw := lookupWalletHandle(_w)
 	if !okw {
 		____error_code = SKY_BAD_HANDLE
@@ -50,25 +50,25 @@ func SKY_wallet_Wallet_Lock(_w C.Wallet__Handle, _password []byte, _cryptoType s
 	}
 	password := *(*[]byte)(unsafe.Pointer(&_password))
 	cryptoType := wallet.CryptoType(_cryptoType)
-	____return_err := w.Lock(password, cryptoType)
+	____return_err := wallet.Lock(*w, password, cryptoType)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
 	}
 	return
 }
 
-//export SKY_wallet_Wallet_Unlock
-func SKY_wallet_Wallet_Unlock(_w C.Wallet__Handle, _password []byte, _arg1 *C.Wallet__Handle) (____error_code uint32) {
+//export SKY_wallet_Unlock
+func SKY_wallet_Unlock(_w C.Wallet__Handle, _password []byte, _arg1 *C.Wallet__Handle) (____error_code uint32) {
 	w, okw := lookupWalletHandle(_w)
 	if !okw {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 	password := *(*[]byte)(unsafe.Pointer(&_password))
-	__arg1, ____return_err := w.Unlock(password)
+	__arg1, ____return_err := wallet.Unlock(*w, password)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		*_arg1 = registerWalletHandle(__arg1)
+		*_arg1 = registerWalletHandle(&__arg1)
 	}
 	return
 }
@@ -79,7 +79,7 @@ func SKY_wallet_Load(_wltFile string, _arg1 *C.Wallet__Handle) (____error_code u
 	__arg1, ____return_err := wallet.Load(wltFile)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		*_arg1 = registerWalletHandle(__arg1)
+		*_arg1 = registerWalletHandle(&__arg1)
 	}
 	return
 }
