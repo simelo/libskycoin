@@ -45,19 +45,19 @@ START_TEST(TestDistributionAddressArrays)
 
     for (i = 0; i < countUnlock; ++i) {
         GoUint8_ bufferi[1024];
-        GoString_ iStr = {bufferi, 0, 1024};
+        GoString_ iStr = {bufferi, 0};
         err = SKY_Handle_Strings_GetAt(unlocked, i, &iStr);
         ck_assert_msg(err == SKY_OK, "%X", err);
         // Check no duplicate address in unlocked addresses
         for (j = i + 1; j < countUnlock; ++j) {
             GoUint8_ bufferj[1024];
-            GoString_ jStr = {bufferj, 0, 1024};
+            GoString_ jStr = {bufferj, 0};
             err = SKY_Handle_Strings_GetAt(unlocked, j, &jStr);
             ck_assert_msg(err == SKY_OK, "%X", err);
             ck_assert_str_ne((char*)iStr.p, (char*)jStr.p);
         }
         GoUint8_ bufferAll[1024];
-        GoString_ kStr = {bufferAll, 0, 1024};
+        GoString_ kStr = {bufferAll, 0};
         err = SKY_Handle_Strings_GetAt(address, i, &kStr);
         ck_assert_msg(err == SKY_OK, "%X", err);
         // Check unlocked address in set of all addresses
@@ -69,13 +69,13 @@ START_TEST(TestDistributionAddressArrays)
 
     for (i = 0; i < countLock; ++i) {
         GoUint8_ bufferi[1024];
-        GoString_ iStr = {bufferi, 0, 1024};
+        GoString_ iStr = {bufferi, 0};
         err = SKY_Handle_Strings_GetAt(locked, i, &iStr);
         ck_assert_msg(err == SKY_OK, "%X", err);
         // Check no duplicate address in locked addresses
         for (j = i + 1; j < countLock; ++j) {
             GoUint8_ bufferj[1024];
-            GoString_ jStr = {bufferj, 0, 1024};
+            GoString_ jStr = {bufferj, 0};
             err = SKY_Handle_Strings_GetAt(locked, j, &jStr);
             ck_assert_msg(err == SKY_OK, "%X", err);
             ck_assert_str_ne((char*)iStr.p, (char*)jStr.p);
@@ -84,7 +84,7 @@ START_TEST(TestDistributionAddressArrays)
         // Check locked address in set of all addresses
         for (k = 0, notfound = 1; notfound && (k < count); ++k) {
             GoUint8_ bufferAll[1024];
-            GoString_ kStr = {bufferAll, 0, 1024};
+            GoString_ kStr = {bufferAll, 0};
             err = SKY_Handle_Strings_GetAt(address, k, &kStr);
             ck_assert_msg(err == SKY_OK, "%X", err);
             notfound = strcmp(iStr.p, kStr.p);

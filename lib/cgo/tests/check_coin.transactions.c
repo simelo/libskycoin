@@ -1157,15 +1157,15 @@ Suite* coin_transaction_fork(void)
 
     tc = tcase_create("coin.transaction_fork");
     tcase_add_checked_fixture(tc, setup, teardown);
-// #if __linux__
-//     tcase_add_test_raise_signal(tc, TestTransactionPushInput, SKY_ABORT);
-//     tcase_add_test_raise_signal(tc, TestTransactionSignInputs, SKY_ABORT);
-//     tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
-// #elif __APPLE__
-//     tcase_add_exit_test(tc, TestTransactionPushInput, SKY_ABORT);
-//     tcase_add_exit_test(tc, TestTransactionSignInputs, SKY_ABORT);
-//     tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
-// #endif
+#if __linux__
+    tcase_add_test_raise_signal(tc, TestTransactionPushInput, SKY_ABORT);
+    tcase_add_test_raise_signal(tc, TestTransactionSignInputs, SKY_ABORT);
+    tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
+#elif __APPLE__
+    tcase_add_exit_test(tc, TestTransactionPushInput, SKY_ABORT);
+    tcase_add_exit_test(tc, TestTransactionSignInputs, SKY_ABORT);
+    tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
+#endif
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
     return s;

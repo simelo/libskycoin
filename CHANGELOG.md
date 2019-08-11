@@ -42,6 +42,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added datatype `SKY_params_Distribution_UnlockedAddressesDecoded`
 - Added datatype `SKY_params_Distribution_LockedAddressesDecoded`
 - Added datatype `SKY_params_Distribution_GetMainNetDistribution`
+- Added function `SKY_cipher_Sig_String`
+- Added function `SKY_cipher_Sig_Null`
+- Added function `SKY_cipher_VerifySignatureRecoverPubKey`
 
 ### Removed
 
