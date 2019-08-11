@@ -113,13 +113,13 @@ func SKY_params_Distribution_SetUnlockTimeInterval(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_GetAddresses
-func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	copyToGoSlice(reflect.ValueOf(d.Addresses), _arg0)
+	*_arg0 = registerStringsHandle(d.Addresses)
 	return
 }
 
@@ -230,5 +230,12 @@ func SKY_params_Distribution_GetMainNetDistribution(_d *C.Distribution__Handle) 
 	}
 	*d = params.MainNetDistribution
 	*_d = registerDistributionHandle(d)
+	return
+}
+
+//export SKY_params_NewDistribution
+func SKY_params_NewDistribution(_d *C.Distribution__Handle) (____error_code uint32) {
+	d := params.Distribution{}
+	*_d = registerDistributionHandle(&d)
 	return
 }

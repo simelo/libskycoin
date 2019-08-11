@@ -121,14 +121,11 @@ func SKY_Handle_Connections_GetCount(handle C.Handle,
 }
 
 //export SKY_Handle_Strings_GetCount
-func SKY_Handle_Strings_GetCount(handle C.Strings__Handle,
-	count *uint32) uint32 {
-	obj, ok := lookupHandle(C.Handle(handle))
+func SKY_Handle_Strings_GetCount(handle C.Strings__Handle, count *uint32) uint32 {
+	obj, ok := lookupStringsHandle(handle)
 	if ok {
-		if obj, isOK := (obj).([]string); isOK {
-			*count = uint32(len(obj))
-			return SKY_OK
-		}
+		*count = uint32(len(obj))
+		return SKY_OK
 	}
 	return SKY_BAD_HANDLE
 }
@@ -146,8 +143,7 @@ func SKY_Handle_Strings_Sort(handle C.Strings__Handle) uint32 {
 }
 
 //export SKY_Handle_Strings_GetAt
-func SKY_Handle_Strings_GetAt(handle C.Strings__Handle,
-	index int,
+func SKY_Handle_Strings_GetAt(handle C.Strings__Handle, index int,
 	str *C.GoString_) uint32 {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
