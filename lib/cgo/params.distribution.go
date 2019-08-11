@@ -3,6 +3,8 @@ package main
 import (
 	"reflect"
 	"unsafe"
+
+	"github.com/skycoin/skycoin/src/params"
 )
 
 /*
@@ -216,5 +218,17 @@ func SKY_params_Distribution_LockedAddressesDecoded(_d C.Distribution__Handle, _
 	}
 	arg0 := d.LockedAddressesDecoded()
 	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	return
+}
+
+//export SKY_params_Distribution_GetMainNetDistribution
+func SKY_params_Distribution_GetMainNetDistribution(_d *C.Distribution__Handle) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(*_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*d = params.MainNetDistribution
+	*_d = registerDistributionHandle(d)
 	return
 }
