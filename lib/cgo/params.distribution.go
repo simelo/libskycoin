@@ -2,7 +2,6 @@ package main
 
 import (
 	"reflect"
-	"unsafe"
 
 	"github.com/skycoin/skycoin/src/params"
 )
@@ -125,13 +124,18 @@ func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.St
 
 // nolint megacheck
 //export SKY_params_Distribution_SetAddresses
-func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	d.Addresses = *(*[]string)(unsafe.Pointer(_arg0))
+	s, oks := lookupStringsHandle(*_arg0)
+	if !oks {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	d.Addresses = s
 	_d = registerDistributionHandle(d)
 	return
 }
@@ -162,26 +166,28 @@ func SKY_params_Distribution_AddressInitialBalance(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_UnlockedAddresses
-func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
+
 	arg0 := d.UnlockedAddresses()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = registerStringsHandle(arg0)
 	return
 }
 
 //export SKY_params_Distribution_LockedAddresses
-func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
+
 	arg0 := d.LockedAddresses()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = registerStringsHandle(arg0)
 	return
 }
 

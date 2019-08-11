@@ -132,32 +132,41 @@ func SKY_Handle_Strings_GetCount(handle C.Strings__Handle, count *uint32) uint32
 
 //export SKY_Handle_Strings_Sort
 func SKY_Handle_Strings_Sort(handle C.Strings__Handle) uint32 {
-	obj, ok := lookupHandle(C.Handle(handle))
+	obj, ok := lookupStringsHandle(handle)
 	if ok {
-		if obj, isOK := (obj).([]string); isOK {
-			sort.Strings(obj)
-			return SKY_OK
-		}
+		sort.Strings(obj)
+		return SKY_OK
+
 	}
 	return SKY_BAD_HANDLE
 }
 
 //export SKY_Handle_Strings_GetAt
-func SKY_Handle_Strings_GetAt(handle C.Strings__Handle, index int,
-	str *C.GoString_) uint32 {
-	obj, ok := lookupHandle(C.Handle(handle))
+func SKY_Handle_Strings_GetAt(handle C.Strings__Handle, index int, str *C.GoString_) uint32 {
+	obj, ok := lookupStringsHandle(handle)
 	if ok {
-		if obj, isOK := (obj).([]string); isOK {
-			copyString(obj[index], str)
-			return SKY_OK
-		}
+
+		copyString(obj[index], str)
+		return SKY_OK
+
 	}
 	return SKY_BAD_HANDLE
 }
 
+//nolint megacheck
+//export SKY_Handle_Strings_SetAt
+func SKY_Handle_Strings_SetAt(handle C.Strings__Handle, index int, str *string) uint32 {
+	obj, ok := lookupStringsHandle(handle)
+	if !ok {
+		return SKY_BAD_HANDLE
+	}
+	obj[index] = *str
+	handle = registerStringsHandle(obj)
+	return SKY_OK
+}
+
 //export SKY_api_Handle_Client_GetWalletDir
-func SKY_api_Handle_Client_GetWalletDir(handle C.Client__Handle,
-	walletDir *C.GoString_) uint32 {
+func SKY_api_Handle_Client_GetWalletDir(handle C.Client__Handle, walletDir *C.GoString_) uint32 {
 	client, ok := lookupClientHandle(handle)
 	if ok {
 		wf, err := client.WalletFolderName()
