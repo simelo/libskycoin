@@ -25,6 +25,7 @@ func SKY_params_Distribution_GetMaxCoinSupply(_d C.Distribution__Handle, _arg0 *
 	return
 }
 
+// nolint megacheck
 //export SKY_params_Distribution_SetMaxCoinSupply
 func SKY_params_Distribution_SetMaxCoinSupply(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
@@ -48,6 +49,7 @@ func SKY_params_Distribution_GetInitialUnlockedCount(_d C.Distribution__Handle, 
 	return
 }
 
+// nolint megacheck
 //export SKY_params_Distribution_SetInitialUnlockedCount
 func SKY_params_Distribution_SetInitialUnlockedCount(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
@@ -71,6 +73,7 @@ func SKY_params_Distribution_GetUnlockAddressRate(_d C.Distribution__Handle, _ar
 	return
 }
 
+// nolint megacheck
 //export SKY_params_Distribution_SetUnlockAddressRate
 func SKY_params_Distribution_SetUnlockAddressRate(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
@@ -94,6 +97,7 @@ func SKY_params_Distribution_GetUnlockTimeInterval(_d C.Distribution__Handle, _a
 	return
 }
 
+// nolint megacheck
 //export SKY_params_Distribution_SetUnlockTimeInterval
 func SKY_params_Distribution_SetUnlockTimeInterval(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
@@ -117,6 +121,7 @@ func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.Go
 	return
 }
 
+// nolint megacheck
 //export SKY_params_Distribution_SetAddresses
 func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
