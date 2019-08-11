@@ -20,6 +20,7 @@ import (
 	"github.com/skycoin/skycoin/src/coin"
 	"github.com/skycoin/skycoin/src/readable"
 	"github.com/skycoin/skycoin/src/wallet"
+	"github.com/skycoin/skycoin/src/params"
 )
 
 type Handle uint64
@@ -527,6 +528,20 @@ func lookupWalletSeedResponseHandle(handle C.WalletSeedResponse__Handle) (*api.W
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*api.WalletSeedResponse); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerDistributionHandle(obj *params.Distribution) C.Distribution__Handle {
+	return (C.WalletResponse__Handle)(registerHandle(obj))
+}
+
+func lookupDistributionHandle(handle C.Distribution__Handle) (*params.Distribution, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*params.Distribution); isOK {
 			return obj, true
 		}
 	}

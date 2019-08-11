@@ -23,6 +23,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_wallet_MetaWallet_Version`
 - Added function `SKY_wallet_MetaWallet_Type`
 - Added datatype `WalletSeedResponse__Handle`
+- Added datatype `Distribution__Handle`
+- Added datatype `SKY_params_Distribution_GetMaxCoinSupply`
+- Added datatype `SKY_params_Distribution_SetMaxCoinSupply`
+- Added datatype `SKY_params_Distribution_GetInitialUnlockedCount`
+- Added datatype `SKY_params_Distribution_SetInitialUnlockedCount`
+- Added datatype `SKY_params_Distribution_GetUnlockAddressRate`
+- Added datatype `SKY_params_Distribution_SetUnlockAddressRate`
+- Added datatype `SKY_params_Distribution_GetUnlockTimeInterval`
+- Added datatype `SKY_params_Distribution_SetUnlockTimeInterval`
+- Added datatype `SKY_params_Distribution_GetAddresses`
+- Added datatype `SKY_params_Distribution_SetAddresses`
+- Added datatype `SKY_params_Distribution_Validate`
+- Added datatype `SKY_params_Distribution_AddressInitialBalance`
+- Added datatype `SKY_params_Distribution_UnlockedAddresses`
+- Added datatype `SKY_params_Distribution_LockedAddresses`
+- Added datatype `SKY_params_Distribution_AddressesDecoded`
+- Added datatype `SKY_params_Distribution_UnlockedAddressesDecoded`
+- Added datatype `SKY_params_Distribution_LockedAddressesDecoded`
 
 ### Removed
 

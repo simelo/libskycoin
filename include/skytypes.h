@@ -213,6 +213,11 @@ typedef Handle MetaWallet__Handle;
 typedef Handle WalletSeedResponse__Handle;
 
 /**
+ * Distribution__Handle Handle, struct param.distribution
+ */
+typedef Handle Distribution__Handle;
+
+/**
  * Instances of Go interface types.
  */
 typedef struct {
