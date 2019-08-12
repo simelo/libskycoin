@@ -218,6 +218,16 @@ typedef Handle WalletSeedResponse__Handle;
 typedef Handle Distribution__Handle;
 
 /**
+ * CreateWalletOptions__Handle Handle, struct api.CreateWalletOptions
+ */
+typedef Handle CreateWalletOptions__Handle;
+
+/**
+ * WalletRecoverRequest__Handle Handle, struct api.WalletRecoverRequest
+ */
+typedef Handle WalletRecoverRequest__Handle;
+
+/**
  * Instances of Go interface types.
  */
 typedef struct {

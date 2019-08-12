@@ -561,3 +561,32 @@ func lookupStringsHandle(handle C.Strings__Handle) ([]string, bool) {
 	}
 	return nil, false
 }
+
+func registerCreateWalletOptionsHandle(obj *api.CreateWalletOptions) C.CreateWalletOptions__Handle {
+	return (C.Strings__Handle)(registerHandle(obj))
+}
+
+func lookupCreateWalletOptionsHandle(handle C.CreateWalletOptions__Handle) (*api.CreateWalletOptions, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*api.CreateWalletOptions); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+
+func registerWalletRecoverRequestHandle(obj *api.WalletRecoverRequest) C.WalletRecoverRequest__Handle {
+	return (C.Strings__Handle)(registerHandle(obj))
+}
+
+func lookupWalletRecoverRequestHandle(handle C.WalletRecoverRequest__Handle) (*api.WalletRecoverRequest, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*api.WalletRecoverRequest); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}

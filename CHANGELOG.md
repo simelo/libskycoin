@@ -45,6 +45,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_cipher_Sig_String`
 - Added function `SKY_cipher_Sig_Null`
 - Added function `SKY_cipher_VerifySignatureRecoverPubKey`
+- Added datatype `CreateWalletOptionsHandle`
+- Added function `SKY_api_Client_CreateWallet`
+- Added function `SKY_api_Client_InjectTransactionNoBroadcast`
+- Added function `SKY_api_Client_InjectEncodedTransactionNoBroadcast`
+- Added function `SKY_api_Client_RecoverWallet`
+- Added datatype `CreateWalletOptions__Handle`
+- Added datatype `WalletRecoverRequest__Handle`
 
 ### Removed
 
