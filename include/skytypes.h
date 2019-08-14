@@ -228,6 +228,16 @@ typedef Handle CreateWalletOptions__Handle;
 typedef Handle WalletRecoverRequest__Handle;
 
 /**
+ * PublicKey__Handle Handle, struct bip32.Publickey
+ */
+typedef Handle PublicKey__Handle;
+
+/**
+ * PrivateKey__Handle Handle, struct bip32.Privatekey
+ */
+typedef Handle PrivateKey__Handle;
+
+/**
  * Instances of Go interface types.
  */
 typedef struct {

@@ -16,6 +16,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/skycoin/skycoin/src/api"
+	"github.com/skycoin/skycoin/src/cipher/bip32"
 	"github.com/skycoin/skycoin/src/cli"
 	"github.com/skycoin/skycoin/src/coin"
 	"github.com/skycoin/skycoin/src/params"
@@ -576,7 +577,6 @@ func lookupCreateWalletOptionsHandle(handle C.CreateWalletOptions__Handle) (*api
 	return nil, false
 }
 
-
 func registerWalletRecoverRequestHandle(obj *api.WalletRecoverRequest) C.WalletRecoverRequest__Handle {
 	return (C.Strings__Handle)(registerHandle(obj))
 }
@@ -585,6 +585,34 @@ func lookupWalletRecoverRequestHandle(handle C.WalletRecoverRequest__Handle) (*a
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*api.WalletRecoverRequest); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerPublicKeyHandle(obj *bip32.PublicKey) C.PublicKey__Handle {
+	return (C.PublicKey__Handle)(registerHandle(obj))
+}
+
+func lookupPublicKeyHandle(handle C.PublicKey__Handle) (*bip32.PublicKey, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip32.PublicKey); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerPrivateKeyHandle(obj *bip32.PrivateKey) C.PrivateKey__Handle {
+	return (C.PublicKey__Handle)(registerHandle(obj))
+}
+
+func lookupPrivateKeyHandle(handle C.PrivateKey__Handle) (*bip32.PrivateKey, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip32.PrivateKey); isOK {
 			return obj, true
 		}
 	}
