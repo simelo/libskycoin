@@ -54,6 +54,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added datatype `WalletRecoverRequest__Handle`
 - Added datatype `PublicKey__Handle`
 - Added datatype `PrivateKey__Handle`
+- Added datatype `Path`
+- Added datatype `PathNode`
 
 ### Removed
 
