@@ -56,6 +56,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added datatype `PrivateKey__Handle`
 - Added datatype `Path`
 - Added datatype `PathNode`
+- Added function `SKY_bip32_PrivateKey_DeriveSubpath`
+- Added function `SKY_bip32_Private_Publickey`
+- Added function `SKY_bip32_Private_Fingerprint`
+- Added function `SKY_bip32_PublicKey_Fingerprint`
+- Added function `SKY_bip32_Private_Identifier`
+- Added function `SKY_bip32_PublicKey_Identifier`
+- Added function `SKY_bip32_Private_NewPrivateChildKey`
+- Added function `SKY_bip32_Private_NewPublicChildKey`
+- Added function `SKY_bip32_Private_Serialize`
+- Added function `SKY_bip32_Public_Serialize`
+- Added function `SKY_bip32_Private_String`
+- Added function `SKY_bip32_Public_String`
+- Added function `SKY_bip32_DeserializeEncodedPrivateKey`
+- Added function `SKY_bip32_DeserializePrivateKey`
+- Added function `SKY_bip32_DeserializeEncodedPublicKey`
+- Added function `SKY_bip32_DeserializePublicKey`
 
 ### Removed
 
