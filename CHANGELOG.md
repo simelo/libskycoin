@@ -72,6 +72,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip32_DeserializePrivateKey`
 - Added function `SKY_bip32_DeserializeEncodedPublicKey`
 - Added function `SKY_bip32_DeserializePublicKey`
+- Added function `SKY_bip32_PathNode_Hardened`
+- Added function `SKY_bip32_ParsePath`
 
 ### Removed
 
