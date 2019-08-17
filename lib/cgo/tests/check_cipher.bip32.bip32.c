@@ -61,11 +61,6 @@ START_TEST(TestMaxChildDepthError)
 }
 END_TEST
 
-START_TEST(TestImpossibleChildError){
-
-
-
-}END_TEST
 Suite* cipher_bip32(void)
 {
     Suite* s = suite_create("Load cipher.bip32");
@@ -74,7 +69,6 @@ Suite* cipher_bip32(void)
     tc = tcase_create("cipher.bip32");
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestMaxChildDepthError);
-    tcase_add_test(tc, TestImpossibleChildError);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
