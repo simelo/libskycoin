@@ -6,6 +6,7 @@ import (
 	"github.com/skycoin/skycoin/src/transaction"
 
 	"github.com/skycoin/skycoin/src/cipher"
+	"github.com/skycoin/skycoin/src/cipher/bip32"
 	"github.com/skycoin/skycoin/src/cipher/encoder"
 	"github.com/skycoin/skycoin/src/cipher/encrypt"
 	"github.com/skycoin/skycoin/src/cli"
@@ -179,6 +180,23 @@ const (
 	SKY_ErrReadDataLengthFailed
 	// SKY_ErrInvalidDataLength invalid data length
 	SKY_ErrInvalidDataLength
+
+	// bip32
+	SKY_ErrSerializedKeyWrongSize
+	SKY_ErrHardenedChildPublicKey
+	SKY_bip32_ErrInvalidChecksum
+	SKY_ErrDerivedInvalidPrivateKey
+	SKY_ErrDerivedInvalidPublicKey
+	SKY_ErrInvalidPrivateKeyVersion
+	SKY_ErrInvalidPublicKeyVersion
+	SKY_ErrInvalidSeedLength
+	SKY_ErrDeserializePrivateFromPublic
+	SKY_ErrInvalidKeyVersion
+	SKY_ErrInvalidFingerprint
+	SKY_ErrInvalidChildNumber
+	SKY_ErrInvalidPrivateKey
+	SKY_ErrInvalidPublicKey
+	SKY_ErrMaxDepthReached
 )
 
 // Error codes defined in cli package
@@ -591,6 +609,22 @@ var (
 		visor.ErrDuplicateUxOuts:                 SKY_ErrDuplicateUxOuts,
 		// params
 		params.ErrInvalidDecimals: SKY_ErrInvalidDecimals,
+		// bip32
+		bip32.ErrSerializedKeyWrongSize:       SKY_ErrSerializedKeyWrongSize,
+		bip32.ErrHardenedChildPublicKey:       SKY_ErrHardenedChildPublicKey,
+		bip32.ErrInvalidChecksum:              SKY_bip32_ErrInvalidChecksum,
+		bip32.ErrDerivedInvalidPrivateKey:     SKY_ErrDerivedInvalidPrivateKey,
+		bip32.ErrDerivedInvalidPublicKey:      SKY_ErrDerivedInvalidPublicKey,
+		bip32.ErrInvalidPrivateKeyVersion:     SKY_ErrInvalidPrivateKeyVersion,
+		bip32.ErrInvalidPublicKeyVersion:      SKY_ErrInvalidPublicKeyVersion,
+		bip32.ErrInvalidSeedLength:            SKY_ErrInvalidSeedLength,
+		bip32.ErrDeserializePrivateFromPublic: SKY_ErrDeserializePrivateFromPublic,
+		bip32.ErrInvalidKeyVersion:            SKY_ErrInvalidKeyVersion,
+		bip32.ErrInvalidFingerprint:           SKY_ErrInvalidFingerprint,
+		bip32.ErrInvalidChildNumber:           SKY_ErrInvalidChildNumber,
+		bip32.ErrInvalidPrivateKey:            SKY_ErrInvalidPrivateKey,
+		bip32.ErrInvalidPublicKey:             SKY_ErrInvalidPublicKey,
+		bip32.ErrMaxDepthReached:              SKY_ErrMaxDepthReached,
 	}
 )
 

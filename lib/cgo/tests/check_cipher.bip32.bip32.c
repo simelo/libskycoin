@@ -7,34 +7,6 @@
 #include "skytest.h"
 #include <check.h>
 
-typedef struct {
-    GoString path;
-    GoString privKey;
-    GoString pubKey;
-    GoString fingerprint;
-    GoString identifier;
-    GoString chainCode;
-    GoString hexPubKey;
-    GoString wifPrivKey;
-    GoUint32 childNumber;
-    GoUint8 depth;
-} testChildKey;
-
-typedef struct {
-    GoString seed;
-    testChildKey children[12];
-    GoString privKey;
-    GoString pubKey;
-    GoString hexPubKey;
-    GoString wifPrivKey;
-    GoString fingerprint;
-    GoString identifier;
-    GoString chainCode;
-    GoUint32 childNumber;
-    GoUint8 depth;
-} testMasterKey;
-
-
 START_TEST(TestMaxChildDepthError)
 {
     GoUint8 bufferTemp[1024];
@@ -48,7 +20,7 @@ START_TEST(TestMaxChildDepthError)
         err = SKY_bip32_Private_NewPrivateChildKey(key, 0, &key);
         switch (i) {
         case 255:
-            ck_assert_int_eq(err, SKY_ERROR);
+            ck_assert_int_eq(err, SKY_ErrMaxDepthReached);
             reached = 1;
             break;
 

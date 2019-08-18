@@ -95,6 +95,21 @@
 #define SKY_ErrInvalidPassword 0x02000032
 #define SKY_ErrReadDataLengthFailed 0x02000033
 #define SKY_ErrInvalidDataLength 0x02000034
+#define SKY_ErrSerializedKeyWrongSize 0x02000035
+#define SKY_ErrHardenedChildPublicKey 0x02000036
+#define SKY_bip32_ErrInvalidChecksum 0x02000037
+#define SKY_ErrDerivedInvalidPrivateKey 0x02000038
+#define SKY_ErrDerivedInvalidPublicKey 0x02000039
+#define SKY_ErrInvalidPrivateKeyVersion 0x0200003A
+#define SKY_ErrInvalidPublicKeyVersion 0x0200003B
+#define SKY_ErrInvalidSeedLength 0x0200003C
+#define SKY_ErrDeserializePrivateFromPublic 0x0200003D
+#define SKY_ErrInvalidKeyVersion 0x0200003E
+#define SKY_ErrInvalidFingerprint 0x0200003F
+#define SKY_ErrInvalidChildNumber 0x02000040
+#define SKY_ErrInvalidPrivateKey 0x02000041
+#define SKY_ErrInvalidPublicKey 0x02000042
+#define SKY_ErrMaxDepthReached 0x02000043
 
 // cli error codes
 #define SKY_ErrTemporaryInsufficientBalance 0x03000000
@@ -212,6 +227,7 @@
 #define SKY_ErrVerifySignatureInvalidInputsNils 0x0B000033
 #define SKY_ErrVerifySignatureInvalidSigLength 0x0B000034
 #define SKY_ErrVerifySignatureInvalidPubkeysLength 0x0B000035
+
 
 // daemon error codes
 #define SKY_ErrInvalidDecimals 0x0C000000
