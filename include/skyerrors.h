@@ -110,6 +110,8 @@
 #define SKY_ErrInvalidPrivateKey 0x02000041
 #define SKY_ErrInvalidPublicKey 0x02000042
 #define SKY_ErrMaxDepthReached 0x02000043
+#define SKY_ErrInvalidCoinType 0x02000044
+#define SKY_ErrInvalidAccount 0x02000045
 
 // cli error codes
 #define SKY_ErrTemporaryInsufficientBalance 0x03000000

@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 
+	"github.com/skycoin/skycoin/src/cipher/bip44"
+
 	"github.com/skycoin/skycoin/src/transaction"
 
 	"github.com/skycoin/skycoin/src/cipher"
@@ -197,6 +199,11 @@ const (
 	SKY_ErrInvalidPrivateKey
 	SKY_ErrInvalidPublicKey
 	SKY_ErrMaxDepthReached
+	// bip44
+	// ErrInvalidCoinType coin_type is >= 0x80000000
+	SKY_ErrInvalidCoinType
+	// ErrInvalidAccount account is >= 0x80000000
+	SKY_ErrInvalidAccount
 )
 
 // Error codes defined in cli package
@@ -625,6 +632,8 @@ var (
 		bip32.ErrInvalidPrivateKey:            SKY_ErrInvalidPrivateKey,
 		bip32.ErrInvalidPublicKey:             SKY_ErrInvalidPublicKey,
 		bip32.ErrMaxDepthReached:              SKY_ErrMaxDepthReached,
+		bip44.ErrInvalidCoinType:              SKY_ErrInvalidCoinType,
+		bip44.ErrInvalidAccount:               SKY_ErrInvalidAccount,
 	}
 )
 
