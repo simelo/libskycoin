@@ -238,6 +238,16 @@ typedef Handle PublicKey__Handle;
 typedef Handle PrivateKey__Handle;
 
 /**
+ * Coin__Handle Handle, struct bip44.Coin
+ */
+typedef Handle Coin__Handle;
+
+/**
+ * Account__Handle Handle, struct bip44.Account
+ */
+typedef Handle Account__Handle;
+
+/**
  * Instances of Go interface types.
  */
 typedef struct {

@@ -17,6 +17,7 @@ import (
 
 	"github.com/skycoin/skycoin/src/api"
 	"github.com/skycoin/skycoin/src/cipher/bip32"
+	"github.com/skycoin/skycoin/src/cipher/bip44"
 	"github.com/skycoin/skycoin/src/cli"
 	"github.com/skycoin/skycoin/src/coin"
 	"github.com/skycoin/skycoin/src/params"
@@ -613,6 +614,34 @@ func lookupPrivateKeyHandle(handle C.PrivateKey__Handle) (*bip32.PrivateKey, boo
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*bip32.PrivateKey); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerCoinHandle(obj *bip44.Coin) C.Coin__Handle {
+	return (C.Coin__Handle)(registerHandle(obj))
+}
+
+func lookupCoinHandle(handle C.Coin__Handle) (*bip44.Coin, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip44.Coin); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerAccountHandle(obj *bip44.Account) C.Account__Handle {
+	return (C.Account__Handle)(registerHandle(obj))
+}
+
+func lookupAccountHandle(handle C.Account__Handle) (*bip44.Account, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip44.Account); isOK {
 			return obj, true
 		}
 	}

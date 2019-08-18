@@ -74,6 +74,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip32_DeserializePublicKey`
 - Added function `SKY_bip32_PathNode_Hardened`
 - Added function `SKY_bip32_ParsePath`
+- Added datatype `bip44_CoinType`
+- Added function `SKY_bip44_NewCoin`
+- Added datatype `Account__Handle`
+- Added datatype `Coin__Handle`
+- Added function `SKY_bip44_Coin_Account`
+- Added function `SKY_bip44_Account_External`
+- Added function `SKY_bip44_Account_Change`
 
 ### Removed
 
