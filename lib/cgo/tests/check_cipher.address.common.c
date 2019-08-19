@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 #include <check.h>
+#include <string.h>
+
 #include "libskycoin.h"
 #include "skyerrors.h"
 #include "skyassert.h"
@@ -10,13 +12,39 @@
 
 #define SKYCOIN_ADDRESS_VALID "2GgFvqoyk9RjwVzj8tqfcXVXB4orBwoc9qv"
 
-// buffer big enough to hold all kind of data needed by test cases
-unsigned char buff[1024];
+
+START_TEST(TestAddressRoundtrip)
+{
+    cipher__PubKey p;
+    cipher__SecKey s;
+    GoUint32_ error;
+    error = SKY_cipher_GenerateKeyPair(&p, &s);
+    ck_assert_int_eq(error, SKY_OK);
+    cipher__Address a;
+    error = SKY_cipher_AddressFromPubKey(&p, &a);
+    ck_assert_int_eq(error, SKY_OK);
+    unsigned char buffera_bytes[1024];
+    coin__UxArray a_bytes = {buffera_bytes, 0, 1024};
+    error = SKY_cipher_Address_Bytes(&a, &a_bytes);
+    ck_assert_int_eq(error, SKY_OK);
+    cipher__Address a2;
+    GoSlice TMP_a_bytes = {a_bytes.data, a_bytes.len, a_bytes.cap};
+    error = SKY_cipher_AddressFromBytes(TMP_a_bytes, &a2);
+    ck_assert_int_eq(error, SKY_OK);
+    ck_assert(isAddressEq(&a, &a2));
+    GoString_ str_a;
+    GoString_ str_a2;
+    error = SKY_cipher_Address_String(&a, &str_a);
+    error = SKY_cipher_Address_String(&a2, &str_a2);
+    ck_assert(isGoString_Eq(str_a2, str_a));
+}
+END_TEST
 
 START_TEST(TestAddressVerify)
 {
     cipher__PubKey pubkey;
     cipher__SecKey seckey;
+    cipher__PubKey pubkey2;
     cipher__SecKey seckey2;
     cipher__Address addr;
 
@@ -46,13 +74,14 @@ START_TEST(TestAddressString)
     cipher__PubKey pk;
     cipher__SecKey sk;
     cipher__Address addr, addr2, addr3;
-    GoString str = {(char*)buff, 0};
+    GoUint8 buff[1024];
+    GoString str = {buff, 0};
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
     ck_assert(err == SKY_OK);
     err = SKY_cipher_AddressFromPubKey(&pk, &addr);
     ck_assert(err == SKY_OK);
-    GoString_ tmpstr = {str.p, sizeof(buff)};
+    GoString_ tmpstr = {str.p, str.n};
 
     err = SKY_cipher_Address_String(&addr, &tmpstr);
     ck_assert(err == SKY_OK);
@@ -69,8 +98,8 @@ END_TEST
 
 START_TEST(TestAddressBulk)
 {
-    unsigned char buff2[50];
-    GoSlice slice = {buff2, 0, 50};
+    unsigned char buff[50];
+    GoSlice slice = {buff, 0, 50};
     int i;
     for (i = 0; i < 1024; ++i) {
         GoUint32 err;
@@ -85,10 +114,10 @@ START_TEST(TestAddressBulk)
         err = SKY_cipher_Address_Verify(&addr, &pubkey);
         ck_assert(err == SKY_OK);
 
-        int8_t buf[256] = {0};
-        GoString_ tempstrAddr = {.p = buf, .n = sizeof(buff)};
+        GoString_ tempstrAddr;
         err = SKY_cipher_Address_String(&addr, &tempstrAddr);
         ck_assert(err == SKY_OK);
+        registerMemCleanup((void*)tempstrAddr.p);
         cipher__Address addr2;
         GoString strAddr;
         strAddr.n = tempstrAddr.n;
@@ -131,7 +160,7 @@ START_TEST(TestAddressFromBytes)
     cipher__PubKey pk;
     GoSlice bytes;
     GoSlice_ tempBytes;
-
+    GoUint8 buff[1024];
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
     ck_assert(err == SKY_OK);
     SKY_cipher_AddressFromPubKey(&pk, &addr);
@@ -142,7 +171,7 @@ START_TEST(TestAddressFromBytes)
 
     SKY_cipher_Address_Bytes(&addr, &tempBytes);
     ck_assert_msg(tempBytes.len > 0, "address bytes written");
-    copyGoSlice_toGoSlice(&bytes, &tempBytes, sizeof(*buff));
+    copyGoSlice_toGoSlice(&bytes, &tempBytes, tempBytes.len);
     err = SKY_cipher_AddressFromBytes(bytes, &addr2);
     ck_assert_msg(err == SKY_OK, "convert bytes to SKY address");
 
@@ -171,13 +200,13 @@ END_TEST
 
 START_TEST(TestDecodeBase58Address)
 {
-    GoString strAddr = {.p = SKYCOIN_ADDRESS_VALID, .n = 35};
+    GoString strAddr = {SKYCOIN_ADDRESS_VALID, 35};
     cipher__Address addr;
     GoUint32 err = SKY_cipher_DecodeBase58Address(strAddr, &addr);
     ck_assert_int_eq(err, SKY_OK);
-
+    GoUint8 buff[1024];
     char tempStr[50];
-    GoUint32 errorcode;
+    int errorcode;
 
     // preceding whitespace is invalid
     strcpy(tempStr, " ");
@@ -229,9 +258,9 @@ START_TEST(TestDecodeBase58Address)
     b.data = Cub.data;
     b.len = Cub.len;
 
-    const GoInt len_b = b.len;
+    int len_b = b.len;
     char bufferHead[1024];
-    GoString_ h = {bufferHead, sizeof(bufferHead)};
+    GoString_ h = {bufferHead, 0};
     b.len = (GoInt)(len_b / 2);
     errorcode = SKY_base58_Hex2Base58(b, &h);
     ck_assert(errorcode == SKY_OK);
@@ -242,7 +271,6 @@ START_TEST(TestDecodeBase58Address)
     errorcode = SKY_cipher_DecodeBase58Address(tmph, &addr);
     ck_assert_msg(errorcode == SKY_ErrAddressInvalidLength, "Fail %X", errorcode);
     b.len = len_b;
-    h.n = sizeof(bufferHead);
     errorcode = SKY_base58_Hex2Base58(b, &h);
     ck_assert(errorcode == SKY_OK);
     tmph.n = h.n;
@@ -253,20 +281,22 @@ START_TEST(TestDecodeBase58Address)
 END_TEST
 
 // define test suite and cases
-Suite *common_check_cipher_address(void)
+Suite* common_check_cipher_address(void)
 {
-  Suite *s = suite_create("Load common check_cipher.address");
-  TCase *tc;
+    Suite* s = suite_create("Load common_check_cipher_address.address");
+    TCase* tc;
 
-  tc = tcase_create("check_cipher.address");
-  tcase_add_test(tc, TestAddressVerify);
-  tcase_add_test(tc, TestAddressString);
-  tcase_add_test(tc, TestAddressBulk);
-  tcase_add_test(tc, TestAddressNull);
-  tcase_add_test(tc, TestAddressFromBytes);
-  tcase_add_test(tc, TestDecodeBase58Address);
-  suite_add_tcase(s, tc);
-  tcase_set_timeout(tc, 150);
+    tc = tcase_create("check_cipher.address");
+    tcase_add_checked_fixture(tc, setup, teardown);
+    tcase_add_test(tc, TestAddressRoundtrip);
+    tcase_add_test(tc, TestAddressVerify);
+    tcase_add_test(tc, TestAddressString);
+    tcase_add_test(tc, TestAddressBulk);
+    tcase_add_test(tc, TestAddressNull);
+    tcase_add_test(tc, TestAddressFromBytes);
+    tcase_add_test(tc, TestDecodeBase58Address);
+    suite_add_tcase(s, tc);
+    tcase_set_timeout(tc, 150);
 
-  return s;
+    return s;
 }

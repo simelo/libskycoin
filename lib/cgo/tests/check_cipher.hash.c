@@ -8,8 +8,6 @@
 #include "skytest.h"
 #include <check.h>
 
-// TestSuite(cipher_hash, .init = setup, .fini = teardown);
-
 extern void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256);
 
 START_TEST(TestRipemd160Set)
@@ -52,9 +50,9 @@ START_TEST(TestDoubleSHA256)
     cipher__SHA256 h;
     cipher__SHA256 tmp;
     SKY_cipher_DoubleSHA256(b, &h);
-    ck_assert(!isU8Eq(tmp, h, 32));
+    ck_assert_int_eq(isU8Eq(tmp, h, 32), 0);
     freshSumSHA256(b, &tmp);
-    ck_assert(!isU8Eq(tmp, h, 32));
+    ck_assert_int_eq(isU8Eq(tmp, h, 32), 0);
 }
 END_TEST
 
@@ -76,9 +74,9 @@ START_TEST(TestXorSHA256)
 
     SKY_cipher_SHA256_Xor(&h, &i, &tmp_xor1);
     SKY_cipher_SHA256_Xor(&i, &h, &tmp_xor2);
-    ck_assert(!isU8Eq(tmp_xor1, h, 32));
-    ck_assert(!isU8Eq(tmp_xor1, i, 32));
-    ck_assert(!isU8Eq(tmp_xor1, tmp, 32));
+    ck_assert_int_eq(isU8Eq(tmp_xor1, h, 32), 0);
+    ck_assert_int_eq(isU8Eq(tmp_xor1, i, 32), 0);
+    ck_assert_int_eq(isU8Eq(tmp_xor1, tmp, 32), 0);
     ck_assert(isU8Eq(tmp_xor1, tmp_xor2, 32));
 }
 END_TEST

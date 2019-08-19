@@ -11,6 +11,7 @@ int main(void)
     srunner_add_suite(sr, common_check_cipher_crypto());
     srunner_add_suite(sr, cipher_bitcoin());
     srunner_add_suite(sr, cipher_crypto());
+    srunner_add_suite(sr, cipher_secp256k1());
     srunner_add_suite(sr, cipher_encrypt_scrypt_chacha20poly1305());
     srunner_add_suite(sr, cipher_hash());
     srunner_add_suite(sr, coin_blocks());

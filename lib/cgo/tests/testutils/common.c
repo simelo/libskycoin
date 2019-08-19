@@ -9,15 +9,14 @@
 int MEMPOOLIDX = 0;
 void *MEMPOOL[1024 * 256];
 
-GoInt_ isU8Eq(unsigned char p1[], unsigned char p2[], size_t len) {
-
-  if (strncmp((const char*)p1, (const char*)p2, len) == 0) {
-
+GoInt_ isU8Eq(unsigned char p1[], unsigned char p2[], size_t len)
+{
+    for (GoInt i = 0; i < len; i++) {
+        if (p1[i] != p2[i]) {
+            return 0;
+        }
+    }
     return 1;
-  }
-  printf("p1 %s\n", p1);
-  printf("p2 %s\n", p2);
-  return 0;
 }
 
 void * registerMemCleanup(void *p) {
