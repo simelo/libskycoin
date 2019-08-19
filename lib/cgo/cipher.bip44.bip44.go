@@ -71,3 +71,31 @@ func SKY_bip44_Account_Change(_a C.Account__Handle, _arg0 *C.PrivateKey__Handle)
 	}
 	return
 }
+
+//export SKY_bip44_Account_String
+func SKY_bip44_Account_String(_a C.Account__Handle, _arg0 *string) (___err_code uint32) {
+
+	a, oka := lookupAccountHandle(_a)
+	if !oka {
+
+		___err_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = a.String()
+	return
+}
+
+//export SKY_bip44_Account_GetPrivateKey
+func SKY_bip44_Account_GetPrivateKey(_a C.Account__Handle, _arg0 *C.PrivateKey__Handle) (___err_code uint32) {
+
+	a, oka := lookupAccountHandle(_a)
+	if !oka {
+
+		___err_code = SKY_BAD_HANDLE
+		return
+	}
+
+	* _arg0 = registerPrivateKeyHandle(a.PrivateKey)
+	return
+}
