@@ -82,9 +82,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip44_Account_External`
 - Added function `SKY_bip44_Account_Change`
 - Added function `SKY_bip44_Account_String`
-- Added function `SKY_bip44_Account_GetPrivateKey
-- Added function `SKY_bip32_PrivateKey_GetKey
-- Added function `SKY_bip32_PublicKey_GetKey
+- Added function `SKY_bip44_Account_GetPrivateKey`
+- Added function `SKY_bip32_PrivateKey_GetKey`
+- Added function `SKY_bip32_PublicKey_GetKey`
 
 
 ### Removed
