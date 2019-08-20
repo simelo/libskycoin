@@ -85,6 +85,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip44_Account_GetPrivateKey`
 - Added function `SKY_bip32_PrivateKey_GetKey`
 - Added function `SKY_bip32_PublicKey_GetKey`
+- Added datatype `coin__HashPair`
 
 
 ### Removed
