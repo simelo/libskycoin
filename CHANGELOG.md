@@ -57,17 +57,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added datatype `Path`
 - Added datatype `PathNode`
 - Added function `SKY_bip32_PrivateKey_DeriveSubpath`
-- Added function `SKY_bip32_Private_Publickey`
-- Added function `SKY_bip32_Private_Fingerprint`
+- Added function `SKY_bip32_PrivateKey_Publickey`
+- Added function `SKY_bip32_PrivateKey_Fingerprint`
 - Added function `SKY_bip32_PublicKey_Fingerprint`
-- Added function `SKY_bip32_Private_Identifier`
+- Added function `SKY_bip32_PrivateKey_Identifier`
 - Added function `SKY_bip32_PublicKey_Identifier`
-- Added function `SKY_bip32_Private_NewPrivateChildKey`
-- Added function `SKY_bip32_Private_NewPublicChildKey`
-- Added function `SKY_bip32_Private_Serialize`
-- Added function `SKY_bip32_Public_Serialize`
-- Added function `SKY_bip32_Private_String`
-- Added function `SKY_bip32_Public_String`
+- Added function `SKY_bip32_PrivateKey_NewPrivateChildKey`
+- Added function `SKY_bip32_PrivateKey_NewPublicChildKey`
+- Added function `SKY_bip32_PrivateKey_Serialize`
+- Added function `SKY_bip32_PublicKey_Serialize`
+- Added function `SKY_bip32_PrivateKey_String`
+- Added function `SKY_bip32_PublicKey_String`
 - Added function `SKY_bip32_DeserializeEncodedPrivateKey`
 - Added function `SKY_bip32_DeserializePrivateKey`
 - Added function `SKY_bip32_DeserializeEncodedPublicKey`
@@ -82,7 +82,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip44_Account_External`
 - Added function `SKY_bip44_Account_Change`
 - Added function `SKY_bip44_Account_String`
-- Added function `SKY_bip44_Account_GetPrivateKey`
+- Added function `SKY_bip44_Account_GetPrivateKey
+- Added function `SKY_bip32_PrivateKey_GetKey
+- Added function `SKY_bip32_PublicKey_GetKey
+
 
 ### Removed
 

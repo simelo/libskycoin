@@ -55,8 +55,8 @@ func SKY_bip32_PrivateKey_DeriveSubpath(_pk C.PrivateKey__Handle, _arg0 *C.GoSli
 	return
 }
 
-//export SKY_bip32_Private_Publickey
-func SKY_bip32_Private_Publickey(_pk C.PrivateKey__Handle, _pp *C.PublicKey__Handle) (___error_code uint32) {
+//export SKY_bip32_PrivateKey_Publickey
+func SKY_bip32_PrivateKey_Publickey(_pk C.PrivateKey__Handle, _pp *C.PublicKey__Handle) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -68,8 +68,8 @@ func SKY_bip32_Private_Publickey(_pk C.PrivateKey__Handle, _pp *C.PublicKey__Han
 	return
 }
 
-//export SKY_bip32_Private_Fingerprint
-func SKY_bip32_Private_Fingerprint(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+//export SKY_bip32_PrivateKey_Fingerprint
+func SKY_bip32_PrivateKey_Fingerprint(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -80,8 +80,8 @@ func SKY_bip32_Private_Fingerprint(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) 
 	return
 }
 
-//export SKY_bip32_Private_Identifier
-func SKY_bip32_Private_Identifier(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+//export SKY_bip32_PrivateKey_Identifier
+func SKY_bip32_PrivateKey_Identifier(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -92,8 +92,8 @@ func SKY_bip32_Private_Identifier(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (
 	return
 }
 
-//export SKY_bip32_Public_Fingerprint
-func SKY_bip32_Public_Fingerprint(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+//export SKY_bip32_PublicKey_Fingerprint
+func SKY_bip32_PublicKey_Fingerprint(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -104,8 +104,8 @@ func SKY_bip32_Public_Fingerprint(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (_
 	return
 }
 
-//export SKY_bip32_Public_Identifier
-func SKY_bip32_Public_Identifier(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+//export SKY_bip32_PublicKey_Identifier
+func SKY_bip32_PublicKey_Identifier(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -116,8 +116,8 @@ func SKY_bip32_Public_Identifier(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (__
 	return
 }
 
-//export SKY_bip32_Private_NewPrivateChildKey
-func SKY_bip32_Private_NewPrivateChildKey(_pk C.PrivateKey__Handle, childIdx uint32, _arg0 *C.PrivateKey__Handle) (___error_code uint32) {
+//export SKY_bip32_PrivateKey_NewPrivateChildKey
+func SKY_bip32_PrivateKey_NewPrivateChildKey(_pk C.PrivateKey__Handle, childIdx uint32, _arg0 *C.PrivateKey__Handle) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -131,8 +131,8 @@ func SKY_bip32_Private_NewPrivateChildKey(_pk C.PrivateKey__Handle, childIdx uin
 	return
 }
 
-//export SKY_bip32_Private_NewPublicChildKey
-func SKY_bip32_Private_NewPublicChildKey(_pk C.PrivateKey__Handle, childIdx uint32, _arg0 *C.PublicKey__Handle) (___error_code uint32) {
+//export SKY_bip32_PrivateKey_NewPublicChildKey
+func SKY_bip32_PrivateKey_NewPublicChildKey(_pk C.PrivateKey__Handle, childIdx uint32, _arg0 *C.PublicKey__Handle) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -146,8 +146,8 @@ func SKY_bip32_Private_NewPublicChildKey(_pk C.PrivateKey__Handle, childIdx uint
 	return
 }
 
-//export SKY_bip32_Public_NewPublicChildKey
-func SKY_bip32_Public_NewPublicChildKey(_pk C.PublicKey__Handle, childIdx uint32, _arg0 *C.PublicKey__Handle) (___error_code uint32) {
+//export SKY_bip32_PublicKey_NewPublicChildKey
+func SKY_bip32_PublicKey_NewPublicChildKey(_pk C.PublicKey__Handle, childIdx uint32, _arg0 *C.PublicKey__Handle) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
@@ -161,8 +161,8 @@ func SKY_bip32_Public_NewPublicChildKey(_pk C.PublicKey__Handle, childIdx uint32
 	return
 }
 
-//export SKY_bip32_Private_Serialize
-func SKY_bip32_Private_Serialize(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+//export SKY_bip32_PrivateKey_Serialize
+func SKY_bip32_PrivateKey_Serialize(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 
 	if !okpk {
@@ -174,8 +174,8 @@ func SKY_bip32_Private_Serialize(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (_
 	return
 }
 
-//export SKY_bip32_Public_Serialize
-func SKY_bip32_Public_Serialize(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+//export SKY_bip32_PublicKey_Serialize
+func SKY_bip32_PublicKey_Serialize(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 
 	if !okpk {
@@ -187,8 +187,8 @@ func SKY_bip32_Public_Serialize(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___
 	return
 }
 
-//export SKY_bip32_Private_String
-func SKY_bip32_Private_String(_pk C.PrivateKey__Handle, _arg0 *string) (___error_code uint32) {
+//export SKY_bip32_PrivateKey_String
+func SKY_bip32_PrivateKey_String(_pk C.PrivateKey__Handle, _arg0 *string) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 
 	if !okpk {
@@ -199,8 +199,8 @@ func SKY_bip32_Private_String(_pk C.PrivateKey__Handle, _arg0 *string) (___error
 	return
 }
 
-//export SKY_bip32_Public_String
-func SKY_bip32_Public_String(_pk C.PublicKey__Handle, _arg0 *string) (___error_code uint32) {
+//export SKY_bip32_PublicKey_String
+func SKY_bip32_PublicKey_String(_pk C.PublicKey__Handle, _arg0 *string) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 
 	if !okpk {
@@ -250,5 +250,31 @@ func SKY_bip32_DeserializePublicKey(_data []byte, _arg0 *C.PublicKey__Handle) (_
 	if ___return_err == nil {
 		*_arg0 = registerPublicKeyHandle(pk)
 	}
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetKey
+func SKY_bip32_PrivateKey_GetKey(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	arg0 := pk.Key
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	return
+}
+
+//export SKY_bip32_PublicKey_GetKey
+func SKY_bip32_PublicKey_GetKey(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	arg0 := pk.Key
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
 	return
 }

@@ -17,7 +17,7 @@ START_TEST(TestMaxChildDepthError)
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 reached = 0;
     for (size_t i = 0; i < 256; i++) {
-        err = SKY_bip32_Private_NewPrivateChildKey(key, 0, &key);
+        err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, 0, &key);
         switch (i) {
         case 255:
             ck_assert_int_eq(err, SKY_ErrMaxDepthReached);
