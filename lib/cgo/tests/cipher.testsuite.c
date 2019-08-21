@@ -444,7 +444,7 @@ void ValidateSeedData(SeedTestData* seedData, InputTestData* inputData)
         char bufferSecKey[101];
         strnhex((unsigned char*)s, bufferSecKey, sizeof(cipher__SecKey));
         GoSlice slseckey = {bufferSecKey, sizeof(cipher__SecKey), 65};
-        validSec  = SKY_secp256k1_VerifySecKey(slseckey);
+        validSec = SKY_secp256k1_VerifySecKey(slseckey);
         ck_assert_msg(validSec == 1, "SKY_secp256k1_VerifySeckey failed");
 
         GoInt validPub;

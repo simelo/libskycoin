@@ -390,11 +390,11 @@ func lookupTransactionResultHandle(handle C.TransactionResult_Handle) (*cli.TxnR
 	return nil, false
 }
 
-func registerSortableTransactiontHandle(obj *coin.SortableTransactions) C.SortableTransactionResult_Handle {
-	return (C.SortableTransactionResult_Handle)(registerHandle(obj))
+func registerSortableTransactiontHandle(obj *coin.SortableTransactions) C.SortableTransactions_Handle {
+	return (C.SortableTransactions_Handle)(registerHandle(obj))
 }
 
-func lookupSortableTransactionHandle(handle C.SortableTransactionResult_Handle) (*coin.SortableTransactions, bool) {
+func lookupSortableTransactionHandle(handle C.SortableTransactions_Handle) (*coin.SortableTransactions, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*coin.SortableTransactions); isOK {

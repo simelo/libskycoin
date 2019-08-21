@@ -390,7 +390,7 @@ typedef Handle TransactionResult_Handle;
  * Memory handle to access to coin.SortableTransactions
  */
 
-typedef Handle SortableTransactionResult_Handle;
+typedef Handle SortableTransactions_Handle;
 
 /**
  * Memory handle to access to wallet.Notes
