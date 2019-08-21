@@ -196,6 +196,57 @@ typedef Handle ReadableOutputSet_Handle;
  */
 typedef Handle CreateTransactionParams__Handle;
 
+
+/**
+ * CollectionWallets Handle, slice of Wallet
+ */
+typedef Handle CollectionWallet__Handle;
+
+/**
+ * MetaWallet__Handle Handle, slice of Wallet
+ */
+typedef Handle MetaWallet__Handle;
+
+/**
+ * MetaWallet__Handle Handle, slice of Wallet
+ */
+typedef Handle WalletSeedResponse__Handle;
+
+/**
+ * Distribution__Handle Handle, struct param.distribution
+ */
+typedef Handle Distribution__Handle;
+
+/**
+ * CreateWalletOptions__Handle Handle, struct api.CreateWalletOptions
+ */
+typedef Handle CreateWalletOptions__Handle;
+
+/**
+ * WalletRecoverRequest__Handle Handle, struct api.WalletRecoverRequest
+ */
+typedef Handle WalletRecoverRequest__Handle;
+
+/**
+ * PublicKey__Handle Handle, struct bip32.Publickey
+ */
+typedef Handle PublicKey__Handle;
+
+/**
+ * PrivateKey__Handle Handle, struct bip32.Privatekey
+ */
+typedef Handle PrivateKey__Handle;
+
+/**
+ * Coin__Handle Handle, struct bip44.Coin
+ */
+typedef Handle Coin__Handle;
+
+/**
+ * Account__Handle Handle, struct bip44.Account
+ */
+typedef Handle Account__Handle;
+
 /**
  * Instances of Go interface types.
  */
@@ -339,7 +390,7 @@ typedef Handle TransactionResult_Handle;
  * Memory handle to access to coin.SortableTransactions
  */
 
-typedef Handle SortableTransactionResult_Handle;
+typedef Handle SortableTransactions_Handle;
 
 /**
  * Memory handle to access to wallet.Notes

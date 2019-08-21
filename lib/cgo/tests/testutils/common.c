@@ -9,7 +9,7 @@
 int MEMPOOLIDX = 0;
 void *MEMPOOL[1024 * 256];
 
-GoInt_ isU8Eq(unsigned char p1[], unsigned char p2[], size_t len)
+GoInt_ isU8Eq(GoUint8_ p1[], GoUint8_ p2[], size_t len)
 {
     for (GoInt i = 0; i < len; i++) {
         if (p1[i] != p2[i]) {

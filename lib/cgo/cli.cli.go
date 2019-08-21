@@ -26,19 +26,6 @@ func SKY_cli_LoadConfig(_arg0 *C.Config__Handle) (____error_code uint32) {
 	return
 }
 
-//export SKY_cli_Config_FullWalletPath
-func SKY_cli_Config_FullWalletPath(_c C.Config__Handle, _arg0 *C.GoString_) (____error_code uint32) {
-	__c, okc := lookupConfigHandle(_c)
-	if !okc {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	c := *__c
-	__arg0 := c.FullWalletPath()
-	copyString(__arg0, _arg0)
-	return
-}
-
 //export SKY_cli_Config_FullDBPath
 func SKY_cli_Config_FullDBPath(_c C.Config__Handle, _arg0 *C.GoString_) (____error_code uint32) {
 	__c, okc := lookupConfigHandle(_c)

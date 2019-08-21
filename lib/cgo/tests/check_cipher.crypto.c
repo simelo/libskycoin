@@ -174,88 +174,6 @@ START_TEST(TestSecKeyVerify)
 }
 END_TEST
 
-// FIXME: Split in multiple test cases so as to catch panic at the right place
-START_TEST(TestVerifyAddressSignedHash)
-{
-    cipher__PubKey pk, pk2;
-    cipher__SecKey sk, sk2;
-    cipher__Address addr, addr2;
-    unsigned char buff[257];
-    GoSlice b = {buff, 0, 257};
-    cipher__SHA256 h, h2;
-    cipher__Sig sig, sig2;
-    int errorcode;
-
-    SKY_cipher_GenerateKeyPair(&pk, &sk);
-    errorcode = SKY_cipher_PubKey_Verify(&pk);
-    ck_assert(errorcode == SKY_OK);
-    errorcode = SKY_cipher_SecKey_Verify(&sk);
-    ck_assert(errorcode == SKY_OK);
-
-    SKY_cipher_AddressFromPubKey(&pk, &addr);
-    errorcode = SKY_cipher_Address_Verify(&addr, &pk);
-    ck_assert(errorcode == SKY_OK);
-    randBytes(&b, 256);
-    SKY_cipher_SumSHA256(b, &h);
-    SKY_cipher_SignHash(&h, &sk, &sig);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig, &h);
-    ck_assert(errorcode == SKY_OK);
-
-    // Empty sig should be invalid
-    memset(&sig, 0, sizeof(sig));
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig, &h);
-    ck_assert(errorcode == SKY_ErrInvalidSigPubKeyRecovery);
-
-    // Random sigs should not pass
-    int i;
-    for (i = 0; i < 100; i++) {
-        randBytes(&b, 65);
-        SKY_cipher_NewSig(b, &sig);
-        errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig, &h);
-        ck_assert(errorcode != SKY_OK); // One of many error codes
-    }
-
-    // Sig for one hash does not work for another hash
-    randBytes(&b, 256);
-    SKY_cipher_SumSHA256(b, &h2);
-    SKY_cipher_SignHash(&h2, &sk, &sig2);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig2, &h2);
-    ck_assert(errorcode == SKY_OK);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig2, &h);
-    ck_assert(errorcode == SKY_ErrInvalidAddressForSig);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig, &h2);
-    ck_assert(errorcode != SKY_OK); // One of many error codes
-
-    // Different secret keys should not create same sig
-    SKY_cipher_GenerateKeyPair(&pk2, &sk2);
-    SKY_cipher_AddressFromPubKey(&pk2, &addr2);
-    memset(&h, 0, sizeof(h));
-    SKY_cipher_SignHash(&h, &sk, &sig);
-    SKY_cipher_SignHash(&h, &sk2, &sig2);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig, &h);
-    ck_assert(errorcode == SKY_OK);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr2, &sig2, &h);
-    ck_assert(errorcode == SKY_OK);
-    ck_assert_int_eq(isU8Eq(sig, sig2, 65), 0);
-
-    randBytes(&b, 256);
-    SKY_cipher_SumSHA256(b, &h);
-    SKY_cipher_SignHash(&h, &sk, &sig);
-    SKY_cipher_SignHash(&h, &sk2, &sig2);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig, &h);
-    ck_assert(errorcode == SKY_OK);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr2, &sig2, &h);
-    ck_assert(errorcode == SKY_OK);
-    ck_assert_int_eq(isU8Eq(sig, sig2, 65), 0);
-
-    // Bad address should be invalid
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr, &sig2, &h);
-    ck_assert(errorcode == SKY_ErrInvalidAddressForSig);
-    errorcode = SKY_cipher_VerifyAddressSignedHash(&addr2, &sig, &h);
-    ck_assert(errorcode == SKY_ErrInvalidAddressForSig);
-}
-END_TEST
-
 START_TEST(TestSignHash)
 {
     cipher__PubKey pk, pk2;
@@ -492,7 +410,6 @@ Suite* cipher_crypto(void)
     tcase_add_test(tc, TestSecKeyFromHex);
     tcase_add_test(tc, TestMustSecKeyFromHex);
     tcase_add_test(tc, TestSecKeyVerify);
-    tcase_add_test(tc, TestVerifyAddressSignedHash);
     tcase_add_test(tc, TestPubKeyFromSig);
     tcase_add_test(tc, TestVerifyPubKeySignedHash);
     tcase_add_test(tc, TestGenerateDeterministicKeyPair);

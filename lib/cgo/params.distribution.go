@@ -3,7 +3,7 @@ package main
 import (
 	"reflect"
 
-	params "github.com/skycoin/skycoin/src/params"
+	"github.com/skycoin/skycoin/src/params"
 )
 
 /*
@@ -15,20 +15,233 @@ import (
 */
 import "C"
 
-//export SKY_params_GetDistributionAddresses
-func SKY_params_GetDistributionAddresses(_arg0 *C.GoSlice_) {
-	__arg0 := params.GetDistributionAddresses()
-	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+//export SKY_params_Distribution_GetMaxCoinSupply
+func SKY_params_Distribution_GetMaxCoinSupply(_d C.Distribution__Handle, _arg0 *uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = d.MaxCoinSupply
+	return
 }
 
-//export SKY_params_GetUnlockedDistributionAddresses
-func SKY_params_GetUnlockedDistributionAddresses(_arg0 *C.GoSlice_) {
-	__arg0 := params.GetUnlockedDistributionAddresses()
-	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+// nolint megacheck
+//export SKY_params_Distribution_SetMaxCoinSupply
+func SKY_params_Distribution_SetMaxCoinSupply(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	d.MaxCoinSupply = _arg0
+	_d = registerDistributionHandle(d)
+	return
 }
 
-//export SKY_params_GetLockedDistributionAddresses
-func SKY_params_GetLockedDistributionAddresses(_arg0 *C.GoSlice_) {
-	__arg0 := params.GetLockedDistributionAddresses()
-	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+//export SKY_params_Distribution_GetInitialUnlockedCount
+func SKY_params_Distribution_GetInitialUnlockedCount(_d C.Distribution__Handle, _arg0 *uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = d.InitialUnlockedCount
+	return
+}
+
+// nolint megacheck
+//export SKY_params_Distribution_SetInitialUnlockedCount
+func SKY_params_Distribution_SetInitialUnlockedCount(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	d.InitialUnlockedCount = _arg0
+	_d = registerDistributionHandle(d)
+	return
+}
+
+//export SKY_params_Distribution_GetUnlockAddressRate
+func SKY_params_Distribution_GetUnlockAddressRate(_d C.Distribution__Handle, _arg0 *uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = d.UnlockAddressRate
+	return
+}
+
+// nolint megacheck
+//export SKY_params_Distribution_SetUnlockAddressRate
+func SKY_params_Distribution_SetUnlockAddressRate(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	d.UnlockAddressRate = _arg0
+	_d = registerDistributionHandle(d)
+	return
+}
+
+//export SKY_params_Distribution_GetUnlockTimeInterval
+func SKY_params_Distribution_GetUnlockTimeInterval(_d C.Distribution__Handle, _arg0 *uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = d.UnlockTimeInterval
+	return
+}
+
+// nolint megacheck
+//export SKY_params_Distribution_SetUnlockTimeInterval
+func SKY_params_Distribution_SetUnlockTimeInterval(_d C.Distribution__Handle, _arg0 uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	d.UnlockTimeInterval = _arg0
+	_d = registerDistributionHandle(d)
+	return
+}
+
+//export SKY_params_Distribution_GetAddresses
+func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = registerStringsHandle(d.Addresses)
+	return
+}
+
+// nolint megacheck
+//export SKY_params_Distribution_SetAddresses
+func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	s, oks := lookupStringsHandle(*_arg0)
+	if !oks {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	d.Addresses = s
+	_d = registerDistributionHandle(d)
+	return
+}
+
+//export SKY_params_Distribution_Validate
+func SKY_params_Distribution_Validate(_d C.Distribution__Handle) (____error_code uint32) {
+
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	__return_err := d.Validate()
+	____error_code = libErrorCode(__return_err)
+	return
+
+}
+
+//export SKY_params_Distribution_AddressInitialBalance
+func SKY_params_Distribution_AddressInitialBalance(_d C.Distribution__Handle, _arg0 *uint64) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = d.AddressInitialBalance()
+	return
+}
+
+//export SKY_params_Distribution_UnlockedAddresses
+func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	arg0 := d.UnlockedAddresses()
+	*_arg0 = registerStringsHandle(arg0)
+	return
+}
+
+//export SKY_params_Distribution_LockedAddresses
+func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	arg0 := d.LockedAddresses()
+	*_arg0 = registerStringsHandle(arg0)
+	return
+}
+
+//export SKY_params_Distribution_AddressesDecoded
+func SKY_params_Distribution_AddressesDecoded(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	arg0 := d.AddressesDecoded()
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	return
+}
+
+//export SKY_params_Distribution_UnlockedAddressesDecoded
+func SKY_params_Distribution_UnlockedAddressesDecoded(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	arg0 := d.UnlockedAddressesDecoded()
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	return
+}
+
+//export SKY_params_Distribution_LockedAddressesDecoded
+func SKY_params_Distribution_LockedAddressesDecoded(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	arg0 := d.LockedAddressesDecoded()
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	return
+}
+
+//export SKY_params_Distribution_GetMainNetDistribution
+func SKY_params_Distribution_GetMainNetDistribution(_d *C.Distribution__Handle) (____error_code uint32) {
+	d, ok := lookupDistributionHandle(*_d)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	*d = params.MainNetDistribution
+	*_d = registerDistributionHandle(d)
+	return
+}
+
+//export SKY_params_NewDistribution
+func SKY_params_NewDistribution(_d *C.Distribution__Handle) (____error_code uint32) {
+	d := params.Distribution{}
+	*_d = registerDistributionHandle(&d)
+	return
 }

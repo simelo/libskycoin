@@ -285,3 +285,26 @@ func SKY_cipher_CheckSecKeyHash(_seckey *C.cipher__SecKey, _hash *C.cipher__SHA2
 	____error_code = libErrorCode(err)
 	return
 }
+
+//export SKY_cipher_Sig_String
+func SKY_cipher_Sig_String(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
+	s := (*cipher.Sig)(unsafe.Pointer(_s))
+	copyString(s.String(), _arg1)
+	return
+}
+
+//export SKY_cipher_VerifySignatureRecoverPubKey
+func SKY_cipher_VerifySignatureRecoverPubKey(_s *C.cipher__Sig, _hash *C.cipher__SHA256) (____error_code uint32) {
+	s := (*cipher.Sig)(unsafe.Pointer(_s))
+	hash := (*cipher.SHA256)(unsafe.Pointer(_hash))
+	__return_err := cipher.VerifySignatureRecoverPubKey(*s, *hash)
+	____error_code = libErrorCode(__return_err)
+	return
+}
+
+//export SKY_cipher_Sig_Null
+func SKY_cipher_Sig_Null(_s *C.cipher__Sig, _arg1 *bool) (____error_code uint32) {
+	s := (*cipher.Sig)(unsafe.Pointer(_s))
+	*_arg1 = s.Null()
+	return
+}

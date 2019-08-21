@@ -20,6 +20,8 @@ Suite *cipher_crypto(void);
 Suite *cipher_secp256k1(void);
 Suite *cipher_encrypt_scrypt_chacha20poly1305(void);
 Suite *cipher_hash(void);
+Suite *cipher_bip32(void);
+Suite *cipher_bip44(void);
 Suite *coin_blocks(void);
 Suite *coin_coin(void);
 Suite *coin_math(void);

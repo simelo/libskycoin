@@ -30,3 +30,4 @@
 #include "transaction.choose.go.h"
 #include "api.send.go.h"
 
+#include "cipher.bip32.path.go.h"

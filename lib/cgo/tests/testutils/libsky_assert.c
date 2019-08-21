@@ -36,12 +36,12 @@ GoInt_ equalTransactions(coin__Transactions* pTxs1, coin__Transactions* pTxs2)
 
 GoInt_ isAddressEq(cipher__Address* addr1, cipher__Address* addr2)
 {
-    return (addr1->Version == addr2->Version && memcmp((void*)addr1, (void*)addr2, sizeof(cipher__Address)) == 0);
+    return (addr1->Version == addr2->Version && isRipemd160Eq(&addr1->Key, &addr2->Key));
 }
 
 GoInt_ isBitcoinAddressEq(cipher__BitcoinAddress* addr1, cipher__BitcoinAddress* addr2)
 {
-    return (addr1->Version == addr2->Version && memcmp((void*)addr1, (void*)addr2, sizeof(cipher__Address)) == 0);
+    return (addr1->Version == addr2->Version && isRipemd160Eq(&addr1->Key, &addr2->Key));
 }
 
 GoInt_ isGoStringEq(GoString string1, GoString string2)
@@ -58,22 +58,22 @@ GoInt_ isGoString_Eq(GoString_ string1, GoString_ string2)
 
 GoInt_ isSecKeyEq(cipher__SecKey* seckey1, cipher__SecKey* seckey2)
 {
-    return memcmp((void*)seckey1, (void*)seckey2, sizeof(cipher__SecKey)) == 0;
+    return isU8Eq(*seckey1, *seckey2, sizeof(cipher__SecKey));
 }
 
 GoInt_ isPubKeyEq(cipher__PubKey* pubkey1, cipher__PubKey* pubkey2)
 {
-    return (memcmp((void*)pubkey1, (void*)pubkey2, sizeof(cipher__PubKey)) == 0);
+    return isU8Eq(*pubkey1, *pubkey2, sizeof(cipher__PubKey));
 }
 
 GoInt_ isSigEq(cipher__Sig* sig1, cipher__Sig* sig2)
 {
-    return memcmp((void*)sig1, (void*)sig2, sizeof(cipher__Sig)) == 0;
+    return isU8Eq(*sig1, *sig2, sizeof(cipher__Sig));
 }
 
 GoInt_ isSHA256Eq(cipher__SHA256* sh1, cipher__SHA256* sh2)
 {
-    return (memcmp((void*)sh1, (void*)sh2, sizeof(cipher__SHA256)) == 0);
+    return isU8Eq(*sh1, *sh2, sizeof(cipher__SHA256));
 }
 
 GoInt_ isGoSliceEq(GoSlice* slice1, GoSlice* slice2)
@@ -100,8 +100,7 @@ GoInt_ isUxOutEq(coin__UxOut* x1, coin__UxOut* x2)
 
 GoInt_ isTransactionEq(coin__Transaction* x1, coin__Transaction* x2)
 {
-    if (x1->Length != x2->Length ||
-        x1->Type != x2->Type) {
+    if (x1->Length != x2->Length || x1->Type != x2->Type) {
         return 0;
     }
     if (!isSHA256Eq(&x1->InnerHash, &x2->InnerHash))
@@ -110,16 +109,14 @@ GoInt_ isTransactionEq(coin__Transaction* x1, coin__Transaction* x2)
         return 0;
     if (!equalSlices_(&x1->In, &x2->In, sizeof(cipher__SHA256)))
         return 0;
-    // if (!equalSlices_(&x1->Out, &x2->Out, sizeof(coin__TransactionOutput)))
-    //   return 0;
+    if (!equalSlices_(&x1->Out, &x2->Out, sizeof(coin__TransactionOutput)))
+        return 0;
     return 1;
 }
 
-GoInt_ isTransactionOutputEq(coin__TransactionOutput* x1,
-    coin__TransactionOutput* x2)
+GoInt_ isTransactionOutputEq(coin__TransactionOutput* x1, coin__TransactionOutput* x2)
 {
-    if (x1->Coins != x2->Coins ||
-        x1->Hours != x2->Hours) {
+    if (x1->Coins != x2->Coins || x1->Hours != x2->Hours) {
         return 0;
     }
 
@@ -131,4 +128,9 @@ GoInt_ isTransactionOutputEq(coin__TransactionOutput* x1,
 GoInt_ isUxArrayEq(coin__UxArray* slice1, coin__UxArray* slice2)
 {
     return (memcmp(slice1->data, slice2->data, slice1->len) == 0) && ((slice1->len == slice2->len));
+}
+
+GoInt_ isRipemd160Eq(cipher__Ripemd160* rip1, cipher__Ripemd160* rip2)
+{
+    return isU8Eq(*rip1, *rip2, sizeof(cipher__Ripemd160));
 }

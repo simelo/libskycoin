@@ -404,12 +404,12 @@ func SKY_coin_Create_Transactions(handle *C.Transactions__Handle) (____error_cod
 }
 
 //export SKY_coin_GetTransactionsObject
-func SKY_coin_GetTransactionsObject(handle C.Transactions__Handle, _pptx **C.coin__Transactions) (____error_code uint32) {
+func SKY_coin_GetTransactionsObject(handle C.Transactions__Handle, _pptx *C.coin__Transactions) (____error_code uint32) {
 	ptx, ok := lookupTransactionsHandle(handle)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 	} else {
-		*_pptx = (*C.coin__Transactions)(unsafe.Pointer(ptx))
+		*_pptx = *(*C.coin__Transactions)(unsafe.Pointer(ptx))
 	}
 	return
 }
@@ -560,7 +560,7 @@ func SKY_coin_SortTransactions(tsh C.Transactions__Handle, pFeeCalc *C.FeeCalcul
 }
 
 //export SKY_coin_NewSortableTransactions
-func SKY_coin_NewSortableTransactions(tsh C.Transactions__Handle, pFeeCalc *C.FeeCalculator, ptsh *C.SortableTransactionResult_Handle) (____error_code uint32) {
+func SKY_coin_NewSortableTransactions(tsh C.Transactions__Handle, pFeeCalc *C.FeeCalculator, ptsh *C.SortableTransactions_Handle) (____error_code uint32) {
 	feeCalc := func(pTx *coin.Transaction) (uint64, error) {
 		var fee C.GoUint64_
 		handle := registerTransactionHandle(pTx)
@@ -586,7 +586,7 @@ func SKY_coin_NewSortableTransactions(tsh C.Transactions__Handle, pFeeCalc *C.Fe
 }
 
 //export SKY_coin_SortableTransactions_Sort
-func SKY_coin_SortableTransactions_Sort(_txns C.SortableTransactionResult_Handle) (____error_code uint32) {
+func SKY_coin_SortableTransactions_Sort(_txns C.SortableTransactions_Handle) (____error_code uint32) {
 	txns, ok := lookupSortableTransactionHandle(_txns)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
@@ -597,7 +597,7 @@ func SKY_coin_SortableTransactions_Sort(_txns C.SortableTransactionResult_Handle
 }
 
 //export SKY_coin_SortableTransactions_Len
-func SKY_coin_SortableTransactions_Len(_txns C.SortableTransactionResult_Handle, _arg0 *int) (____error_code uint32) {
+func SKY_coin_SortableTransactions_Len(_txns C.SortableTransactions_Handle, _arg0 *int) (____error_code uint32) {
 	txns, ok := lookupSortableTransactionHandle(_txns)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
@@ -609,7 +609,7 @@ func SKY_coin_SortableTransactions_Len(_txns C.SortableTransactionResult_Handle,
 }
 
 //export SKY_coin_SortableTransactions_Less
-func SKY_coin_SortableTransactions_Less(_txns C.SortableTransactionResult_Handle, _i, _j int, _arg1 *bool) (____error_code uint32) {
+func SKY_coin_SortableTransactions_Less(_txns C.SortableTransactions_Handle, _i, _j int, _arg1 *bool) (____error_code uint32) {
 	txns, ok := lookupSortableTransactionHandle(_txns)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
@@ -623,7 +623,7 @@ func SKY_coin_SortableTransactions_Less(_txns C.SortableTransactionResult_Handle
 }
 
 //export SKY_coin_SortableTransactions_Swap
-func SKY_coin_SortableTransactions_Swap(_txns C.SortableTransactionResult_Handle, _i, _j int) (____error_code uint32) {
+func SKY_coin_SortableTransactions_Swap(_txns C.SortableTransactions_Handle, _i, _j int) (____error_code uint32) {
 	txns, ok := lookupSortableTransactionHandle(_txns)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
