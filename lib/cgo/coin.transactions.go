@@ -404,12 +404,12 @@ func SKY_coin_Create_Transactions(handle *C.Transactions__Handle) (____error_cod
 }
 
 //export SKY_coin_GetTransactionsObject
-func SKY_coin_GetTransactionsObject(handle C.Transactions__Handle, _pptx **C.coin__Transactions) (____error_code uint32) {
+func SKY_coin_GetTransactionsObject(handle C.Transactions__Handle, _pptx *C.coin__Transactions) (____error_code uint32) {
 	ptx, ok := lookupTransactionsHandle(handle)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 	} else {
-		*_pptx = (*C.coin__Transactions)(unsafe.Pointer(ptx))
+		*_pptx = *(*C.coin__Transactions)(unsafe.Pointer(ptx))
 	}
 	return
 }
