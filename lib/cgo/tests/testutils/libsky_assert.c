@@ -156,8 +156,8 @@ GoInt_ isTransactionHandleEq(Transaction__Handle* handle1, Transaction__Handle* 
     cipher__SHA256 sha2 = "";
     GoUint8 bufferP1[1024];
     GoUint8 bufferP2[1024];
-    coin__UxArray p1 = {bufferP1, 0, 1024};
-    coin__UxArray p2 = {bufferP2, 0, 1024};
+    GoSlice_ p1 = {bufferP1, 0, 1024};
+    GoSlice_ p2 = {bufferP2, 0, 1024};
 
     GoUint32 err = SKY_coin_Transaction_GetLength(*handle1, &len1);
     ck_assert_int_eq(err, SKY_OK);

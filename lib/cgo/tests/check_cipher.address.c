@@ -59,10 +59,7 @@ START_TEST(TestDecodeBase58Address)
     errorcode = SKY_cipher_AddressFromPubKey(&p, &a);
     ck_assert(errorcode == SKY_OK);
     GoSlice b;
-    coin__UxArray Cub;
-    Cub.data = buff;
-    Cub.len = 0;
-    Cub.cap = sizeof(buff);
+    GoSlice_ Cub = {buff, 0, 1024};
     errorcode = SKY_cipher_Address_Bytes(&addr, &Cub);
     ck_assert_msg(errorcode == SKY_OK, "Fail SKY_cipher_Address_Bytes");
     b.cap = Cub.cap;
@@ -147,7 +144,7 @@ START_TEST(TestAddressRoundtrip)
     error = SKY_cipher_AddressFromPubKey(&p, &a);
     ck_assert_int_eq(error, SKY_OK);
     unsigned char buffera_bytes[1024];
-    coin__UxArray a_bytes = {buffera_bytes, 0, 1024};
+    GoSlice_ a_bytes = {buffera_bytes, 0, 1024};
     error = SKY_cipher_Address_Bytes(&a, &a_bytes);
     ck_assert_int_eq(error, SKY_OK);
     cipher__Address a2;

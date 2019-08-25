@@ -24,7 +24,7 @@ START_TEST(TestTransactionVerify)
     // Mismatch header hash
     makeTransaction(&handle);
     cipher__SHA256 nullsha = "";
-    result = SKY_coin_Transaction_SetInnerHash(&handle, nullsha);
+    result = SKY_coin_Transaction_SetInnerHash(&handle, &nullsha);
     ck_assert(result == SKY_OK);
     result = SKY_coin_Transaction_Verify(handle);
     ck_assert(result == SKY_ERROR);
@@ -210,8 +210,7 @@ START_TEST(TestTransactionPushInput)
     ck_assert(result == SKY_OK);
     result = SKY_coin_Transaction_PushInput(handle, &hash);
     ck_assert(result == SKY_OK);
-    GoUint8 bufferSliceIn[1024];
-    coin__UxArray* SliceIn = {bufferSliceIn, 0, 1024};
+    GoSlice_* SliceIn = NULL;
     result = SKY_coin_Transaction_GetIn(handle, SliceIn);
     ck_assert_msg(SliceIn->len == 1, "Fail len is %d", SliceIn->len);
     cipher__SHA256* pIn = SliceIn->data;
@@ -245,8 +244,6 @@ START_TEST(TestTransactionPushOutput)
     makeAddress(&addr);
     result = SKY_coin_Transaction_PushOutput(handle, &addr, 100, 150);
     ck_assert(result == SKY_OK);
-    GoUint8 bufferSliceOut[1024];
-    coin__UxArray* SliceOut = {bufferSliceOut, 0, 1024};
     GoInt lenght;
     result = SKY_coin_Transaction_GetOutputsCount(handle, &lenght);
     ck_assert(result == SKY_OK);
@@ -327,7 +324,7 @@ START_TEST(TestTransactionsSize)
         result = SKY_coin_Transactions_GetAt(txns, i, &handle);
         registerHandleClose(handle);
         ck_assert(result == SKY_OK);
-        coin__UxArray p1 = {NULL, 0, 0};
+        GoSlice_ p1 = {NULL, 0, 0};
         result = SKY_coin_Transaction_Serialize(handle, &p1);
         ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_Serialize");
         size += p1.len;
@@ -398,7 +395,7 @@ START_TEST(TestTransactionVerifyInput)
     makeTransactionFromUxOut(&uxOut, &seckey, &handle);
     ck_assert(result == SKY_OK);
     cipher__SHA256 sha_null;
-    SKY_coin_Transaction_SetInnerHash(handle, &sha_null);
+    SKY_coin_Transaction_SetInnerHash(&handle, &sha_null);
     ux.data = &uxOut;
     ux.len = 1;
     ux.cap = 1;
@@ -621,7 +618,7 @@ START_TEST(TestTransactionSerialization)
     Transaction__Handle handle = 0;
     makeTransaction(&handle);
     unsigned char buffer[1024];
-    coin__UxArray data = {buffer, 0, 1024};
+    GoSlice_ data = {buffer, 0, 1024};
     result = SKY_coin_Transaction_Serialize(handle, &data);
     ck_assert(result == SKY_OK);
     registerMemCleanup(data.data);
@@ -1160,7 +1157,6 @@ Suite* coin_transaction(void)
     tcase_add_test(tc, TestVerifyTransactionHoursSpending);
     tcase_add_test(tc, TestSortTransactions);
     tcase_add_test(tc, TestTransactionsFees);
-    tcase_add_test(tc, TestTransactionPushInput);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, INFINITY);
     return s;
@@ -1173,15 +1169,15 @@ Suite* coin_transaction_fork(void)
 
     tc = tcase_create("coin.transaction_fork");
     tcase_add_checked_fixture(tc, setup, teardown);
-#if __linux__
-    tcase_add_test_raise_signal(tc, TestTransactionPushInput, SKY_ABORT);
-    tcase_add_test_raise_signal(tc, TestTransactionSignInputs, SKY_ABORT);
-    tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
-#elif __APPLE__
-    tcase_add_exit_test(tc, TestTransactionPushInput, SKY_ABORT);
-    tcase_add_exit_test(tc, TestTransactionSignInputs, SKY_ABORT);
-    tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
-#endif
+    #if __linux__
+        tcase_add_test_raise_signal(tc, TestTransactionPushInput, SKY_ABORT);
+        tcase_add_test_raise_signal(tc, TestTransactionSignInputs, SKY_ABORT);
+        tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
+    #elif __APPLE__
+        tcase_add_exit_test(tc, TestTransactionPushInput, SKY_ABORT);
+        tcase_add_exit_test(tc, TestTransactionSignInputs, SKY_ABORT);
+        tcase_add_test_raise_signal(tc, TestTransactionVerifyInput, SKY_ABORT);
+    #endif
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
     return s;

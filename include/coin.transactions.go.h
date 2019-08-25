@@ -1,9 +1,9 @@
 typedef struct {
-    void* data; 
-    GoInt_ len; 
-    GoInt_ cap; 
-                
-                
+    void* data;
+    GoInt_ len;
+    GoInt_ cap;
+
+
 } coin__Transactions;
 /**
  * Skycoin transaction.
