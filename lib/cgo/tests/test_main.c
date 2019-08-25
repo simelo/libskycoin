@@ -18,7 +18,7 @@ int main(void)
     srunner_add_suite(sr, coin_coin());
     srunner_add_suite(sr, coin_math());
     srunner_add_suite(sr, coin_output());
-    // srunner_add_suite(sr, coin_transaction());
+    srunner_add_suite(sr, coin_transaction());
     srunner_add_suite(sr, param_distribution());
     srunner_add_suite(sr, util_droplet());
     srunner_add_suite(sr, util_fee());

@@ -219,10 +219,9 @@ GoUint32_ sortTransactions(Transactions__Handle txns_handle,
 void copyTransaction(Transaction__Handle handle,
     Transaction__Handle* handle2)
 {
-    coin__Transaction* ptransaction = NULL;
     GoUint32_ result = 0;
     result = SKY_coin_Transaction_Copy(handle, handle2);
-    ck_assert(result == SKY_OK);
+    ck_assert_int_eq(result, SKY_OK);
     registerHandleClose(*handle2);
 }
 

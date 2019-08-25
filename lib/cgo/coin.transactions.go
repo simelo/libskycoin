@@ -732,38 +732,5 @@ func SKY_coin_Transaction_SetInnerHash(handle *C.Transaction__Handle, _sha *C.ci
 	}
 	uxHash := *(*cipher.SHA256)(unsafe.Pointer(_sha))
 	tx.InnerHash = uxHash
-	*handle = registerTransactionHandle(tx)
-	return
-}
-
-//export SKY_coin_Transaction_In_SetSHA
-func SKY_coin_Transaction_In_SetSHA(handle *C.Transaction__Handle, _sha *C.cipher__SHA256, post int) (___error_code uint32) {
-	tx, ok := lookupTransactionHandle(*handle)
-	if !ok {
-		___error_code = SKY_BAD_HANDLE
-		return
-	}
-	uxHash := *(*cipher.SHA256)(unsafe.Pointer(_sha))
-	tx.In[post] = uxHash
-
-	*handle = registerTransactionHandle(tx)
-	return
-}
-
-//export SKY_coin_Transaction_Sigs_SetSig
-func SKY_coin_Transaction_Sigs_SetSig(handle *C.Transaction__Handle, _sig *C.cipher__Sig, i int) (____error_code uint32) {
-	tx, ok := lookupTransactionHandle(*handle)
-	if !ok {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	if i >= len(tx.Sigs) {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	uxHash := *(*cipher.Sig)(unsafe.Pointer(_sig))
-	tx.Sigs[i] = uxHash
-
-	*handle = registerTransactionHandle(tx)
 	return
 }
