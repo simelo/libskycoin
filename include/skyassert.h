@@ -20,9 +20,10 @@ extern GoInt_ isGoSlice_Eq(GoSlice_* slice1, GoSlice_* slice2);
 
 extern GoInt_ isUxOutEq(coin__UxOut* x1, coin__UxOut* x2);
 
-extern GoInt_ isUxArrayEq(coin__UxArray* x1, coin__UxArray* x2);
+extern GoInt_ isUxArrayEq(coin__UxArray* slice1, coin__UxArray* slice2);
 
 extern GoInt_ isTransactionEq(coin__Transaction* x1, coin__Transaction* x2);
+extern GoInt_ isTransactionHandleEq(Transaction__Handle* handle1, Transaction__Handle* handle2);
 
 extern GoInt_ isTransactionsEq(coin__Transactions* x1, coin__Transactions* x2);
 

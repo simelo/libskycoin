@@ -96,12 +96,9 @@ GoUint32_ makeAddress(cipher__Address* paddress)
     return result;
 }
 
-coin__Transaction* makeTransactionFromUxOut(coin__UxOut* puxOut,
-    cipher__SecKey* pseckey,
-    Transaction__Handle* handle)
+void makeTransactionFromUxOut(coin__UxOut* puxOut, cipher__SecKey* pseckey, Transaction__Handle* handle)
 {
     GoUint32_ result;
-    coin__Transaction* ptransaction = NULL;
     *handle = 0;
     result = SKY_coin_Create_Transaction(handle);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Create_Transaction failed");
@@ -130,13 +127,9 @@ coin__Transaction* makeTransactionFromUxOut(coin__UxOut* puxOut,
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_SignInputs failed");
     result = SKY_coin_Transaction_UpdateHeader(*handle);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_UpdateHeader failed");
-    result = SKY_coin_GetTransactionObject(*handle, &ptransaction);
-    ck_assert_msg(result == SKY_OK, "SKY_coin_GetTransactionObject failed");
-    registerMemCleanup(ptransaction);
-    return ptransaction;
 }
 
-coin__Transaction* makeTransaction(Transaction__Handle* handle)
+void makeTransaction(Transaction__Handle* handle)
 {
     GoUint32_ result;
     *handle = 0;
@@ -145,20 +138,16 @@ coin__Transaction* makeTransaction(Transaction__Handle* handle)
     cipher__SecKey seckey;
     result = makeUxOutWithSecret(&uxOut, &seckey);
     ck_assert_msg(result == SKY_OK, "makeUxOutWithSecret failed");
-    coin__Transaction* rest = makeTransactionFromUxOut(&uxOut, &seckey, handle);
-    return rest;
+    makeTransactionFromUxOut(&uxOut, &seckey, handle);
 }
 
-coin__Transaction* makeEmptyTransaction(Transaction__Handle* handle)
+void makeEmptyTransaction(Transaction__Handle* handle)
 {
     GoUint32_ result;
     coin__Transaction* ptransaction = NULL;
     *handle = 0;
     result = SKY_coin_Create_Transaction(handle);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Create_Transaction failed");
-    result = SKY_coin_GetTransactionObject(*handle, &ptransaction);
-    ck_assert_msg(result == SKY_OK, "SKY_coin_GetTransactionObject failed");
-    return ptransaction;
 }
 
 GoUint32_ makeTransactions(GoInt32 n, Transactions__Handle* handle)
@@ -227,7 +216,7 @@ GoUint32_ sortTransactions(Transactions__Handle txns_handle,
     return result;
 }
 
-coin__Transaction* copyTransaction(Transaction__Handle handle,
+void copyTransaction(Transaction__Handle handle,
     Transaction__Handle* handle2)
 {
     coin__Transaction* ptransaction = NULL;
@@ -235,10 +224,6 @@ coin__Transaction* copyTransaction(Transaction__Handle handle,
     result = SKY_coin_Transaction_Copy(handle, handle2);
     ck_assert(result == SKY_OK);
     registerHandleClose(*handle2);
-    result = SKY_coin_GetTransactionObject(*handle2, &ptransaction);
-    registerMemCleanup(ptransaction);
-    ck_assert_msg(result == SKY_OK, "SKY_coin_GetTransactionObject failed");
-    return ptransaction;
 }
 
 void makeRandHash(cipher__SHA256* phash)
