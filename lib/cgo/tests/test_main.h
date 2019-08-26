@@ -31,5 +31,6 @@ Suite *coin_transaction_fork(void);
 Suite *param_distribution(void);
 Suite *util_droplet(void);
 Suite *util_fee(void);
+Suite* check_cipher_address(void);
 
 #endif
