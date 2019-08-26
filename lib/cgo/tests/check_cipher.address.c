@@ -24,7 +24,7 @@ START_TEST(TestAddressRoundtrip)
     error = SKY_cipher_AddressFromPubKey(&p, &a);
     ck_assert_int_eq(error, SKY_OK);
     unsigned char buffera_bytes[1024];
-    coin__UxArray a_bytes = {buffera_bytes, 0, 1024};
+    GoSlice_ a_bytes = {buffera_bytes, 0, 1024};
     error = SKY_cipher_Address_Bytes(&a, &a_bytes);
     ck_assert_int_eq(error, SKY_OK);
     cipher__Address a2;
@@ -45,7 +45,7 @@ START_TEST(TestAddressString)
     cipher__PubKey pk;
     cipher__SecKey sk;
     cipher__Address addr, addr2, addr3;
-    GoUint8 buff[1024] = {0};
+    GoUint8 buff[1024];
     GoString str = {buff, 0};
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
@@ -102,13 +102,13 @@ END_TEST
 
 START_TEST(TestDecodeBase58Address)
 {
-    GoString strAddr = {.p = SKYCOIN_ADDRESS_VALID, .n = 35};
+    GoString strAddr = {SKYCOIN_ADDRESS_VALID, 35};
     cipher__Address addr;
     GoUint32 err = SKY_cipher_DecodeBase58Address(strAddr, &addr);
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 buff[1024];
     char tempStr[50];
-    GoUint32 errorcode;
+    int errorcode;
 
     // preceding whitespace is invalid
     strcpy(tempStr, " ");
@@ -150,10 +150,7 @@ START_TEST(TestDecodeBase58Address)
     errorcode = SKY_cipher_AddressFromPubKey(&p, &a);
     ck_assert(errorcode == SKY_OK);
     GoSlice b;
-    coin__UxArray Cub;
-    Cub.data = buff;
-    Cub.len = 0;
-    Cub.cap = sizeof(buff);
+    GoSlice_ Cub = {buff, 0, 1024};
     errorcode = SKY_cipher_Address_Bytes(&addr, &Cub);
     ck_assert_msg(errorcode == SKY_OK, "Fail SKY_cipher_Address_Bytes");
     b.cap = Cub.cap;
@@ -173,13 +170,30 @@ START_TEST(TestDecodeBase58Address)
     errorcode = SKY_cipher_DecodeBase58Address(tmph, &addr);
     ck_assert_msg(errorcode == SKY_ErrAddressInvalidLength, "Fail %X", errorcode);
     b.len = len_b;
-    h.n = sizeof(bufferHead);
     errorcode = SKY_base58_Hex2Base58(b, &h);
     ck_assert(errorcode == SKY_OK);
     tmph.n = h.n;
     tmph.p = h.p;
     errorcode = SKY_cipher_DecodeBase58Address(tmph, &addr);
     ck_assert_msg(errorcode == SKY_OK, "Fail %X", errorcode);
+}
+END_TEST
+
+START_TEST(TestAddressFromSecKey)
+{
+    GoUint32 result;
+    cipher__PubKey p;
+    cipher__SecKey s;
+    result = SKY_cipher_GenerateKeyPair(&p, &s);
+    ck_assert_msg(result == SKY_OK, "SKY_cipher_GenerateKeyPair failed");
+    cipher__Address a;
+    result = SKY_cipher_AddressFromSecKey(&s, &a);
+    ck_assert_int_eq(result, SKY_OK);
+    result = SKY_cipher_Address_Verify(&a, &p);
+    ck_assert_int_eq(result, SKY_OK);
+    cipher__SecKey s2;
+    result = SKY_cipher_AddressFromSecKey(&s, &a);
+    ck_assert_int_eq(result, SKY_ERROR);
 }
 END_TEST
 
@@ -194,6 +208,7 @@ Suite* check_cipher_address(void)
     tcase_add_test(tc, TestAddressRoundtrip);
     tcase_add_test(tc, TestAddressString);
     tcase_add_test(tc, TestAddressBulk);
+    tcase_add_test(tc, TestAddressFromSecKey);
     tcase_add_test(tc, TestDecodeBase58Address);
 
     return s;

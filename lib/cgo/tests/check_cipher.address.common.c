@@ -1,14 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <check.h>
-#include <string.h>
-
 #include "libskycoin.h"
 #include "skyerrors.h"
-#include "skyassert.h"
 #include "skystring.h"
 #include "skytest.h"
+#include <check.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define SKYCOIN_ADDRESS_VALID "2GgFvqoyk9RjwVzj8tqfcXVXB4orBwoc9qv"
 
@@ -113,14 +110,14 @@ END_TEST
 // define test suite and cases
 Suite* common_check_cipher_address(void)
 {
-    Suite* s = suite_create("Load common_check_cipher_address.address");
+    Suite* s = suite_create("Load cipher.address.common");
     TCase* tc;
 
-    tc = tcase_create("check_cipher.address.common");
+    tc = tcase_create("cipher.address.common");
     tcase_add_checked_fixture(tc, setup, teardown);
+    tcase_add_test(tc, TestAddressFromBytes);
     tcase_add_test(tc, TestAddressVerify);
     tcase_add_test(tc, TestAddressNull);
-    tcase_add_test(tc, TestAddressFromBytes);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
