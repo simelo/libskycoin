@@ -12,6 +12,7 @@ extern GoInt_ isPubKeyEq(cipher__PubKey* pubkey1, cipher__PubKey* pubkey2);
 extern GoInt_ isSigEq(cipher__Sig* sig1, cipher__Sig* sig2);
 
 extern GoInt_ isSecKeyEq(cipher__SecKey* seckey1, cipher__SecKey* seckey2);
+extern GoInt_ isSHA256Eq(cipher__SHA256* sh1, cipher__SHA256* sh2);
 extern GoInt_ isRipemd160Eq(cipher__Ripemd160* rip1, cipher__Ripemd160* rip2);
 extern GoInt_ isU8Eq(unsigned char p1[], unsigned char p2[], size_t len);
 
@@ -20,9 +21,10 @@ extern GoInt_ isGoSlice_Eq(GoSlice_* slice1, GoSlice_* slice2);
 
 extern GoInt_ isUxOutEq(coin__UxOut* x1, coin__UxOut* x2);
 
-extern GoInt_ isUxArrayEq(coin__UxArray* x1, coin__UxArray* x2);
+extern GoInt_ isUxArrayEq(coin__UxArray* slice1, coin__UxArray* slice2);
 
 extern GoInt_ isTransactionEq(coin__Transaction* x1, coin__Transaction* x2);
+extern GoInt_ isTransactionHandleEq(Transaction__Handle* handle1, Transaction__Handle* handle2);
 
 extern GoInt_ isTransactionsEq(coin__Transactions* x1, coin__Transactions* x2);
 

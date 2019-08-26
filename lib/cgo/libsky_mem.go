@@ -129,3 +129,29 @@ func copyToGoSlice(src reflect.Value, dest *C.GoSlice_) {
 func copyToStringMap(gomap map[string]string, dest *C.GoStringMap_) {
 	*dest = (C.GoStringMap_)(registerHandle(gomap))
 }
+
+func copyTocoin_UxArray(src reflect.Value, dest *C.coin__UxArray) {
+	srcLen := src.Len()
+	if srcLen == 0 {
+		dest.len = 0
+		return
+	}
+	srcAddr, elemSize := getBufferData(src)
+	if dest.cap == 0 {
+		dest.data = C.malloc(C.size_t(srcLen) * elemSize)
+		dest.cap = C.GoInt_(srcLen)
+	}
+	n, overflow := srcLen, srcLen > int(dest.cap)
+	if overflow {
+		n = int(dest.cap)
+	}
+	result := C.memcpy(dest.data, srcAddr, C.size_t(n)*elemSize)
+	if result != nil {
+		// Do not modify slice metadata until memory is actually copied
+		if overflow {
+			dest.len = dest.cap - C.GoInt_(srcLen)
+		} else {
+			dest.len = C.GoInt_(srcLen)
+		}
+	}
+}

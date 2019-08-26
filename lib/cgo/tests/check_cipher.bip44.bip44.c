@@ -19,10 +19,10 @@ void mustDefaultSeed(GoSlice* seed)
     GoString mnemonic = {"dizzy cigar grant ramp inmate uniform gold success able payment faith practice", 78};
     GoString passphrase = {"", 0};
     GoUint8 bufferTmp[1024];
-    coin__UxArray Tmp = {bufferTmp, 0, 1024};
+    GoSlice_ Tmp = {bufferTmp, 0, 1024};
     GoUint32 err = SKY_bip39_NewSeed(mnemonic, passphrase, &Tmp);
     ck_assert_int_eq(err, SKY_OK);
-    copycoin_UxArraytoGoSlice(seed, &Tmp, sizeof(Tmp));
+    copyGoSlice_toGoSlice(seed, &Tmp, sizeof(Tmp));
     GoUint8 strTmp[1024];
     GoString_ str = {strTmp, 0};
     err = SKY_base58_Hex2String(*seed, &str);
@@ -113,13 +113,13 @@ START_TEST(TestNewCoin)
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 bufferKey[1024];
     GoUint8 bufferKeyStr[1024];
-    coin__UxArray Key = {bufferKey, 0, 1024};
+    GoSlice_ Key = {bufferKey, 0, 1024};
     GoString_ KeyStr = {bufferKeyStr, 0};
     err = SKY_bip32_PublicKey_GetKey(external0, &Key);
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 bufferKeySlice[1024];
     GoSlice KeySlice = {bufferKeySlice, 0, 1024};
-    copycoin_UxArraytoGoSlice(&KeySlice, &Key, sizeof(Key));
+    copyGoSlice_toGoSlice(&KeySlice, &Key, sizeof(Key));
     SKY_base58_Hex2String(KeySlice, &KeyStr);
     ck_assert_str_eq(KeyStr.p, "034d36f3bcd74e19204e75b81b9c0726e41b799858b92bab73f4cd7498308c5c8b");
 
@@ -128,13 +128,13 @@ START_TEST(TestNewCoin)
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 bufferKey1[1024];
     GoUint8 bufferKey1Str[1024];
-    coin__UxArray Key1 = {bufferKey, 0, 1024};
+    GoSlice_ Key1 = {bufferKey, 0, 1024};
     GoString_ Key1Str = {bufferKeyStr, 0};
     err = SKY_bip32_PublicKey_GetKey(external1, &Key1);
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 bufferKey1Slice[1024];
     GoSlice Key1Slice = {bufferKey1Slice, 0, 1024};
-    copycoin_UxArraytoGoSlice(&Key1Slice, &Key1, sizeof(Key1));
+    copyGoSlice_toGoSlice(&Key1Slice, &Key1, sizeof(Key1));
     SKY_base58_Hex2String(Key1Slice, &Key1Str);
     ck_assert_str_eq(Key1Str.p, "02f7309e9f559d847ee9cc9ee144cfa490791e33e908fdbde2dade50a389408b01");
 
@@ -156,7 +156,7 @@ START_TEST(TestNewCoin)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PublicKey_GetKey(change0, &Key);
     ck_assert_int_eq(err, SKY_OK);
-    copycoin_UxArraytoGoSlice(&KeySlice, &Key, sizeof(Key));
+    copyGoSlice_toGoSlice(&KeySlice, &Key, sizeof(Key));
     SKY_base58_Hex2String(KeySlice, &KeyStr);
     ck_assert_str_eq(KeyStr.p, "026d3eb891e81ecabedfa8560166af383457aedaf172af9d57d00508faa5f57c4c");
 
@@ -165,7 +165,7 @@ START_TEST(TestNewCoin)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PublicKey_GetKey(change1, &Key1);
     ck_assert_int_eq(err, SKY_OK);
-    copycoin_UxArraytoGoSlice(&Key1Slice, &Key1, sizeof(Key1));
+    copyGoSlice_toGoSlice(&Key1Slice, &Key1, sizeof(Key1));
     SKY_base58_Hex2String(Key1Slice, &Key1Str);
     ck_assert_str_eq(Key1Str.p, "02681b301293fdf0292cd679b37d60b92a71b389fd994b2b57c8daf99532bfb4a5");
 }

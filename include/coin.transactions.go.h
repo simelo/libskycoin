@@ -1,4 +1,10 @@
-typedef GoSlice_ coin__Transactions;
+typedef struct {
+    void* data;
+    GoInt_ len;
+    GoInt_ cap;
+
+
+} coin__Transactions;
 /**
  * Skycoin transaction.
  *
