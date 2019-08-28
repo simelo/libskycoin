@@ -213,7 +213,11 @@ install-deps-skyapi-Darwin:
 	(cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz && tar -xf curl-7.58.0.tar.gz && cd curl-7.58.0/ && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl .. && make && sudo make install)
 
 install-deps-skyapi-MSYS_NT-10.0:
-	(cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz && tar -xf curl-7.58.0.tar.gz && cd curl-7.58.0/ && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ .. && make && sudo make install)
+	cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz
+	cd deps && tar -xf curl-7.58.0.tar.gz 
+	cd deps/curl-7.58.0/ && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ .. 
+	cd deps/curl-7.58.0/build && make 
+	cd deps/curl-7.58.0/build && sudo make install
 
 install-deps-libc: install-deps-libc-$(UNAME_S) ## Install deps for libc
 
