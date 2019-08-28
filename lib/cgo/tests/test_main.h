@@ -10,9 +10,11 @@
 #include "skytest.h"
 #include "skytypes.h"
 #include "skyerrors.h"
+#include "test_main_common.h"
 
 Suite *cipher_bitcoin(void);
 Suite *cipher_address(void);
+Suite *common_check_cipher_hash(void);
 Suite *cipher_testsuite(void);
 Suite *cipher_crypto(void);
 Suite *cipher_secp256k1(void);
@@ -29,5 +31,6 @@ Suite *coin_transaction_fork(void);
 Suite *param_distribution(void);
 Suite *util_droplet(void);
 Suite *util_fee(void);
+Suite* check_cipher_address(void);
 
 #endif

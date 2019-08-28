@@ -129,8 +129,9 @@ build-libc-dbg: configure-build build-libc-static build-libc-shared
 
 test-libc: build-libc ## Run tests for libskycoin C client library
 	echo "Compiling with $(CC) $(CC_VERSION) $(STDC_FLAG)"
-	$(CC) -o $(BIN_DIR)/test_libskycoin_shared $(LIB_DIR)/cgo/tests/*.c $(LIB_DIR)/cgo/tests/testutils/*.c -lskycoin                    $(LDLIBS) $(LDFLAGS)
-	$(CC) -o $(BIN_DIR)/test_libskycoin_static $(LIB_DIR)/cgo/tests/*.c $(LIB_DIR)/cgo/tests/testutils/*.c $(BUILDLIB_DIR)/libskycoin.a $(LDLIBS) $(LDFLAGS)
+	$(eval TESTS_SRC := $(shell ls $(LIB_DIR)/cgo/tests/*.c | grep -v test_main_hw.c))
+	$(CC) -o $(BIN_DIR)/test_libskycoin_shared $(TESTS_SRC) $(LIB_DIR)/cgo/tests/testutils/*.c -lskycoin                    $(LDLIBS) $(LDFLAGS)
+	$(CC) -o $(BIN_DIR)/test_libskycoin_static $(TESTS_SRC) $(LIB_DIR)/cgo/tests/testutils/*.c $(BUILDLIB_DIR)/libskycoin.a $(LDLIBS) $(LDFLAGS)
 	$(LDPATHVAR)="$(LDPATH):$(BUILD_DIR)/usr/lib:$(BUILDLIB_DIR)" $(BIN_DIR)/test_libskycoin_shared
 	$(LDPATHVAR)="$(LDPATH):$(BUILD_DIR)/usr/lib"         $(BIN_DIR)/test_libskycoin_static
 
@@ -209,7 +210,9 @@ install-deps-libc: install-deps-libc-$(UNAME_S) ## Install deps for libc
 
 install-deps-skyapi: install-deps-skyapi-$(UNAME_S) ## Install skyapi(libcurl based) library.
 
-install-deps-libc-Linux: configure-build ## Install locally dependencies for testing libskycoin
+install-deps-libc-Linux: configure-build check-0.12.0/src/.libs/libcheck.so ## Install locally dependencies for testing libskycoin
+
+check-0.12.0/src/.libs/libcheck.so: ## Install libcheck
 	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
 	tar -xzf check-0.12.0.tar.gz
 	cd check-0.12.0 && ./configure --prefix=/usr --disable-static && make && sudo make install
