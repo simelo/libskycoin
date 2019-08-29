@@ -8,7 +8,6 @@
 #include "skystring.h"
 #include "skytest.h"
 
-// TestSuite(cipher_hash, .init = setup, .fini = teardown);
 
 void freshSumRipemd160(GoSlice bytes, cipher__Ripemd160* rp160)
 {
