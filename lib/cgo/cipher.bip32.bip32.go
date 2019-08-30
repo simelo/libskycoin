@@ -254,27 +254,79 @@ func SKY_bip32_DeserializePublicKey(_data []byte, _arg0 *C.PublicKey__Handle) (_
 }
 
 //export SKY_bip32_PrivateKey_GetKey
-func SKY_bip32_PrivateKey_GetKey(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PrivateKey_GetKey(_pk C.PrivateKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Key
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Key
 	return
 }
 
 //export SKY_bip32_PublicKey_GetKey
-func SKY_bip32_PublicKey_GetKey(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PublicKey_GetKey(_pk C.PublicKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Key
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Key
+	
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetDepth
+func SKY_bip32_PrivateKey_GetDepth(_pk C.PrivateKey__Handle, _arg0 *byte) (___error_code uint32) {
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = pk.Depth
+
+	return
+}
+
+//export SKY_bip32_PublicKey_GetDepth
+func SKY_bip32_PublicKey_GetDepth(_pk C.PublicKey__Handle, _arg0 *byte) (___error_code uint32) {
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	*_arg0 = pk.Depth
+	return
+}
+
+//export SKY_bip32_PrivateKey_ChildNumber
+func SKY_bip32_PrivateKey_ChildNumber(_pk C.PrivateKey__Handle, _arg0 *uint32) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.ChildNumber()
+	return
+}
+
+//export SKY_bip32_PublicKey_ChildNumber
+func SKY_bip32_PublicKey_ChildNumber(_pk C.PublicKey__Handle, _arg0 *uint32) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.ChildNumber()
 	return
 }

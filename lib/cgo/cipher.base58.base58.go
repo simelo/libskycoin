@@ -58,9 +58,8 @@ func SKY_base58_String2Hex(_s string, _arg1 *C.GoSlice_) (____error_code uint32)
 }
 
 //export SKY_base58_Hex2String
-func SKY_base58_Hex2String(_b []byte, _arg1 *C.GoString_) (____error_code uint32) {
+func SKY_base58_Hex2String(_b []byte, _arg1 *string) (____error_code uint32) {
 	bin := *(*[]byte)(unsafe.Pointer(&_b))
-	__arg1 := hex.EncodeToString(bin)
-	copyString(__arg1, _arg1)
+	*_arg1 = hex.EncodeToString(bin)
 	return
 }
