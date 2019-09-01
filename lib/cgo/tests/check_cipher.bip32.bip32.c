@@ -97,7 +97,11 @@ GoUint32_ testVectorKeyPairs(testMasterKey vector)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_cipher_NewSecKey(sliceprivkey, &tempSec);
     ck_assert_int_eq(err, SKY_OK);
-    // line 248 bip32_test.go
+    GoString wif;
+    SKY_cipher_BitcoinWalletImportFormatFromSeckey(&tempSec, &wif);
+    ck_assert(isGoStringEq(wif, vector.wifPrivKey));
+
+    
 }
 
 START_TEST(TestBip32TestVectors)
