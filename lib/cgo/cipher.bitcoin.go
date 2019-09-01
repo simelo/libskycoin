@@ -50,10 +50,10 @@ func SKY_cipher_BitcoinAddressFromSecKey(_secKey *C.cipher__SecKey, _arg1 *C.cip
 }
 
 //export SKY_cipher_BitcoinWalletImportFormatFromSeckey
-func SKY_cipher_BitcoinWalletImportFormatFromSeckey(_seckey *C.cipher__SecKey, _arg1 *C.GoString_) {
+func SKY_cipher_BitcoinWalletImportFormatFromSeckey(_seckey *C.cipher__SecKey, _arg1 *string) {
 	seckey := (*cipher.SecKey)(unsafe.Pointer(_seckey))
-	s := cipher.BitcoinWalletImportFormatFromSeckey(*seckey)
-	copyString(s, _arg1)
+	*_arg1 = cipher.BitcoinWalletImportFormatFromSeckey(*seckey)
+
 }
 
 //export SKY_cipher_BitcoinAddressFromBytes
