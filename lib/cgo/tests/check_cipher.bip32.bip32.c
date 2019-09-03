@@ -32,8 +32,9 @@ typedef struct {
     GoString fingerprint;
     GoString identifier;
     GoString chainCode;
-    GoUint32_ childNUmber;
-    GoUint8_ depth;
+    GoUint32 childNUmber;
+    GoUint8 depth;
+    GoUint32 depthNumber;
 } testMasterKey;
 
 
@@ -121,8 +122,8 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert(isGoStringEq(stringPubKey, vector.pubKey));
 
     GoString hexPubKey;
-    GoUint8 bufferpubkey[1024];
-    GoSlice slicepubkey = {bufferpubkey, 0, 1024};
+    GoUint8 bufferpubkey[MAXBUFFER];
+    GoSlice slicepubkey = {bufferpubkey, 0, MAXBUFFER};
     err = SKY_bip32_PublicKey_GetKey(pubkey, &slicepubkey);
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_base58_Hex2String(slicepubkey, &hexPubKey);
@@ -130,8 +131,8 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert(isGoStringEq(vector.hexPubKey, hexPubKey));
 
     cipher__SecKey tempSec;
-    GoUint8 bufferprivkey[1024];
-    GoSlice sliceprivkey = {bufferprivkey, 0, 1024};
+    GoUint8 bufferprivkey[MAXBUFFER];
+    GoSlice sliceprivkey = {bufferprivkey, 0, MAXBUFFER};
     err = SKY_bip32_PrivateKey_GetKey(privkey, &sliceprivkey);
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_cipher_NewSecKey(sliceprivkey, &tempSec);
@@ -140,10 +141,10 @@ void testVectorKeyPairs(testMasterKey vector)
     SKY_cipher_BitcoinWalletImportFormatFromSeckey(&tempSec, &wif);
     ck_assert(isGoStringEq(wif, vector.wifPrivKey));
 
-    GoUint8 bufferprivChainCode[1024];
-    GoUint8 bufferpubChainCode[1024];
-    GoSlice privChainCode = {bufferprivChainCode, 0, 1024};
-    GoSlice pubChainCode = {bufferpubChainCode, 0, 1024};
+    GoUint8 bufferprivChainCode[MAXBUFFER];
+    GoUint8 bufferpubChainCode[MAXBUFFER];
+    GoSlice privChainCode = {bufferprivChainCode, 0, MAXBUFFER};
+    GoSlice pubChainCode = {bufferpubChainCode, 0, MAXBUFFER};
     err = SKY_bip32_PrivateKey_GetChainCode(privkey, &privChainCode);
     ck_assert_int_eq(SKY_OK, err);
     err = SKY_bip32_PublicKey_GetChainCode(pubkey, &pubChainCode);
@@ -157,10 +158,10 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert_int_eq(SKY_OK, err);
     ck_assert(isGoStringEq(vector.chainCode, pub_ChainCode));
 
-    GoUint8 bufferprivFringerprint[1024];
-    GoUint8 bufferpubFringerprint[1024];
-    GoSlice privFringerprint = {bufferprivFringerprint, 0, 1024};
-    GoSlice pubFringerprint = {bufferpubFringerprint, 0, 1024};
+    GoUint8 bufferprivFringerprint[MAXBUFFER];
+    GoUint8 bufferpubFringerprint[MAXBUFFER];
+    GoSlice privFringerprint = {bufferprivFringerprint, 0, MAXBUFFER};
+    GoSlice pubFringerprint = {bufferpubFringerprint, 0, MAXBUFFER};
     GoString priv_Fringerprint;
     GoString pub_Fringerprint;
     err = SKY_bip32_PrivateKey_Fingerprint(privkey, &privFringerprint);
@@ -200,8 +201,8 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert_int_eq(vector.depth, privDepth);
     ck_assert_int_eq(vector.depth, pubDepth);
 
-    GoUint8 privchildNumber;
-    GoUint8 pubchildNumber;
+    GoUint32 privchildNumber;
+    GoUint32 pubchildNumber;
     err = SKY_bip32_PrivateKey_ChildNumber(privkey, &privchildNumber);
     ck_assert_int_eq(SKY_OK, err);
     err = SKY_bip32_PublicKey_ChildNumber(pubkey, &pubchildNumber);
@@ -230,8 +231,9 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert(isPrivateKeyEq(privKey2, privKey3));
 
     // Iterate over the entire child chain and test the given keys
-    for (size_t i = 0; i < vector.childNUmber; i++) {
+    for (size_t i = 0; i < vector.depthNumber; i++) {
         testChildKey tck = vector.children[i];
+        privkey = 0;
         err = SKY_bip32_NewPrivateKeyFromPath(seed, tck.path, &privkey);
         ck_assert_int_eq(SKY_OK, err);
 
@@ -250,8 +252,6 @@ void testVectorKeyPairs(testMasterKey vector)
 
         ck_assert(isPrivateKeyEq(xx, privkey));
 
-        GoString stringPrivKey;
-        GoString stringPubKey;
         err = SKY_bip32_PrivateKey_String(privkey, &stringPrivKey);
         ck_assert_int_eq(err, SKY_OK);
         ck_assert(isGoStringEq(stringPrivKey, tck.privKey));
@@ -260,16 +260,10 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert(isGoStringEq(stringPubKey, tck.pubKey));
 
 
-        GoUint8 bufferprivChainCode[1024];
-        GoUint8 bufferpubChainCode[1024];
-        GoSlice privChainCode = {bufferprivChainCode, 0, 1024};
-        GoSlice pubChainCode = {bufferpubChainCode, 0, 1024};
         err = SKY_bip32_PrivateKey_GetChainCode(privkey, &privChainCode);
         ck_assert_int_eq(SKY_OK, err);
         err = SKY_bip32_PublicKey_GetChainCode(pubkey, &pubChainCode);
         ck_assert_int_eq(SKY_OK, err);
-        GoString priv_ChainCode = {bufferprivChainCode, 0};
-        GoString pub_ChainCode = {bufferpubChainCode, 0};
         err = SKY_base58_Hex2String(privChainCode, &priv_ChainCode);
         ck_assert_int_eq(SKY_OK, err);
         ck_assert(isGoStringEq(tck.chainCode, priv_ChainCode));
@@ -277,12 +271,6 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert_int_eq(SKY_OK, err);
         ck_assert(isGoStringEq(tck.chainCode, pub_ChainCode));
 
-        GoUint8 bufferprivFringerprint[1024];
-        GoUint8 bufferpubFringerprint[1024];
-        GoSlice privFringerprint = {bufferprivFringerprint, 0, 1024};
-        GoSlice pubFringerprint = {bufferpubFringerprint, 0, 1024};
-        GoString priv_Fringerprint;
-        GoString pub_Fringerprint;
         err = SKY_bip32_PrivateKey_Fingerprint(privkey, &privFringerprint);
         ck_assert_int_eq(SKY_OK, err);
         err = SKY_bip32_PublicKey_Fingerprint(pubkey, &pubFringerprint);
@@ -294,12 +282,6 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert(isGoStringEq(tck.fingerprint, priv_Fringerprint));
         ck_assert(isGoStringEq(tck.fingerprint, pub_Fringerprint));
 
-        GoUint8 bufferprivIdentifier[1024];
-        GoUint8 bufferpubIdentifier[1024];
-        GoSlice privIdentifier = {bufferprivIdentifier, 0, 1024};
-        GoSlice pubIdentifier = {bufferpubIdentifier, 0, 1024};
-        GoString priv_Identifier = {bufferprivIdentifier, 0};
-        GoString pub_Identifier = {bufferpubIdentifier, 0};
         err = SKY_bip32_PrivateKey_Identifier(privkey, &privIdentifier);
         ck_assert_int_eq(SKY_OK, err);
         err = SKY_bip32_PublicKey_Identifier(pubkey, &pubIdentifier);
@@ -311,8 +293,6 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert(isGoStringEq(tck.identifier, priv_Identifier));
         ck_assert(isGoStringEq(tck.identifier, pub_Identifier));
 
-        GoUint8 privDepth;
-        GoUint8 pubDepth;
         err = SKY_bip32_PrivateKey_GetDepth(privkey, &privDepth);
         ck_assert_int_eq(SKY_OK, err);
         err = SKY_bip32_PublicKey_GetDepth(pubkey, &pubDepth);
@@ -320,8 +300,6 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert_int_eq(tck.depth, privDepth);
         ck_assert_int_eq(tck.depth, pubDepth);
 
-        GoUint8 privchildNumber;
-        GoUint8 pubchildNumber;
         err = SKY_bip32_PrivateKey_ChildNumber(privkey, &privchildNumber);
         ck_assert_int_eq(SKY_OK, err);
         err = SKY_bip32_PublicKey_ChildNumber(pubkey, &pubchildNumber);
@@ -356,6 +334,28 @@ START_TEST(TestBip32TestVectors)
     vector1.chainCode.n = 64;
     vector1.childNUmber = 0;
     vector1.depth = 0;
+    vector1.depthNumber = 1;
+    vector1.children[0].path.p = "m/0'";
+    vector1.children[0].path.n = 4;
+    vector1.children[0].privKey.p = "xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7";
+    vector1.children[0].privKey.n = 111;
+    vector1.children[0].pubKey.p = "xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw";
+    vector1.children[0].pubKey.n = 111;
+    vector1.children[0].fingerprint.p = "5c1bd648";
+    vector1.children[0].fingerprint.n = 8;
+    vector1.children[0].identifier.p = "5c1bd648ed23aa5fd50ba52b2457c11e9e80a6a7";
+    vector1.children[0].identifier.n = 40;
+    vector1.children[0].chainCode.p = "47fdacbd0f1097043b78c63c20c34ef4ed9a111d980047ad16282c7ae6236141";
+    vector1.children[0].chainCode.n = 64;
+    vector1.children[0].hexPubKey.p = "035a784662a4a20a65bf6aab9ae98a6c068a81c52e4b032c0fb5400c706cfccc56";
+    vector1.children[0].hexPubKey.n = 66;
+    vector1.children[0].wifPrivKey.p = "L5BmPijJjrKbiUfG4zbiFKNqkvuJ8usooJmzuD7Z8dkRoTThYnAT";
+    vector1.children[0].wifPrivKey.n = 52;
+    vector1.children[0].childNUmber = 2147483648;
+    vector1.children[0].depth = 1;
+    
+
+
     testVectorKeyPairs(vector1);
 }
 END_TEST
