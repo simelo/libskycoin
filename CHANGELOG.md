@@ -90,6 +90,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip32_PublicKey_GetDepth`
 - Added function `SKY_bip32_PrivateKey_ChildNumber`
 - Added function `SKY_bip32_PublicKey_ChildNumber`
+- Added function `SKY_bip32_PrivateKey_GetChainCode`
+- Added function `SKY_bip32_PublicKey_GetChainCode`
 
 
 ### Removed
