@@ -3,6 +3,8 @@ package main
 import (
 	"unsafe"
 
+	"github.com/skycoin/skycoin/src/cipher/bip39"
+	"github.com/skycoin/skycoin/src/cipher/bip44"
 	testutil "github.com/skycoin/skycoin/src/testutil"
 )
 
@@ -29,3 +31,30 @@ func SKY_testutil_MakePubKey(_arg0 *C.cipher__PubKey) (____error_code uint32) {
 	return
 }
 
+//export SKY_testutil_RandXPub
+func SKY_testutil_RandXPub(_arg0 *C.PublicKey__Handle) (____error_code uint32) {
+	m := bip39.MustNewDefaultMnemonic()
+	s, err := bip39.NewSeed(m, "")
+	____error_code = libErrorCode(err)
+	if err != nil {
+		return
+	}
+
+	c, err := bip44.NewCoin(s, bip44.CoinTypeSkycoin)
+	____error_code = libErrorCode(err)
+	if err != nil {
+		return
+	}
+	x, err := c.Account(0)
+	____error_code = libErrorCode(err)
+	if err != nil {
+		return
+	}
+	e, err := x.External()
+	____error_code = libErrorCode(err)
+	if err != nil {
+		return
+	}
+	*_arg0 = registerPublicKeyHandle(e.PublicKey())
+	return
+}

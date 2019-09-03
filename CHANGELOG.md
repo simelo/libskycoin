@@ -93,6 +93,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip32_PrivateKey_GetChainCode`
 - Added function `SKY_bip32_PublicKey_GetChainCode`
 - Added function `SKY_testutil_MakePubKey`
+- Added function `SKY_testutil_RandXPub`
 
 
 ### Removed
