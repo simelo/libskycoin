@@ -46,7 +46,7 @@ GoInt_ isBitcoinAddressEq(cipher__BitcoinAddress* addr1, cipher__BitcoinAddress*
 GoInt_ isGoStringEq(GoString string1, GoString string2)
 {
     return (string1.n == string2.n) &&
-           (strcmp(string1.p, string2.p) == 0);
+           (strncmp(string1.p, string2.p, string1.n) == 0);
 }
 
 GoInt_ isGoString_Eq(GoString_ string1, GoString_ string2)
@@ -184,5 +184,137 @@ GoInt_ isTransactionHandleEq(Transaction__Handle* handle1, Transaction__Handle* 
     ck_assert_int_eq(err, SKY_OK);
     if (!equalSlices_(&p1, &p2, sizeof(coin__TransactionOutput)))
         return 0;
+    return 1;
+}
+
+GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2)
+{
+    GoSlice Version1;
+    GoSlice Version2;
+    GoSlice ParentFingerprint1;
+    GoSlice ParentFingerprint2;
+    GoUint32 childNumber1;
+    GoUint32 childNumber2;
+    GoSlice ChainCode1;
+    GoSlice ChainCode2;
+    GoSlice Key1;
+    GoSlice Key2;
+    GoUint8 Depth1;
+    GoUint8 Depth2;
+
+    GoUint32 err = SKY_bip32_PrivateKey_GetVersion(handle1, &Version1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PrivateKey_GetVersion(handle2, &Version2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&Version1, &Version2)) {
+        return 0;
+    }
+
+    err = SKY_bip32_PrivateKey_GetDepth(handle1, &Depth1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PrivateKey_GetDepth(handle2, &Depth2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (Depth1 != Depth2) {
+        return 0;
+    }
+
+    err = SKY_bip32_PrivateKey_GetParentFingerprint(handle1, &ParentFingerprint1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PrivateKey_GetParentFingerprint(handle2, &ParentFingerprint2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&ParentFingerprint1, &ParentFingerprint2)) {
+        return 0;
+    }
+
+    err = SKY_bip32_PrivateKey_ChildNumber(handle1, &childNumber1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PrivateKey_ChildNumber(handle2, &childNumber2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (childNumber1 != childNumber2) {
+        return 0;
+    }
+
+    err = SKY_bip32_PrivateKey_GetChainCode(handle1, &ChainCode1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PrivateKey_GetChainCode(handle2, &ChainCode2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&ChainCode1, &ChainCode2)) {
+        return 0;
+    }
+
+    err = SKY_bip32_PrivateKey_GetKey(handle1, &Key1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PrivateKey_GetKey(handle2, &Key2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&Key1, &Key2)) {
+        return 0;
+    }
+
+    return 1;
+}
+
+GoInt isPublicKeyEq(PublicKey__Handle handle1, PublicKey__Handle handle2)
+{
+    GoSlice Version1;
+    GoSlice Version2;
+    GoSlice ParentFingerprint1;
+    GoSlice ParentFingerprint2;
+    GoUint32 childNumber1;
+    GoUint32 childNumber2;
+    GoSlice ChainCode1;
+    GoSlice ChainCode2;
+    GoSlice Key1;
+    GoSlice Key2;
+    GoUint8 Depth1;
+    GoUint8 Depth2;
+
+    GoUint32 err = SKY_bip32_PublicKey_GetVersion(handle1, &Version1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PublicKey_GetVersion(handle2, &Version2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&Version1, &Version2)) {
+        return 0;
+    }
+
+    err = SKY_bip32_PublicKey_GetDepth(handle1, &Depth1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PublicKey_GetDepth(handle2, &Depth2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (Depth1 != Depth2) {
+        return 0;
+    }
+
+    err = SKY_bip32_PublicKey_GetParentFingerprint(handle1, &ParentFingerprint1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PublicKey_GetParentFingerprint(handle2, &ParentFingerprint2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&ParentFingerprint1, &ParentFingerprint2)) {
+        return 0;
+    }
+
+    err = SKY_bip32_PublicKey_ChildNumber(handle1, &childNumber1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PublicKey_ChildNumber(handle2, &childNumber2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (childNumber1 != childNumber2) {
+        return 0;
+    }
+
+    err = SKY_bip32_PublicKey_GetChainCode(handle1, &ChainCode1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PublicKey_GetChainCode(handle2, &ChainCode2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&ChainCode1, &ChainCode2)) {
+        return 0;
+    }
+
+    err = SKY_bip32_PublicKey_GetKey(handle1, &Key1);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_bip32_PublicKey_GetKey(handle2, &Key2);
+    ck_assert_int_eq(err, SKY_OK);
+    if (!isGoSliceEq(&Key1, &Key2)) {
+        return 0;
+    }
+
     return 1;
 }

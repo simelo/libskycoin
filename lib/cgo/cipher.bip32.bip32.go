@@ -69,50 +69,46 @@ func SKY_bip32_PrivateKey_Publickey(_pk C.PrivateKey__Handle, _pp *C.PublicKey__
 }
 
 //export SKY_bip32_PrivateKey_Fingerprint
-func SKY_bip32_PrivateKey_Fingerprint(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PrivateKey_Fingerprint(_pk C.PrivateKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Fingerprint()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Fingerprint()
 	return
 }
 
 //export SKY_bip32_PrivateKey_Identifier
-func SKY_bip32_PrivateKey_Identifier(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PrivateKey_Identifier(_pk C.PrivateKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Identifier()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Identifier()
 	return
 }
 
 //export SKY_bip32_PublicKey_Fingerprint
-func SKY_bip32_PublicKey_Fingerprint(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PublicKey_Fingerprint(_pk C.PublicKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Fingerprint()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Fingerprint()
 	return
 }
 
 //export SKY_bip32_PublicKey_Identifier
-func SKY_bip32_PublicKey_Identifier(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PublicKey_Identifier(_pk C.PublicKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Identifier()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Identifier()
 	return
 }
 
@@ -162,15 +158,15 @@ func SKY_bip32_PublicKey_NewPublicChildKey(_pk C.PublicKey__Handle, childIdx uin
 }
 
 //export SKY_bip32_PrivateKey_Serialize
-func SKY_bip32_PrivateKey_Serialize(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PrivateKey_Serialize(_pk C.PrivateKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPrivateKeyHandle(_pk)
 
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Serialize()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Serialize()
+
 	return
 }
 
@@ -274,7 +270,6 @@ func SKY_bip32_PublicKey_GetKey(_pk C.PublicKey__Handle, _arg0 *[]byte) (___erro
 		return
 	}
 	*_arg0 = pk.Key
-	
 	return
 }
 
@@ -328,5 +323,89 @@ func SKY_bip32_PublicKey_ChildNumber(_pk C.PublicKey__Handle, _arg0 *uint32) (__
 	}
 
 	*_arg0 = pk.ChildNumber()
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetChainCode
+func SKY_bip32_PrivateKey_GetChainCode(_pk C.PrivateKey__Handle, _arg0 *[]byte) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.ChainCode
+	return
+}
+
+//export SKY_bip32_PublicKey_GetChainCode
+func SKY_bip32_PublicKey_GetChainCode(_pk C.PublicKey__Handle, _arg0 *[]byte) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.ChainCode
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetVersion
+func SKY_bip32_PrivateKey_GetVersion(_pk C.PrivateKey__Handle, _arg0 *[]byte) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.Version
+	return
+}
+
+//export SKY_bip32_PublicKey_GetVersion
+func SKY_bip32_PublicKey_GetVersion(_pk C.PublicKey__Handle, _arg0 *[]byte) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.Version
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetParentFingerprint
+func SKY_bip32_PrivateKey_GetParentFingerprint(_pk C.PrivateKey__Handle, _arg0 *[]byte) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.ParentFingerprint
+	return
+}
+
+//export SKY_bip32_PublicKey_GetParentFingerprint
+func SKY_bip32_PublicKey_GetParentFingerprint(_pk C.PublicKey__Handle, _arg0 *[]byte) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	*_arg0 = pk.ParentFingerprint
 	return
 }
