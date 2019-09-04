@@ -238,6 +238,11 @@ typedef Handle PublicKey__Handle;
 typedef Handle PrivateKey__Handle;
 
 /**
+ * Path__Handle Handle, struct bip32.Path
+ */
+typedef Handle Path__Handle;
+
+/**
  * Coin__Handle Handle, struct bip44.Coin
  */
 typedef Handle Coin__Handle;
