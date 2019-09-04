@@ -41,10 +41,12 @@ typedef struct {
 
 void assertPrivateKeySerialization(PrivateKey__Handle key, GoString expected)
 {
-    GoSlice expectedBytes;
+    GoUint8 bufferexpectedBytes[1024];
+    GoSlice expectedBytes = {bufferexpectedBytes, 0, 1024};
     GoUint32 err = SKY_base58_Decode(expected, &expectedBytes);
     ck_assert_int_eq(SKY_OK, err);
-    GoSlice serialized;
+    GoUint8 bufferserialized[1024];
+    GoSlice serialized = {bufferserialized, 0, 1024};
     err = SKY_bip32_PrivateKey_Serialize(key, &serialized);
     ck_assert_int_eq(SKY_OK, err);
     ck_assert(isGoSliceEq(&expectedBytes, &serialized));
@@ -60,10 +62,12 @@ void assertPrivateKeySerialization(PrivateKey__Handle key, GoString expected)
 
 void assertPublicKeySerialization(PublicKey__Handle key, GoString expected)
 {
-    GoSlice expectedBytes;
+    GoUint8 bufferexpectedBytes[1024];
+    GoSlice expectedBytes = {bufferexpectedBytes, 0, 1024};
     GoUint32 err = SKY_base58_Decode(expected, &expectedBytes);
     ck_assert_int_eq(SKY_OK, err);
-    GoSlice serialized;
+    GoUint8 bufferserialized[1024];
+    GoSlice serialized = {bufferserialized, 0, 1024};
     err = SKY_bip32_PublicKey_Serialize(key, &serialized);
     ck_assert_int_eq(SKY_OK, err);
     ck_assert(isGoSliceEq(&expectedBytes, &serialized));
@@ -87,7 +91,8 @@ void testVectorKeyPairs(testMasterKey vector)
 
     // Generate a master private and public key
     PrivateKey__Handle privkey = 0;
-    GoSlice sliceseed;
+    GoUint8 buffersliceseed[1024];
+    GoSlice sliceseed = {buffersliceseed, 0, 1024};
     copyGoSlice_toGoSlice(&sliceseed, &seed, sizeof(seed));
     err = SKY_bip32_NewMasterKey(sliceseed, &privkey);
     ck_assert_int_eq(err, SKY_OK);
@@ -113,8 +118,10 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert_int_eq(err, SKY_OK);
     ck_assert_int_eq(0, childnumberPubKey);
 
-    GoString stringPrivKey;
-    GoString stringPubKey;
+    GoUint8 bufferstringPrivKey[1024];
+    GoUint8 bufferstringPubKey[1024];
+    GoString stringPrivKey = {bufferstringPrivKey, 0};
+    GoString stringPubKey = {bufferstringPubKey, 0};
     err = SKY_bip32_PrivateKey_String(privkey, &stringPrivKey);
     ck_assert_int_eq(err, SKY_OK);
     ck_assert(isGoStringEq(stringPrivKey, vector.privkey));
@@ -122,7 +129,8 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert_int_eq(err, SKY_OK);
     ck_assert(isGoStringEq(stringPubKey, vector.pubKey));
 
-    GoString hexPubKey;
+    GoUint8 bufferhexPubKey[1024];
+    GoString hexPubKey = {bufferhexPubKey, 0};
     GoUint8 bufferpubkey[MAXBUFFER];
     GoSlice slicepubkey = {bufferpubkey, 0, MAXBUFFER};
     err = SKY_bip32_PublicKey_GetKey(pubkey, &slicepubkey);
@@ -138,7 +146,8 @@ void testVectorKeyPairs(testMasterKey vector)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_cipher_NewSecKey(sliceprivkey, &tempSec);
     ck_assert_int_eq(err, SKY_OK);
-    GoString wif;
+    GoUint8 bufferwif[1024];
+    GoString wif = {bufferwif, 0};
     SKY_cipher_BitcoinWalletImportFormatFromSeckey(&tempSec, &wif);
     ck_assert(isGoStringEq(wif, vector.wifPrivKey));
 
@@ -163,8 +172,10 @@ void testVectorKeyPairs(testMasterKey vector)
     GoUint8 bufferpubFringerprint[MAXBUFFER];
     GoSlice privFringerprint = {bufferprivFringerprint, 0, MAXBUFFER};
     GoSlice pubFringerprint = {bufferpubFringerprint, 0, MAXBUFFER};
-    GoString priv_Fringerprint;
-    GoString pub_Fringerprint;
+    GoUint8 bufferpriv_Fringerprint[MAXBUFFER];
+    GoString priv_Fringerprint = {bufferpriv_Fringerprint, 0};
+    GoUint8 bufferpub_Fringerprint[MAXBUFFER];
+    GoString pub_Fringerprint = {bufferpub_Fringerprint, 0};
     err = SKY_bip32_PrivateKey_Fingerprint(privkey, &privFringerprint);
     ck_assert_int_eq(SKY_OK, err);
     err = SKY_bip32_PublicKey_Fingerprint(pubkey, &pubFringerprint);
@@ -232,6 +243,7 @@ void testVectorKeyPairs(testMasterKey vector)
 
     // Iterate over the entire child chain and test the given keys
     for (size_t i = 0; i < vector.depthNumber; i++) {
+        printf("Iter %d\n", i);
         testChildKey tck = vector.children[i];
         privkey = 0;
         err = SKY_bip32_NewPrivateKeyFromPath(seed, tck.path, &privkey);
@@ -259,7 +271,6 @@ void testVectorKeyPairs(testMasterKey vector)
         err = SKY_bip32_PublicKey_String(pubkey, &stringPubKey);
         ck_assert_int_eq(err, SKY_OK);
         ck_assert(isGoStringEq(stringPubKey, tck.pubKey));
-
 
         err = SKY_bip32_PrivateKey_GetChainCode(privkey, &privChainCode);
         ck_assert_int_eq(SKY_OK, err);
@@ -629,14 +640,91 @@ START_TEST(TestBip32TestVectors)
     vector4.children[0].childNUmber = FirstHardenedChild;
     vector4.children[0].depth = 5;
 
-
+    printf("Vector 1\n");
     testVectorKeyPairs(vector1);
+    printf("Vector 2\n");
     testVectorKeyPairs(vector2);
+    printf("Vector 3\n");
     testVectorKeyPairs(vector3);
+    printf("Vector 4\n");
     testVectorKeyPairs(vector4);
 }
 END_TEST
 
+START_TEST(TestParentPublicChildDerivation)
+{
+    GoSlice extendedMasterPublicBytes;
+    GoString tmp_str = {"xpub6DxSCdWu6jKqr4isjo7bsPeDD6s3J4YVQV1JSHZg12Eagdqnf7XX4fxqyW2sLhUoFWutL7tAELU2LiGZrEXtjVbvYptvTX5Eoa4Mamdjm9u", 111};
+    GoUint32 err = SKY_base58_Decode(tmp_str, &extendedMasterPublicBytes);
+    ck_assert_int_eq(err, SKY_OK);
+
+    PublicKey__Handle extendedMasterPublic = 0;
+    err = SKY_bip32_DeserializePublicKey(extendedMasterPublicBytes, &extendedMasterPublic);
+    ck_assert_int_eq(err, SKY_OK);
+
+    GoSlice extendedMasterPrivateBytes;
+    tmp_str.p = "xprv9zy5o7z1GMmYdaeQdmabWFhUf52Ytbpe3G5hduA4SghboqWe7aDGWseN8BJy1GU72wPjkCbBE1hvbXYqpCecAYdaivxjNnBoSNxwYD4wHpW";
+    tmp_str.n = 111;
+    err = SKY_base58_Decode(tmp_str, &extendedMasterPrivateBytes);
+    ck_assert_int_eq(err, SKY_OK);
+
+    PrivateKey__Handle extendedMasterPrivate = 0;
+    err = SKY_bip32_DeserializePrivateKey(extendedMasterPrivateBytes, &extendedMasterPrivate);
+    ck_assert_int_eq(err, SKY_OK);
+
+    testChildKey expectedChildren[MAXBUFFER];
+    // 0
+    expectedChildren[0].path.p = "m/0";
+    expectedChildren[0].path.n = 3;
+    expectedChildren[0].hexPubKey.p = "0243187e1a2ba9ba824f5f81090650c8f4faa82b7baf93060d10b81f4b705afd46";
+    expectedChildren[0].hexPubKey.n = 66;
+    expectedChildren[0].wifPrivKey.p = "KyNPkzzaQ9xa7d2iFacTBgjP4rM3SydTzUZW7uwDh6raePWRJkeM";
+    expectedChildren[0].wifPrivKey.n = 52;
+
+    for (size_t i = 0; i < 1; i++) {
+        testChildKey child = expectedChildren[i];
+        Path__Handle path;
+        err = SKY_bip32_ParsePath(child.path, &path);
+        ck_assert_int_eq(err, SKY_OK);
+        GoInt len;
+        err = SKY_bip32_Path_Count(path, &len);
+        ck_assert_int_eq(err, SKY_OK);
+        ck_assert_int_eq(len, 2);
+
+        PublicKey__Handle pubKey = 0;
+        bip32__PathNode element_tmp;
+        err = SKY_bip32_Path_GetElements(path, 1, &element_tmp);
+        ck_assert_int_eq(err, SKY_OK);
+        err = SKY_bip32_PublicKey_NewPublicChildKey(extendedMasterPublic, element_tmp.ChildNumber, &pubKey);
+        ck_assert_int_eq(err, SKY_OK);
+        GoSlice pubkey_key;
+        err = SKY_bip32_PublicKey_GetKey(pubKey, &pubkey_key);
+        ck_assert_int_eq(err, SKY_OK);
+
+        GoString pubkey_hexpubkey;
+        err = SKY_base58_Hex2String(pubkey_key, &pubkey_hexpubkey);
+        ck_assert(isGoStringEq(child.hexPubKey, pubkey_hexpubkey));
+
+        PublicKey__Handle pubKey2 = 0;
+        err = SKY_bip32_PrivateKey_NewPublicChildKey(extendedMasterPrivate, element_tmp.ChildNumber, &pubKey2);
+        ck_assert_int_eq(err, SKY_OK);
+        ck_assert(isPublicKeyEq(pubKey, pubKey2));
+
+        PrivateKey__Handle privKey = 0;
+        err = SKY_bip32_PrivateKey_NewPrivateChildKey(extendedMasterPrivate, element_tmp.ChildNumber, &privKey);
+        ck_assert_int_eq(err, SKY_OK);
+
+        cipher__SecKey expectedPrivKey;
+        err = SKY_cipher_SecKeyFromBitcoinWalletImportFormat(child.wifPrivKey, &expectedPrivKey);
+        ck_assert_int_eq(err, SKY_OK);
+
+        PublicKey__Handle pubKey3 = 0;
+        err = SKY_bip32_PrivateKey_Publickey(privKey, &pubKey3);
+        ck_assert_int_eq(err, SKY_OK);
+        ck_assert(isPublicKeyEq(pubKey, pubKey3));
+    }
+}
+END_TEST
 
 START_TEST(TestMaxChildDepthError)
 {
@@ -672,6 +760,7 @@ Suite* cipher_bip32(void)
     tc = tcase_create("cipher.bip32");
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestMaxChildDepthError);
+    tcase_add_test(tc, TestParentPublicChildDerivation);
     tcase_add_test(tc, TestBip32TestVectors);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);

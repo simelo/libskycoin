@@ -620,6 +620,20 @@ func lookupPrivateKeyHandle(handle C.PrivateKey__Handle) (*bip32.PrivateKey, boo
 	return nil, false
 }
 
+func registerPathHandle(obj *bip32.Path) C.Path__Handle {
+	return (C.Path__Handle)(registerHandle(obj))
+}
+
+func lookupPathHandle(handle C.Path__Handle) (*bip32.Path, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip32.Path); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
 func registerCoinHandle(obj *bip44.Coin) C.Coin__Handle {
 	return (C.Coin__Handle)(registerHandle(obj))
 }
