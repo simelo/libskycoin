@@ -956,6 +956,93 @@ START_TEST(TestDeserializePrivateInvalidStrings)
     }
 }
 END_TEST
+
+START_TEST(TestDeserializePublicInvalidStrings)
+{
+    tests_Struct tests[MAXBUFFER];
+    // 0
+    tests[0].err = SKY_ErrSerializedKeyWrongSize;
+    tests[0].base58.p = "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet888";
+    tests[0].base58.n = 113;
+    // 1
+    tests[1].err = SKY_bip32_ErrInvalidChecksum;
+    tests[1].base58.p = "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W11GMcet8";
+    tests[1].base58.n = 111;
+    // 2
+    tests[2].err = SKY_ErrInvalidPublicKeyVersion;
+    tests[2].base58.p = "xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7";
+    tests[2].base58.n = 111;
+    // 3
+    tests[3].err = SKY_ErrInvalidFingerprint;
+    tests[3].base58.p = "xpub67tVq9SuNQCfm2PXBqjGRAtNZ935kx2uHJaURePth4JBpMfEy6jum7Euj7FTpbs7fnjhfZcNEktCucWHcJf74dbKLKNSTZCQozdDVwvkJhs";
+    tests[3].base58.n = 111;
+    // 4
+    tests[4].err = SKY_ErrInvalidChildNumber;
+    tests[4].base58.p = "xpub661MyMwTWkfYZq6BEh3ywGVXFvNj5hhzmWMhFBHSqmub31B1LZ9wbJ3DEYXZ8bHXGqnHKfepTud5a2XxGdnnePzZa2m2DyzTnFGBUXtaf9M";
+    tests[4].base58.n = 111;
+    // 5
+    tests[5].err = SKY_ErrInvalidPublicKey;
+    tests[5].base58.p = "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gYymDsxxRe3WWeZQ7TadaLSdKUffezzczTCpB8j3JP96UwE2n6w1";
+    tests[5].base58.n = 111;
+    // 6
+    tests[6].err = SKY_ErrInvalidKeyVersion;
+    tests[6].base58.p = "8FH81Rao5EgGmdScoN66TJAHsQP7phEMeyMTku9NBJd7hXgaj3HTvSNjqJjoqBpxdbuushwPEM5otvxXt2p9dcw33AqNKzZEPMqGHmz7Dpayi6Vb";
+    tests[6].base58.n = 112;
+    // 7
+    tests[7].err = SKY_ErrInvalidKeyVersion;
+    tests[7].base58.p = "1111111111111adADjFaSNPxwXqLjHLj4mBfYxuewDPbw9hEj1uaXCzMxRPXDFF3cUoezTFYom4sEmEVSQmENPPR315cFk9YUFVek73wE9";
+    tests[7].base58.n = 106;
+    // 8
+    tests[8].err = SKY_ErrSerializedKeyWrongSize;
+    tests[8].base58.p = "7JJikZQ2NUXjSAnAF2SjFYE3KXbnnVxzRBNddFE1DjbDEHVGEJzYC7zqSgPoauBJS3cWmZwsER94oYSFrW9vZ4Ch5FtGeifdzmtS3FGYDB1vxFZsYKgMc";
+    tests[8].base58.n = 117;
+
+    for (size_t i = 0; i < 9; i++) {
+        tests_Struct test = tests[i];
+        GoUint8 bufferb[MAXBUFFER];
+        GoSlice b = {bufferb, 0, MAXBUFFER};
+        GoUint32 err = SKY_base58_Decode(test.base58, &b);
+        ck_assert_msg(err == SKY_OK, " Iter %d", i);
+
+        PublicKey__Handle rest_pub = 0;
+        err = SKY_bip32_DeserializePublicKey(b, &rest_pub);
+        ck_assert_msg(err == test.err, "Iter %d", i);
+    }
+}
+END_TEST
+
+START_TEST(TestCantCreateHardenedPublicChild)
+{
+    GoUint8 bufferb[MAXBUFFER];
+    GoSlice b = {bufferb, 0, MAXBUFFER};
+    randBytes(&b, 32);
+    PrivateKey__Handle key = 0;
+    GoUint32 err = SKY_bip32_NewMasterKey(b, &key);
+    ck_assert(err == SKY_OK);
+
+    // Test that it works for private keys
+    PrivateKey__Handle priv_temp = 0;
+    err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, FirstHardenedChild - 1, &priv_temp);
+    ck_assert(err == SKY_OK);
+    err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, FirstHardenedChild, &priv_temp);
+    ck_assert(err == SKY_OK);
+    err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, FirstHardenedChild + 1, &priv_temp);
+    ck_assert(err == SKY_OK);
+
+    // Test that it throws an error for public keys if hardened
+    PublicKey__Handle pubkey = 0;
+    err = SKY_bip32_PrivateKey_Publickey(key, &pubkey);
+    ck_assert(err == SKY_OK);
+
+    PublicKey__Handle pub_temp = 0;
+    err = SKY_bip32_PublicKey_NewPublicChildKey(pubkey, FirstHardenedChild - 1, &pub_temp);
+    ck_assert(err == SKY_OK);
+    err = SKY_bip32_PublicKey_NewPublicChildKey(pubkey, FirstHardenedChild, &pub_temp);
+    ck_assert_int_eq(err, SKY_ErrHardenedChildPublicKey);
+    err = SKY_bip32_PublicKey_NewPublicChildKey(pubkey, FirstHardenedChild + 1, &pub_temp);
+    ck_assert_int_eq(err, SKY_ErrHardenedChildPublicKey);
+}
+END_TEST
 Suite* cipher_bip32(void)
 {
     Suite* s = suite_create("Load cipher.bip32");
@@ -967,6 +1054,8 @@ Suite* cipher_bip32(void)
     tcase_add_test(tc, TestParentPublicChildDerivation);
     tcase_add_test(tc, TestBip32TestVectors);
     tcase_add_test(tc, TestDeserializePrivateInvalidStrings);
+    tcase_add_test(tc, TestDeserializePublicInvalidStrings);
+    tcase_add_test(tc, TestCantCreateHardenedPublicChild);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
