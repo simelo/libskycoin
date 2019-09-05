@@ -1,7 +1,6 @@
 package main
 
 import (
-	"reflect"
 	"unsafe"
 
 	"github.com/skycoin/skycoin/src/cli"
@@ -27,15 +26,14 @@ func SKY_cli_LoadConfig(_arg0 *C.Config__Handle) (____error_code uint32) {
 }
 
 //export SKY_cli_Config_FullDBPath
-func SKY_cli_Config_FullDBPath(_c C.Config__Handle, _arg0 *C.GoString_) (____error_code uint32) {
+func SKY_cli_Config_FullDBPath(_c C.Config__Handle, _arg0 *string) (____error_code uint32) {
 	__c, okc := lookupConfigHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 	c := *__c
-	__arg0 := c.FullDBPath()
-	copyString(__arg0, _arg0)
+	*_arg0 = c.FullDBPath()
 	return
 }
 
@@ -67,23 +65,23 @@ func SKY_cli_NewPasswordReader(_password []byte, passwordReader *C.PasswordReade
 }
 
 //export SKY_cli_PasswordFromBytes_Password
-func SKY_cli_PasswordFromBytes_Password(_p *C.cli__PasswordFromBytes, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_cli_PasswordFromBytes_Password(_p *C.cli__PasswordFromBytes, _arg0 *[]byte) (____error_code uint32) {
 	p := *(*cli.PasswordFromBytes)(unsafe.Pointer(_p))
 	__arg0, ____return_err := p.Password()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+		*_arg0 = __arg0
 	}
 	return
 }
 
 //export SKY_cli_PasswordFromTerm_Password
-func SKY_cli_PasswordFromTerm_Password(_arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_cli_PasswordFromTerm_Password(_arg0 *[]byte) (____error_code uint32) {
 	p := cli.PasswordFromTerm{}
 	__arg0, ____return_err := p.Password()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+		*_arg0 = __arg0
 	}
 	return
 }

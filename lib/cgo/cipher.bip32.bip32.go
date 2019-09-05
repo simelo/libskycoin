@@ -1,7 +1,6 @@
 package main
 
 import (
-	"reflect"
 	"unsafe"
 
 	"github.com/skycoin/skycoin/src/cipher/bip32"
@@ -171,15 +170,14 @@ func SKY_bip32_PrivateKey_Serialize(_pk C.PrivateKey__Handle, _arg0 *[]byte) (__
 }
 
 //export SKY_bip32_PublicKey_Serialize
-func SKY_bip32_PublicKey_Serialize(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+func SKY_bip32_PublicKey_Serialize(_pk C.PublicKey__Handle, _arg0 *[]byte) (___error_code uint32) {
 	pk, okpk := lookupPublicKeyHandle(_pk)
 
 	if !okpk {
 		___error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := pk.Serialize()
-	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+	*_arg0 = pk.Serialize()
 	return
 }
 

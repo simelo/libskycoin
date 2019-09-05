@@ -43,9 +43,9 @@ func SKY_cipher_SHA256_Set(_g *C.cipher__SHA256, _b []byte) (____error_code uint
 }
 
 //export SKY_cipher_SHA256_Hex
-func SKY_cipher_SHA256_Hex(_g *C.cipher__SHA256, _arg1 *C.GoString_) (____error_code uint32) {
+func SKY_cipher_SHA256_Hex(_g *C.cipher__SHA256, _arg1 *string) (____error_code uint32) {
 	g := (*cipher.SHA256)(unsafe.Pointer(_g))
-	copyString(g.Hex(), _arg1)
+	*_arg1 = g.Hex()
 	return
 }
 

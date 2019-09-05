@@ -10,7 +10,6 @@ package main
 import "C"
 
 import (
-	"reflect"
 	"unsafe"
 
 	cipher "github.com/skycoin/skycoin/src/cipher"
@@ -83,10 +82,9 @@ func SKY_cipher_BitcoinAddress_Null(_addr *C.cipher__BitcoinAddress) bool {
 }
 
 //export SKY_cipher_BitcoinAddress_Bytes
-func SKY_cipher_BitcoinAddress_Bytes(_addr *C.cipher__BitcoinAddress, _arg0 *C.GoSlice_) {
+func SKY_cipher_BitcoinAddress_Bytes(_addr *C.cipher__BitcoinAddress, _arg0 *[]byte) {
 	addr := (*cipher.BitcoinAddress)(unsafe.Pointer(_addr))
-	bytes := addr.Bytes()
-	copyToGoSlice(reflect.ValueOf(bytes), _arg0)
+	*_arg0 = addr.Bytes()
 }
 
 //export SKY_cipher_BitcoinAddress_Verify
@@ -98,10 +96,9 @@ func SKY_cipher_BitcoinAddress_Verify(_addr *C.cipher__BitcoinAddress, _key *C.c
 }
 
 //export SKY_cipher_BitcoinAddress_String
-func SKY_cipher_BitcoinAddress_String(_addr *C.cipher__BitcoinAddress, _arg1 *C.GoString_) {
+func SKY_cipher_BitcoinAddress_String(_addr *C.cipher__BitcoinAddress, _arg1 *string) {
 	addr := (*cipher.BitcoinAddress)(unsafe.Pointer(_addr))
-	s := addr.String()
-	copyString(s, _arg1)
+	*_arg1 = addr.String()
 }
 
 //export SKY_cipher_BitcoinAddress_Checksum

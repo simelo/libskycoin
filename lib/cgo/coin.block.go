@@ -175,10 +175,10 @@ func SKY_coin_BlockHeader_Hash(_bh C.BlockHeader__Handle, _arg0 *C.cipher__SHA25
 }
 
 //export SKY_coin_BlockHeader_Bytes
-func SKY_coin_BlockHeader_Bytes(_bh *C.coin__BlockHeader, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_coin_BlockHeader_Bytes(_bh *C.coin__BlockHeader, _arg0 *[]byte) (____error_code uint32) {
 	bh := *(*coin.BlockHeader)(unsafe.Pointer(_bh))
 	__arg0 := bh.Bytes()
-	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	*_arg0 = __arg0
 	return
 }
 
@@ -210,14 +210,13 @@ func SKY_coin_BlockBody_Size(_bb *C.BlockBody__Handle, _arg0 *uint32) (____error
 }
 
 //export SKY_coin_BlockBody_Bytes
-func SKY_coin_BlockBody_Bytes(_bb C.BlockBody__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_coin_BlockBody_Bytes(_bb C.BlockBody__Handle, _arg0 *[]byte) (____error_code uint32) {
 	bb, ok := lookupBlockBodyHandle(_bb)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	__arg0 := bb.Bytes()
-	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	*_arg0 = bb.Bytes()
 	return
 }
 

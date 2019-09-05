@@ -27,7 +27,7 @@ func SKY_api_NewClient(_addr string, _arg1 *C.Client__Handle) (____error_code ui
 }
 
 //export SKY_api_Client_CSRF
-func SKY_api_Client_CSRF(_c C.Client__Handle, _arg0 *C.GoString_) (____error_code uint32) {
+func SKY_api_Client_CSRF(_c C.Client__Handle, _arg0 *string) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -36,7 +36,7 @@ func SKY_api_Client_CSRF(_c C.Client__Handle, _arg0 *C.GoString_) (____error_cod
 	__arg0, ____return_err := c.CSRF()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyString(__arg0, _arg0)
+		*_arg0 = __arg0
 	}
 	return
 }
@@ -376,7 +376,7 @@ func SKY_api_Client_WalletFolderName(_c C.Client__Handle, _arg0 *C.Handle) (____
 }
 
 //export SKY_api_Client_NewSeed
-func SKY_api_Client_NewSeed(_c C.Client__Handle, _entropy int, _arg1 *C.GoString_) (____error_code uint32) {
+func SKY_api_Client_NewSeed(_c C.Client__Handle, _entropy int, _arg1 *string) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -386,7 +386,7 @@ func SKY_api_Client_NewSeed(_c C.Client__Handle, _entropy int, _arg1 *C.GoString
 	__arg1, ____return_err := c.NewSeed(entropy)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyString(__arg1, _arg1)
+		*_arg1 = __arg1
 	}
 	return
 }
@@ -581,7 +581,7 @@ func SKY_api_Client_UnconfirmedTransactions(_c C.Client__Handle, _addrs []string
 }
 
 //export SKY_api_Client_InjectTransaction
-func SKY_api_Client_InjectTransaction(_c C.Client__Handle, _rawTx C.Transaction__Handle, _arg1 *C.GoString_) (____error_code uint32) {
+func SKY_api_Client_InjectTransaction(_c C.Client__Handle, _rawTx C.Transaction__Handle, _arg1 *string) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -596,7 +596,7 @@ func SKY_api_Client_InjectTransaction(_c C.Client__Handle, _rawTx C.Transaction_
 	__arg1, ____return_err := c.InjectTransaction(rawTx)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyString(__arg1, _arg1)
+		*_arg1 = __arg1
 	}
 	return
 }
@@ -617,7 +617,7 @@ func SKY_api_Client_ResendUnconfirmedTransactions(_c C.Client__Handle, _arg0 *C.
 }
 
 //export SKY_api_Client_RawTransaction
-func SKY_api_Client_RawTransaction(_c C.Client__Handle, _txid string, _arg1 *C.GoString_) (____error_code uint32) {
+func SKY_api_Client_RawTransaction(_c C.Client__Handle, _txid string, _arg1 *string) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -627,7 +627,7 @@ func SKY_api_Client_RawTransaction(_c C.Client__Handle, _txid string, _arg1 *C.G
 	__arg1, ____return_err := c.RawTransaction(txid)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyString(__arg1, _arg1)
+		*_arg1 = __arg1
 	}
 	return
 }
@@ -748,7 +748,7 @@ func SKY_api_Client_CreateWallet(_c C.Client__Handle, _cwo C.CreateWalletOptions
 }
 
 //export SKY_api_Client_InjectTransactionNoBroadcast
-func SKY_api_Client_InjectTransactionNoBroadcast(_c C.Client__Handle, _txn C.Transaction__Handle, _arg0 *C.GoString_) (____error_code uint32) {
+func SKY_api_Client_InjectTransactionNoBroadcast(_c C.Client__Handle, _txn C.Transaction__Handle, _arg0 *string) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -763,13 +763,13 @@ func SKY_api_Client_InjectTransactionNoBroadcast(_c C.Client__Handle, _txn C.Tra
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
 
-		copyString(arg0, _arg0)
+		*_arg0 = arg0
 	}
 	return
 }
 
 //export SKY_api_Client_InjectEncodedTransactionNoBroadcast
-func SKY_api_Client_InjectEncodedTransactionNoBroadcast(_c C.Client__Handle, rawtx string, _arg0 *C.GoString_) (____error_code uint32) {
+func SKY_api_Client_InjectEncodedTransactionNoBroadcast(_c C.Client__Handle, rawtx string, _arg0 *string) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -780,7 +780,7 @@ func SKY_api_Client_InjectEncodedTransactionNoBroadcast(_c C.Client__Handle, raw
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
 
-		copyString(arg0, _arg0)
+		*_arg0 = arg0
 	}
 	return
 }
