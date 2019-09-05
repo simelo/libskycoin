@@ -1043,6 +1043,72 @@ START_TEST(TestCantCreateHardenedPublicChild)
     ck_assert_int_eq(err, SKY_ErrHardenedChildPublicKey);
 }
 END_TEST
+
+typedef struct
+{
+    GoString seed;
+    GoString path;
+    GoString key;
+    GoUint32 err;
+} cases_Str;
+
+
+START_TEST(TestNewPrivateKeyFromPath)
+{
+    cases_Str cases[MAXBUFFER];
+    // 0
+    cases[0].seed.p = "6162636465666768696A6B6C6D6E6F707172737475767778797A";
+    cases[0].seed.n = 52;
+    cases[0].path.p = "m";
+    cases[0].path.n = 1;
+    cases[0].key.p = "xprv9s21ZrQH143K3GfuLFf1UxUB4GzmFav1hrzTG1bPorBTejryu4YfYVxZn6LNmwfvsi6uj1Wyv9vLDPsfKDuuqwEqYier1ZsbgWVd9NCieNv";
+    cases[0].key.n = 111;
+    cases[0].err = SKY_OK;
+    // 1
+    cases[1].seed.p = "6162636465666768696A6B6C6D6E6F707172737475767778797A";
+    cases[1].seed.n = 52;
+    cases[1].path.p = "m/1'";
+    cases[1].path.n = 4;
+    cases[1].key.p = "xprv9uWf8oyvCHcAUg3kSjSroz67s7M3qJRWmNcdVwYGf91GFsaAatsVVp1bjH7z3WiWevqB7WK92B415oBwcahjoMvvb4mopPyqZUDeVW4168c";
+    cases[1].key.n = 111;
+    cases[1].err = SKY_OK;
+    // 2
+    cases[2].seed.p = "6162636465666768696A6B6C6D6E6F707172737475767778797A";
+    cases[2].seed.n = 52;
+    cases[2].path.p = "m/1'/foo";
+    cases[2].path.n = 8;
+    cases[2].key.p = "";
+    cases[2].key.n = 0;
+    cases[2].err = SKY_ErrPathNodeNotNumber;
+    // 3
+    cases[3].seed.p = "6162";
+    cases[3].seed.n = 4;
+    cases[3].path.p = "m/1";
+    cases[3].path.n = 3;
+    cases[3].key.p = "";
+    cases[3].key.n = 0;
+    cases[3].err = SKY_ErrInvalidSeedLength;
+
+    for (size_t i = 0; i < 4; i++) {
+        cases_Str tc = cases[i];
+        GoUint8 bufferseed[MAXBUFFER];
+        GoSlice seed = {bufferseed, 0, MAXBUFFER};
+        GoUint32 err = SKY_base58_String2Hex(tc.seed, &seed);
+        ck_assert(err == SKY_OK);
+
+        PrivateKey__Handle k = 0;
+        err = SKY_bip32_NewPrivateKeyFromPath(seed, tc.path, &k);
+        ck_assert(err == tc.err);
+        if (err == SKY_OK) {
+            GoUint8 bufferk_string[MAXBUFFER];
+            GoString k_string = {bufferk_string, 0};
+            err = SKY_bip32_PrivateKey_String(k, &k_string);
+            ck_assert(err == SKY_OK);
+            ck_assert(isGoStringEq(tc.key, k_string));
+        }
+    }
+}
+END_TEST
 Suite* cipher_bip32(void)
 {
     Suite* s = suite_create("Load cipher.bip32");
@@ -1056,6 +1122,7 @@ Suite* cipher_bip32(void)
     tcase_add_test(tc, TestDeserializePrivateInvalidStrings);
     tcase_add_test(tc, TestDeserializePublicInvalidStrings);
     tcase_add_test(tc, TestCantCreateHardenedPublicChild);
+    tcase_add_test(tc, TestNewPrivateKeyFromPath);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 

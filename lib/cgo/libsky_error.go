@@ -204,6 +204,15 @@ const (
 	SKY_ErrInvalidCoinType
 	// ErrInvalidAccount account is >= 0x80000000
 	SKY_ErrInvalidAccount
+	// bip32.path
+	// SKY_ErrPathNoMaster HD wallet path does not start with m
+	SKY_ErrPathNoMaster
+	// SKY_ErrPathChildMaster HD wallet path contains m in a child node
+	SKY_ErrPathChildMaster
+	// SKY_ErrPathNodeNotNumber HD wallet path node is not a valid uint32 number
+	SKY_ErrPathNodeNotNumber
+	// SKY_ErrPathNodeNumberTooLarge HD wallet path node is >= 2^31
+	SKY_ErrPathNodeNumberTooLarge
 )
 
 // Error codes defined in cli package
@@ -634,6 +643,10 @@ var (
 		bip32.ErrMaxDepthReached:              SKY_ErrMaxDepthReached,
 		bip44.ErrInvalidCoinType:              SKY_ErrInvalidCoinType,
 		bip44.ErrInvalidAccount:               SKY_ErrInvalidAccount,
+		bip32.ErrPathNoMaster:                 SKY_ErrPathNoMaster,
+		bip32.ErrPathChildMaster:              SKY_ErrPathChildMaster,
+		bip32.ErrPathNodeNotNumber:            SKY_ErrPathNodeNotNumber,
+		bip32.ErrPathNodeNumberTooLarge:       SKY_ErrPathNodeNumberTooLarge,
 	}
 )
 

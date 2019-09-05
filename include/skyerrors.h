@@ -112,6 +112,10 @@
 #define SKY_ErrMaxDepthReached 0x02000043
 #define SKY_ErrInvalidCoinType 0x02000044
 #define SKY_ErrInvalidAccount 0x02000045
+#define SKY_ErrPathNoMaster 0x02000046
+#define SKY_ErrPathChildMaster 0x02000047
+#define SKY_ErrPathNodeNotNumber 0x02000048
+#define SKY_ErrPathNodeNumberTooLarge 0x02000049
 
 // cli error codes
 #define SKY_ErrTemporaryInsufficientBalance 0x03000000
