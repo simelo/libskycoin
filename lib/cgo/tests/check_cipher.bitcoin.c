@@ -232,28 +232,24 @@ START_TEST(TestBitcoinWIFRoundTrip)
     cipher__SecKey seckey;
     cipher__PubKey pubkey;
     SKY_cipher_GenerateKeyPair(&pubkey, &seckey);
-    unsigned char wip1_buff[50];
-    unsigned char wip2_buff[50];
-    GoString wip1;
-    GoString_ tmp_wip1 = {wip1_buff, 0};
-    SKY_cipher_BitcoinWalletImportFormatFromSeckey(&seckey, &tmp_wip1);
-    wip1.n = tmp_wip1.n;
-    wip1.p = tmp_wip1.p;
-    registerMemCleanup((void*)wip1.p);
+    GoUint8 wip1_buff[50];
+    GoUint8 wip2_buff[50];
+    GoString wip1 = {wip1_buff, 0};
+    SKY_cipher_BitcoinWalletImportFormatFromSeckey(&seckey, &wip1);
     cipher__SecKey seckey2;
     GoUint32 err;
     err = SKY_cipher_SecKeyFromBitcoinWalletImportFormat(wip1, &seckey2);
     ck_assert(err == SKY_OK);
-    GoString_ wip2;
+    GoString wip2 = {wip2_buff, 0};
     SKY_cipher_BitcoinWalletImportFormatFromSeckey(&seckey2, &wip2);
     ck_assert(isSecKeyEq(&seckey, &seckey2));
 
-    GoString_ seckeyhex1;
-    GoString_ seckeyhex2;
+    GoString seckeyhex1;
+    GoString seckeyhex2;
     SKY_cipher_SecKey_Hex(&seckey, &seckeyhex1);
     SKY_cipher_SecKey_Hex(&seckey2, &seckeyhex2);
-    ck_assert_str_eq((seckeyhex1.p), (seckeyhex2.p));
-    ck_assert_str_eq((tmp_wip1.p), (wip2.p));
+    ck_assert(isGoStringEq(seckeyhex1, seckeyhex2));
+    ck_assert(isGoStringEq(wip1, wip2));
 }
 END_TEST
 

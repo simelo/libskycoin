@@ -26,6 +26,7 @@
 #include "wallet.entry.go.h"
 #include "wallet.notes.go.h"
 #include "wallet.wallet.go.h"
+#include "wallet.crypto.go.h"
 
 #include "transaction.choose.go.h"
 #include "api.send.go.h"

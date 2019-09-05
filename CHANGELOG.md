@@ -94,7 +94,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_bip32_PublicKey_GetChainCode`
 - Added function `SKY_testutil_MakePubKey`
 - Added function `SKY_testutil_RandXPub`
-
+- Added datatype `wallet__CryptoType`
+- Added function `SKY_cli_GetWalletOutputsFromFile`
+- Added function `SKY_cli_GetWalletOutputs`
+- Added function `SKY_cli_GetBalanceOfAddresses`
+- Added datatype `GetOutputser__Handle`
 
 ### Removed
 

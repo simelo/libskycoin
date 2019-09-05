@@ -115,6 +115,52 @@ typedef void* GoMap_;
 typedef void* GoChan_;
 
 /**
+ * Instances of Go interface types.
+ */
+typedef struct {
+    void* t; ///< Pointer to the information of the concrete Go type
+             ///< bound to this interface reference.
+    void* v; ///< Pointer to the data corresponding to the value
+             ///< bound to this interface type.
+} GoInterface_;
+/**
+ * Instances of Go slices
+ */
+typedef struct {
+    void* data; ///< Pointer to buffer containing slice data.
+    GoInt_ len; ///< Number of items stored in slice buffer
+    GoInt_ cap; ///< Maximum number of items that fits in this slice
+                ///< considering allocated memory and item type's
+                ///< size.
+} GoSlice_;
+
+typedef struct {
+    BOOL neg;
+    GoSlice_ nat;
+} Number;
+
+typedef struct {
+    // TODO: stdevEclipse Define Signature
+    Number R;
+    Number S;
+} Signature;
+
+#include "skytypes.gen.h"
+
+/**
+ * Internal representation of a Skycoin wallet.
+ */
+typedef struct {
+    GoMap_ Meta;      ///< Records items that are not deterministic, like filename,
+                      ///< lable, wallet type, secrets, etc.
+    GoSlice_ Entries; ///< Entries field stores the address entries that are
+                      ///< deterministically generated from seed.
+} Wallet;
+
+typedef GoUint8_ poly1305__Mac[16];
+typedef GoUint8_ poly1305__Key[32];
+
+/**
  * Memory handles returned back to the caller and manipulated
  * internally by API functions. Usually used to avoid type dependencies
  * with internal implementation types.
@@ -253,50 +299,10 @@ typedef Handle Coin__Handle;
 typedef Handle Account__Handle;
 
 /**
- * Instances of Go interface types.
+ * GetOutputser__Handle Handle, interface cli.GetOutputser
  */
-typedef struct {
-    void* t; ///< Pointer to the information of the concrete Go type
-             ///< bound to this interface reference.
-    void* v; ///< Pointer to the data corresponding to the value
-             ///< bound to this interface type.
-} GoInterface_;
-/**
- * Instances of Go slices
- */
-typedef struct {
-    void* data; ///< Pointer to buffer containing slice data.
-    GoInt_ len; ///< Number of items stored in slice buffer
-    GoInt_ cap; ///< Maximum number of items that fits in this slice
-                ///< considering allocated memory and item type's
-                ///< size.
-} GoSlice_;
 
-typedef struct {
-    BOOL neg;
-    GoSlice_ nat;
-} Number;
-
-typedef struct {
-    // TODO: stdevEclipse Define Signature
-    Number R;
-    Number S;
-} Signature;
-
-#include "skytypes.gen.h"
-
-/**
- * Internal representation of a Skycoin wallet.
- */
-typedef struct {
-    GoMap_ Meta;      ///< Records items that are not deterministic, like filename,
-                      ///< lable, wallet type, secrets, etc.
-    GoSlice_ Entries; ///< Entries field stores the address entries that are
-                      ///< deterministically generated from seed.
-} Wallet;
-
-typedef GoUint8_ poly1305__Mac[16];
-typedef GoUint8_ poly1305__Key[32];
+typedef Handle GetOutputser__Handle;
 
 /**
  * Memory handle for internal object retrieving password to read

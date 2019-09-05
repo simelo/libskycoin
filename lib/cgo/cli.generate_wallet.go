@@ -14,8 +14,7 @@ import (
 import "C"
 
 //export SKY_cli_MakeAlphanumericSeed
-func SKY_cli_MakeAlphanumericSeed(_arg0 *C.GoString_) (____error_code uint32) {
-	__arg0 := cli.MakeAlphanumericSeed()
-	copyString(__arg0, _arg0)
+func SKY_cli_MakeAlphanumericSeed(_arg0 *string) (____error_code uint32) {
+	*_arg0 = cli.MakeAlphanumericSeed()
 	return
 }

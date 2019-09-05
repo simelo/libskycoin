@@ -212,11 +212,11 @@ START_TEST(TestToString)
     for (i = 0; i < len; i++) {
         tmpstruct tc = cases[i];
 
-        int err = SKY_droplet_ToString(tc.n, (GoString_*)&s);
+        int err = SKY_droplet_ToString(tc.n, &s);
 
         if (tc.e == SKY_OK) {
             ck_assert(err == SKY_OK);
-            ck_assert_str_eq(tc.s.p, s.p);
+            ck_assert(isGoStringEq(tc.s, s));
         } else {
             ck_assert(err == tc.e);
         }

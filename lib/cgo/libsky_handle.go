@@ -661,3 +661,17 @@ func lookupAccountHandle(handle C.Account__Handle) (*bip44.Account, bool) {
 	}
 	return nil, false
 }
+
+func registerGetOutputserHandle(obj *cli.GetOutputser) C.GetOutputser__Handle {
+	return (C.Account__Handle)(registerHandle(obj))
+}
+
+func lookupGetOutputserHandle(handle C.GetOutputser__Handle) (*cli.GetOutputser, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*cli.GetOutputser); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
