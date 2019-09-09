@@ -136,20 +136,20 @@ START_TEST(TestNewCoin)
     GoSlice Key1Slice = {bufferKey1Slice, 0, 1024};
     copyGoSlice_toGoSlice(&Key1Slice, &Key1, sizeof(Key1));
     SKY_base58_Hex2String(Key1Slice, &Key1Str);
-    ck_assert_str_eq(Key1Str.p, "02f7309e9f559d847ee9cc9ee144cfa490791e33e908fdbde2dade50a389408b01");
+    ck_assert(strncmp(Key1Str.p, "02f7309e9f559d847ee9cc9ee144cfa490791e33e908fdbde2dade50a389408b01", 66) == 0);
 
     PrivateKey__Handle change = 0;
     err = SKY_bip44_Account_Change(account, &change);
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PrivateKey_String(change, &privk_string);
     ck_assert_int_eq(err, SKY_OK);
-    ck_assert_str_eq(privk_string.p, "xprv9zjsvjLiqSerGzJyBrpZgCaGpQCeFDnZEuAV714WigmFyHT4nFLhZLeuHzLNE19PgkZeQ5Uf2pjFZjQTHbkugDbmw5TAPAvgo2jsaTnZo2A");
+    ck_assert(strncmp(privk_string.p, "xprv9zjsvjLiqSerGzJyBrpZgCaGpQCeFDnZEuAV714WigmFyHT4nFLhZLeuHzLNE19PgkZeQ5Uf2pjFZjQTHbkugDbmw5TAPAvgo2jsaTnZo2A", 66) == 0);
     pubk = 0;
     err = SKY_bip32_PrivateKey_Publickey(change, &pubk);
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PublicKey_String(pubk, &pubk_string);
     ck_assert_int_eq(err, SKY_OK);
-    ck_assert_str_eq(pubk_string.p, "xpub6DjELEscfpD9VUPSHtMa3LX1NS38egWQc865uPU8H2JEr5nDKnex78yP9GxhFr5cnCRgiQF1dkv7aR7moraPrv73KHwSkDaXdWookR1Sh9p");
+    ck_assert(strncmp(pubk_string.p, "xpub6DjELEscfpD9VUPSHtMa3LX1NS38egWQc865uPU8H2JEr5nDKnex78yP9GxhFr5cnCRgiQF1dkv7aR7moraPrv73KHwSkDaXdWookR1Sh9p", 66) == 0);
 
     PublicKey__Handle change0 = 0;
     err = SKY_bip32_PrivateKey_NewPublicChildKey(change, 0, &change0);
@@ -158,7 +158,7 @@ START_TEST(TestNewCoin)
     ck_assert_int_eq(err, SKY_OK);
     copyGoSlice_toGoSlice(&KeySlice, &Key, sizeof(Key));
     SKY_base58_Hex2String(KeySlice, &KeyStr);
-    ck_assert_str_eq(KeyStr.p, "026d3eb891e81ecabedfa8560166af383457aedaf172af9d57d00508faa5f57c4c");
+    ck_assert(strncmp(KeyStr.p, "026d3eb891e81ecabedfa8560166af383457aedaf172af9d57d00508faa5f57c4c", 66) == 0);
 
     PublicKey__Handle change1 = 0;
     err = SKY_bip32_PrivateKey_NewPublicChildKey(change, 1, &change1);
@@ -167,7 +167,7 @@ START_TEST(TestNewCoin)
     ck_assert_int_eq(err, SKY_OK);
     copyGoSlice_toGoSlice(&Key1Slice, &Key1, sizeof(Key1));
     SKY_base58_Hex2String(Key1Slice, &Key1Str);
-    ck_assert_str_eq(Key1Str.p, "02681b301293fdf0292cd679b37d60b92a71b389fd994b2b57c8daf99532bfb4a5");
+    ck_assert(strncmp(Key1Str.p, "02681b301293fdf0292cd679b37d60b92a71b389fd994b2b57c8daf99532bfb4a5", 66) == 0);
 }
 END_TEST
 
