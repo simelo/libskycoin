@@ -33,7 +33,11 @@ func SKY_testutil_MakePubKey(_arg0 *C.cipher__PubKey) (____error_code uint32) {
 
 //export SKY_testutil_RandXPub
 func SKY_testutil_RandXPub(_arg0 *C.PublicKey__Handle) (____error_code uint32) {
-	m, _ := bip39.NewDefaultMnemonic()
+	m, err := bip39.NewDefaultMnemonic()
+	____error_code = libErrorCode(err)
+	if err != nil {
+		return
+	}
 	s, err := bip39.NewSeed(m, "")
 	____error_code = libErrorCode(err)
 	if err != nil {
