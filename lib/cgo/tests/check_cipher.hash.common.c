@@ -106,7 +106,7 @@ START_TEST(TestSHA256KnownValue)
         SKY_cipher_SHA256_Hex(&sha, &tmp_output);
         registerMemCleanup((void*)tmp_output.p);
 
-        ck_assert(strcmp(tmp_output.p, vals[i].output) == SKY_OK);
+        ck_assert(strncmp(tmp_output.p, vals[i].output, strlen(vals[i].output)) == SKY_OK);
     }
 }
 END_TEST
@@ -117,7 +117,8 @@ START_TEST(TestSumSHA256)
     GoUint8 cbuff[257];
     GoSlice b = {bbuff, 0, 257};
     cipher__SHA256 h1;
-    randBytes(&b, 256);
+    // randBytes(&b, 256);
+    SKY_cipher_RandByte(256, &b);
     SKY_cipher_SumSHA256(b, &h1);
     cipher__SHA256 tmp = "";
     ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);

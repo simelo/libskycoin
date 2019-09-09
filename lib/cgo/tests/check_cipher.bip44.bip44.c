@@ -27,7 +27,7 @@ void mustDefaultSeed(GoSlice* seed)
     GoString_ str = {strTmp, 0};
     err = SKY_base58_Hex2String(*seed, &str);
     ck_assert_int_eq(err, SKY_OK);
-    ck_assert_str_eq("24e563fb095d766df3862c70432cc1b2210b24d232da69af7af09d2ec86d28782ce58035bae29994c84081836aebe36a9b46af1578262fefc53e37efbe94be57", str.p);
+    ck_assert(strncmp(str.p, "24e563fb095d766df3862c70432cc1b2210b24d232da69af7af09d2ec86d28782ce58035bae29994c84081836aebe36a9b46af1578262fefc53e37efbe94be57", 128) == SKY_OK);
 }
 
 START_TEST(TestNewCoin)
