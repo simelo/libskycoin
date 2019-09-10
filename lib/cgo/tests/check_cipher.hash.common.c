@@ -101,7 +101,7 @@ START_TEST(TestSHA256KnownValue)
 
         SKY_cipher_SumSHA256(slice_input, &sha);
 
-        GoString_ tmp_output;
+        GoString tmp_output;
 
         SKY_cipher_SHA256_Hex(&sha, &tmp_output);
         registerMemCleanup((void*)tmp_output.p);
@@ -188,7 +188,7 @@ START_TEST(TestSHA256FromHex)
     ck_assert(error == SKY_ErrInvalidHexLength);
 
     // Valid hex hash
-    GoString_ s2;
+    GoString s2;
     memset(&s2, 0, sizeof(GoString_));
     SKY_cipher_SHA256_Hex(&h, &s2);
     registerMemCleanup((void*)s2.p);

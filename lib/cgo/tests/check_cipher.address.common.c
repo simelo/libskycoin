@@ -68,7 +68,7 @@ START_TEST(TestAddressFromBytes)
     cipher__SecKey sk;
     cipher__PubKey pk;
     GoSlice bytes;
-    GoSlice_ tempBytes;
+    GoSlice tempBytes;
     GoUint8 buff[1024];
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pk, &sk);
     ck_assert(err == SKY_OK);
@@ -80,7 +80,7 @@ START_TEST(TestAddressFromBytes)
 
     SKY_cipher_Address_Bytes(&addr, &tempBytes);
     ck_assert_msg(tempBytes.len > 0, "address bytes written");
-    copyGoSlice_toGoSlice(&bytes, &tempBytes, tempBytes.len);
+    copyGoSlice_toGoSlice(&bytes, (GoSlice_*)&tempBytes, tempBytes.len);
     err = SKY_cipher_AddressFromBytes(bytes, &addr2);
     ck_assert_msg(err == SKY_OK, "convert bytes to SKY address");
 
@@ -101,7 +101,7 @@ START_TEST(TestAddressFromBytes)
 
     addr.Version = 2;
     SKY_cipher_Address_Bytes(&addr, &tempBytes);
-    copyGoSlice_toGoSlice(&bytes, &tempBytes, tempBytes.len);
+    copyGoSlice_toGoSlice(&bytes, (GoSlice_*)&tempBytes, tempBytes.len);
     err = SKY_cipher_AddressFromBytes(bytes, &addr2);
     ck_assert_msg(err == SKY_ErrAddressInvalidVersion, "Invalid version");
 }
