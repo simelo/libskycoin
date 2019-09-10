@@ -111,28 +111,6 @@ START_TEST(TestSHA256KnownValue)
 }
 END_TEST
 
-START_TEST(TestSumSHA256)
-{
-    GoUint8 bbuff[257];
-    GoUint8 cbuff[257];
-    GoSlice b = {bbuff, 0, 257};
-    cipher__SHA256 h1;
-    // randBytes(&b, 256);
-    SKY_cipher_RandByte(256, &b);
-    SKY_cipher_SumSHA256(b, &h1);
-    cipher__SHA256 tmp = "";
-    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
-    GoSlice c = {cbuff, 0, 257};
-    randBytes(&c, 256);
-    cipher__SHA256 h2;
-    SKY_cipher_SumSHA256(c, &h2);
-    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
-    cipher__SHA256 tmp_h2;
-    freshSumSHA256(c, &tmp_h2);
-    ck_assert(isU8Eq(h2, tmp_h2, 32));
-}
-END_TEST
-
 START_TEST(TestSHA256Hex)
 {
     cipher__SHA256 h;
@@ -250,7 +228,6 @@ Suite* common_check_cipher_hash(void)
     tcase_add_test(tc, TestAddSHA256);
     tcase_add_test(tc, TestHashRipemd160);
     tcase_add_test(tc, TestSHA256KnownValue);
-    tcase_add_test(tc, TestSumSHA256);
     tcase_add_test(tc, TestSHA256Hex);
     tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestSHA256Null);
