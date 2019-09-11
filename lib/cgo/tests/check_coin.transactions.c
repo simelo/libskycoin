@@ -618,12 +618,10 @@ START_TEST(TestTransactionSerialization)
     Transaction__Handle handle = 0;
     makeTransaction(&handle);
     unsigned char buffer[1024];
-    GoSlice_ data = {buffer, 0, 1024};
-    result = SKY_coin_Transaction_Serialize(handle, &data);
+    GoSlice d = {buffer, 0, 1024};
+    result = SKY_coin_Transaction_Serialize(handle, &d);
     ck_assert(result == SKY_OK);
-    registerMemCleanup(data.data);
     Transaction__Handle handle2 = 0;
-    GoSlice d = {data.data, data.len, data.cap};
     result = SKY_coin_TransactionDeserialize(d, &handle2);
     ck_assert(result == SKY_OK);
     ck_assert(isTransactionHandleEq(&handle, &handle2));

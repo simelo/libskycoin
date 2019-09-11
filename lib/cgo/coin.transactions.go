@@ -734,3 +734,15 @@ func SKY_coin_Transaction_SetInnerHash(handle *C.Transaction__Handle, _sha *C.ci
 	tx.InnerHash = uxHash
 	return
 }
+
+//export SKY_coin_DeserializeTransactionHex
+func SKY_coin_DeserializeTransactionHex(_s string, _arg0 *C.Transaction__Handle) (___error_code uint32) {
+
+	arg0, err := coin.DeserializeTransactionHex(_s)
+
+	___error_code = libErrorCode(err)
+	if err == nil {
+		*_arg0 = registerTransactionHandle(&arg0)
+	}
+	return
+}

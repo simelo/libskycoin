@@ -96,6 +96,6 @@ func SKY_bip44_Account_GetPrivateKey(_a C.Account__Handle, _arg0 *C.PrivateKey__
 		return
 	}
 
-	* _arg0 = registerPrivateKeyHandle(a.PrivateKey)
+	*_arg0 = registerPrivateKeyHandle(a.PrivateKey)
 	return
 }

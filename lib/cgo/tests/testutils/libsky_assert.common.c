@@ -144,8 +144,8 @@ GoInt isTransactionHandleEq(Transaction__Handle* handle1, Transaction__Handle* h
     cipher__SHA256 sha2 = "";
     GoUint8 bufferP1[1024];
     GoUint8 bufferP2[1024];
-    GoSlice_ p1 = {bufferP1, 0, 1024};
-    GoSlice_ p2 = {bufferP2, 0, 1024};
+    GoSlice p1 = {bufferP1, 0, 1024};
+    GoSlice p2 = {bufferP2, 0, 1024};
 
     GoUint32 err = SKY_coin_Transaction_GetLength(*handle1, &len1);
     ck_assert_int_eq(err, SKY_OK);
@@ -170,19 +170,19 @@ GoInt isTransactionHandleEq(Transaction__Handle* handle1, Transaction__Handle* h
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_coin_Transaction_GetSigs(*handle2, &p2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!equalSlices_(&p1, &p2, sizeof(cipher__Sig)))
+    if (!equalSlices(&p1, &p2, sizeof(cipher__Sig)))
         return 0;
     err = SKY_coin_Transaction_GetIn(*handle1, &p1);
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_coin_Transaction_GetIn(*handle2, &p2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!equalSlices_(&p1, &p2, sizeof(cipher__SHA256)))
+    if (!equalSlices(&p1, &p2, sizeof(cipher__SHA256)))
         return 0;
     err = SKY_coin_Transaction_GetOut(*handle1, &p1);
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_coin_Transaction_GetOut(*handle2, &p2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!equalSlices_(&p1, &p2, sizeof(coin__TransactionOutput)))
+    if (!equalSlices(&p1, &p2, sizeof(coin__TransactionOutput)))
         return 0;
     return 1;
 }

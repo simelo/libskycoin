@@ -393,7 +393,7 @@ void ValidateSeedData(SeedTestData* seedData, InputTestData* inputData)
     keys.len = keys.cap = 0;
     keys.data = NULL;
 
-    SKY_cipher_GenerateDeterministicKeyPairs(seedData->Seed, seedData->Keys.len, (GoSlice_*)&keys);
+    SKY_cipher_GenerateDeterministicKeyPairs(seedData->Seed, seedData->Keys.len, &keys);
 
     ck_assert_msg(keys.data != NULL,
         "SKY_cipher_GenerateDeterministicKeyPairs must allocate memory slice with zero cap");
