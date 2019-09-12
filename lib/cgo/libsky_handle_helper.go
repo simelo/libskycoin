@@ -165,6 +165,17 @@ func SKY_Handle_Strings_SetAt(handle C.Strings__Handle, index int, str *string) 
 	return SKY_OK
 }
 
+//nolint megacheck
+//export SKY_Handle_Strings_Get
+func SKY_Handle_Strings_Get(handle C.Strings__Handle, arg0 *[]string) uint32 {
+	obj, ok := lookupStringsHandle(handle)
+	if !ok {
+		return SKY_BAD_HANDLE
+	}
+	*arg0 = obj
+	return SKY_OK
+}
+
 //export SKY_api_Handle_Client_GetWalletDir
 func SKY_api_Handle_Client_GetWalletDir(handle C.Client__Handle, walletDir *C.GoString_) uint32 {
 	client, ok := lookupClientHandle(handle)
