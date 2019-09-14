@@ -142,11 +142,11 @@ func SKY_Handle_Strings_Sort(handle C.Strings__Handle) uint32 {
 }
 
 //export SKY_Handle_Strings_GetAt
-func SKY_Handle_Strings_GetAt(handle C.Strings__Handle, index int, str *C.GoString_) uint32 {
+func SKY_Handle_Strings_GetAt(handle C.Strings__Handle, index int, str *string) uint32 {
 	obj, ok := lookupStringsHandle(handle)
 	if ok {
 
-		copyString(obj[index], str)
+		*str = obj[index]
 		return SKY_OK
 
 	}
