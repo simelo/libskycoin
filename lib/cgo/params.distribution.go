@@ -112,13 +112,14 @@ func SKY_params_Distribution_SetUnlockTimeInterval(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_GetAddresses
-func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, __return_strings *[]string) (____error_code uint32) {
+func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	*__return_strings = d.Addresses
+	arg0 := d.Addresses
+	*_arg0 = registerStringsHandle(arg0)
 	return
 }
 
