@@ -172,7 +172,7 @@ func SKY_Handle_Strings_Get(handle C.Strings__Handle, arg0 *[]string) uint32 {
 	if !ok {
 		return SKY_BAD_HANDLE
 	}
-	*arg0 = obj
+	arg0 = &obj
 	return SKY_OK
 }
 
