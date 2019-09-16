@@ -118,7 +118,8 @@ func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.St
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	*_arg0 = registerStringsHandle(d.Addresses)
+	arg0 := d.Addresses
+	*_arg0 = registerStringsHandle(arg0)
 	return
 }
 
@@ -229,13 +230,7 @@ func SKY_params_Distribution_LockedAddressesDecoded(_d C.Distribution__Handle, _
 
 //export SKY_params_Distribution_GetMainNetDistribution
 func SKY_params_Distribution_GetMainNetDistribution(_d *C.Distribution__Handle) (____error_code uint32) {
-	d, ok := lookupDistributionHandle(*_d)
-	if !ok {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	*d = params.MainNetDistribution
-	*_d = registerDistributionHandle(d)
+	*_d = registerDistributionHandle(&params.MainNetDistribution)
 	return
 }
 

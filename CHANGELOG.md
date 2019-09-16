@@ -99,6 +99,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added function `SKY_cli_GetWalletOutputs`
 - Added function `SKY_cli_GetBalanceOfAddresses`
 - Added datatype `GetOutputser__Handle`
+- Added functions `SKY_coin_DeserializeTransactionHex`
 
 ### Removed
 

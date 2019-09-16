@@ -40,18 +40,16 @@ START_TEST(TestBitcoinAddress)
         error = SKY_cipher_PubKeyFromHex(*pubKeyStr, &pubkey);
         ck_assert_msg(error == SKY_OK, "Create PubKey from Hex");
 
-        GoString_ str = {NULL, 0};
+        GoString str = {NULL, 0};
         SKY_cipher_BitcoinAddressFromPubKey(&pubkey, &btcAddr);
         SKY_cipher_BitcoinAddress_String(&btcAddr, &str);
-        registerMemCleanup((void*)str.p);
-        GoString tmpStr = {str.p, str.n};
-        ck_assert_str_eq(str.p, addrStr->p);
+        ck_assert(isGoStringEq(*addrStr, str));
 
         error = SKY_cipher_BitcoinAddressFromSecKey(&seckey, &btcAddr);
         ck_assert(error == SKY_OK);
         GoString_ tmpstr = {buff, 0};
-        SKY_cipher_BitcoinAddress_String(&btcAddr, &tmpstr);
-        ck_assert_str_eq(tmpStr.p, addrStr->p);
+        SKY_cipher_BitcoinAddress_String(&btcAddr, &str);
+        ck_assert(isGoStringEq(*addrStr, str));
     }
 }
 END_TEST
