@@ -104,7 +104,7 @@ START_TEST(TestPubKeyHex)
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&p, &sk);
     ck_assert(err == SKY_OK);
-    GoString_ tmp_s3 = {buff_s3, 0};
+    GoString tmp_s3 = {buff_s3, 0};
     err = SKY_cipher_PubKey_Hex(&p, &tmp_s3);
     ck_assert(err == SKY_OK);
     s3.n = tmp_s3.n;
@@ -115,7 +115,7 @@ START_TEST(TestPubKeyHex)
     ck_assert(isPubKeyEq(&p, &p2));
 
     unsigned char s4_buff[50];
-    GoString_ tmp_s4 = {s4_buff, 0};
+    GoString tmp_s4 = {s4_buff, 0};
     err = SKY_cipher_PubKey_Hex(&p2, &tmp_s4);
     ck_assert(err == SKY_OK);
     s4.n = s4.n;
@@ -263,7 +263,7 @@ START_TEST(TestSigHex)
 
     ck_assert(errorcode == SKY_OK);
     char buffer[100];
-    GoString_ tmp_str = {buffer, 0};
+    GoString tmp_str = {buffer, 0};
     SKY_cipher_Sig_Hex(&s, &tmp_str);
     str.p = tmp_str.p;
     str.n = tmp_str.n;

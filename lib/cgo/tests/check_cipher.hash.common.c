@@ -101,35 +101,13 @@ START_TEST(TestSHA256KnownValue)
 
         SKY_cipher_SumSHA256(slice_input, &sha);
 
-        GoString_ tmp_output;
+        GoString tmp_output;
 
         SKY_cipher_SHA256_Hex(&sha, &tmp_output);
         registerMemCleanup((void*)tmp_output.p);
 
         ck_assert(strncmp(tmp_output.p, vals[i].output, strlen(vals[i].output)) == SKY_OK);
     }
-}
-END_TEST
-
-START_TEST(TestSumSHA256)
-{
-    GoUint8 bbuff[257];
-    GoUint8 cbuff[257];
-    GoSlice b = {bbuff, 0, 257};
-    cipher__SHA256 h1;
-    // randBytes(&b, 256);
-    SKY_cipher_RandByte(256, &b);
-    SKY_cipher_SumSHA256(b, &h1);
-    cipher__SHA256 tmp = "";
-    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
-    GoSlice c = {cbuff, 0, 257};
-    randBytes(&c, 256);
-    cipher__SHA256 h2;
-    SKY_cipher_SumSHA256(c, &h2);
-    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
-    cipher__SHA256 tmp_h2;
-    freshSumSHA256(c, &tmp_h2);
-    ck_assert(isU8Eq(h2, tmp_h2, 32));
 }
 END_TEST
 
@@ -210,7 +188,7 @@ START_TEST(TestSHA256FromHex)
     ck_assert(error == SKY_ErrInvalidHexLength);
 
     // Valid hex hash
-    GoString_ s2;
+    GoString s2;
     memset(&s2, 0, sizeof(GoString_));
     SKY_cipher_SHA256_Hex(&h, &s2);
     registerMemCleanup((void*)s2.p);
@@ -250,7 +228,6 @@ Suite* common_check_cipher_hash(void)
     tcase_add_test(tc, TestAddSHA256);
     tcase_add_test(tc, TestHashRipemd160);
     tcase_add_test(tc, TestSHA256KnownValue);
-    tcase_add_test(tc, TestSumSHA256);
     tcase_add_test(tc, TestSHA256Hex);
     tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestSHA256Null);
