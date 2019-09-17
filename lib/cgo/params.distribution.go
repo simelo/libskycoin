@@ -229,8 +229,15 @@ func SKY_params_Distribution_LockedAddressesDecoded(_d C.Distribution__Handle, _
 }
 
 //export SKY_params_Distribution_GetMainNetDistribution
-func SKY_params_Distribution_GetMainNetDistribution(_d *C.Distribution__Handle) (____error_code uint32) {
-	*_d = registerDistributionHandle(&params.MainNetDistribution)
+func SKY_params_Distribution_GetMainNetDistribution(handle *C.Distribution__Handle) (____error_code uint32) {
+	d := params.Distribution{}
+	d.MaxCoinSupply = params.MainNetDistribution.MaxCoinSupply
+	d.InitialUnlockedCount = params.MainNetDistribution.InitialUnlockedCount
+	d.UnlockAddressRate = params.MainNetDistribution.UnlockAddressRate
+	d.UnlockTimeInterval = params.MainNetDistribution.UnlockTimeInterval
+	d.Addresses = make([]string, 0)
+	d.Addresses = append(d.Addresses, params.MainNetDistribution.Addresses...)
+	*handle = registerDistributionHandle(&d)
 	return
 }
 
