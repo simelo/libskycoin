@@ -112,31 +112,25 @@ func SKY_params_Distribution_SetUnlockTimeInterval(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_GetAddresses
-func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	arg0 := d.Addresses
-	*_arg0 = registerStringsHandle(arg0)
+	*_arg0 = d.Addresses
 	return
 }
 
 // nolint megacheck
 //export SKY_params_Distribution_SetAddresses
-func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	s, oks := lookupStringsHandle(*_arg0)
-	if !oks {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	d.Addresses = s
+	d.Addresses = *_arg0
 	_d = registerDistributionHandle(d)
 	return
 }
@@ -167,28 +161,28 @@ func SKY_params_Distribution_AddressInitialBalance(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_UnlockedAddresses
-func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 
-	arg0 := d.UnlockedAddresses()
-	*_arg0 = registerStringsHandle(arg0)
+	*_arg0 = d.UnlockedAddresses()
+
 	return
 }
 
 //export SKY_params_Distribution_LockedAddresses
-func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 
-	arg0 := d.LockedAddresses()
-	*_arg0 = registerStringsHandle(arg0)
+	*_arg0 = d.LockedAddresses()
+
 	return
 }
 

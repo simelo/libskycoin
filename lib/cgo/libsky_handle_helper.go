@@ -13,7 +13,6 @@ import "C"
 import (
 	"encoding/json"
 	"path/filepath"
-	"sort"
 
 	api "github.com/skycoin/skycoin/src/api"
 	"github.com/skycoin/skycoin/src/daemon"
@@ -118,51 +117,6 @@ func SKY_Handle_Connections_GetCount(handle C.Handle,
 		}
 	}
 	return SKY_BAD_HANDLE
-}
-
-//export SKY_Handle_Strings_GetCount
-func SKY_Handle_Strings_GetCount(handle C.Strings__Handle, count *uint32) uint32 {
-	obj, ok := lookupStringsHandle(handle)
-	if ok {
-		*count = uint32(len(obj))
-		return SKY_OK
-	}
-	return SKY_BAD_HANDLE
-}
-
-//export SKY_Handle_Strings_Sort
-func SKY_Handle_Strings_Sort(handle C.Strings__Handle) uint32 {
-	obj, ok := lookupStringsHandle(handle)
-	if ok {
-		sort.Strings(obj)
-		return SKY_OK
-
-	}
-	return SKY_BAD_HANDLE
-}
-
-//export SKY_Handle_Strings_GetAt
-func SKY_Handle_Strings_GetAt(handle C.Strings__Handle, index int, str *string) uint32 {
-	obj, ok := lookupStringsHandle(handle)
-	if ok {
-
-		*str = obj[index]
-		return SKY_OK
-
-	}
-	return SKY_BAD_HANDLE
-}
-
-//nolint megacheck
-//export SKY_Handle_Strings_SetAt
-func SKY_Handle_Strings_SetAt(handle C.Strings__Handle, index int, str *string) uint32 {
-	obj, ok := lookupStringsHandle(handle)
-	if !ok {
-		return SKY_BAD_HANDLE
-	}
-	obj[index] = *str
-	handle = registerStringsHandle(obj)
-	return SKY_OK
 }
 
 //export SKY_api_Handle_Client_GetWalletDir
