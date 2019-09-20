@@ -3,12 +3,6 @@ typedef struct {
     GoUint64_ BkSeq;
 } coin__UxHead;
 
-typedef struct {
-    void* data;
-    GoInt_ len;
-    GoInt_ cap;
-
-} coin__UxArray;
 
 typedef struct {
     cipher__SHA256 SrcTransaction;
@@ -21,3 +15,9 @@ typedef struct {
     coin__UxHead Head;
     coin__UxBody Body;
 } coin__UxOut;
+
+typedef struct {
+    void* data;
+    GoInt_ len;
+    GoInt_ cap;
+} coin__UxArray;
