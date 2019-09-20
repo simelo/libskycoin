@@ -112,13 +112,14 @@ func SKY_params_Distribution_SetUnlockTimeInterval(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_GetAddresses
-func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
+func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	*_arg0 = d.Addresses
+	arg0 := d.Addresses
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
 	return
 }
 
@@ -161,28 +162,29 @@ func SKY_params_Distribution_AddressInitialBalance(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_UnlockedAddresses
-func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
+func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 
-	*_arg0 = d.UnlockedAddresses()
+	arg0 := d.UnlockedAddresses()
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
 
 	return
 }
 
 //export SKY_params_Distribution_LockedAddresses
-func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
+func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 
-	*_arg0 = d.LockedAddresses()
-
+	arg0 := d.LockedAddresses()
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
 	return
 }
 
