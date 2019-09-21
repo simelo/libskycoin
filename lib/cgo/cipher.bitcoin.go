@@ -96,9 +96,10 @@ func SKY_cipher_BitcoinAddress_Verify(_addr *C.cipher__BitcoinAddress, _key *C.c
 }
 
 //export SKY_cipher_BitcoinAddress_String
-func SKY_cipher_BitcoinAddress_String(_addr *C.cipher__BitcoinAddress, _arg1 *string) {
+func SKY_cipher_BitcoinAddress_String(_addr *C.cipher__BitcoinAddress, _arg1 *C.GoString_) {
 	addr := (*cipher.BitcoinAddress)(unsafe.Pointer(_addr))
-	*_arg1 = addr.String()
+	__arg1 := addr.String()
+	copyString(__arg1,_arg1)
 }
 
 //export SKY_cipher_BitcoinAddress_Checksum

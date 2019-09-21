@@ -83,9 +83,10 @@ func SKY_cipher_PubKey_Verify(_pk *C.cipher__PubKey) (____error_code uint32) {
 }
 
 //export SKY_cipher_PubKey_Hex
-func SKY_cipher_PubKey_Hex(_pk *C.cipher__PubKey, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_PubKey_Hex(_pk *C.cipher__PubKey, _arg1 *C.GoString_) (____error_code uint32) {
 	pk := (*cipher.PubKey)(unsafe.Pointer(_pk))
-	*_arg1 = pk.Hex()
+	__arg1 := pk.Hex()
+	copyString(__arg1,_arg1)
 	return SKY_OK
 }
 
