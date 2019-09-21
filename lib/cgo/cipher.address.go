@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"unsafe"
 
 	cipher "github.com/skycoin/skycoin/src/cipher"
@@ -64,9 +65,10 @@ func SKY_cipher_Address_Null(_addr *C.cipher__Address, _arg0 *bool) (____error_c
 }
 
 //export SKY_cipher_Address_Bytes
-func SKY_cipher_Address_Bytes(_addr *C.cipher__Address, _arg0 *[]byte) (____error_code uint32) {
+func SKY_cipher_Address_Bytes(_addr *C.cipher__Address, _arg0 *C.GoSlice_) (____error_code uint32) {
 	addr := (*cipher.Address)(unsafe.Pointer(_addr))
-	*_arg0 = addr.Bytes()
+	bytes := addr.Bytes()
+	copyToGoSlice(reflect.ValueOf(bytes), _arg0)
 	return
 }
 
@@ -80,9 +82,10 @@ func SKY_cipher_Address_Verify(_addr *C.cipher__Address, _key *C.cipher__PubKey)
 }
 
 //export SKY_cipher_Address_String
-func SKY_cipher_Address_String(_addr *C.cipher__Address, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_Address_String(_addr *C.cipher__Address, _arg1 *C.GoString_) (____error_code uint32) {
 	addr := (*cipher.Address)(unsafe.Pointer(_addr))
-	*_arg1 = addr.String()
+	__arg1 := addr.String()
+	copyString(__arg1, _arg1)
 	return
 }
 
