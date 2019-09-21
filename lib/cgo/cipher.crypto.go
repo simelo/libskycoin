@@ -17,8 +17,9 @@ import (
 import "C"
 
 //export SKY_cipher_RandByte
-func SKY_cipher_RandByte(_n int, _arg1 *[]byte) (____error_code uint32) {
-	*_arg1 = cipher.RandByte(_n)
+func SKY_cipher_RandByte(_n int, _arg1 *C.GoSlice_) (____error_code uint32) {
+	__arg1 := cipher.RandByte(_n)
+	copyToGoSlice(reflect.ValueOf(__arg1), _arg1)
 	return
 }
 
@@ -86,7 +87,7 @@ func SKY_cipher_PubKey_Verify(_pk *C.cipher__PubKey) (____error_code uint32) {
 func SKY_cipher_PubKey_Hex(_pk *C.cipher__PubKey, _arg1 *C.GoString_) (____error_code uint32) {
 	pk := (*cipher.PubKey)(unsafe.Pointer(_pk))
 	__arg1 := pk.Hex()
-	copyString(__arg1,_arg1)
+	copyString(__arg1, _arg1)
 	return SKY_OK
 }
 
