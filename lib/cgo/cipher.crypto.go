@@ -130,9 +130,10 @@ func SKY_cipher_SecKey_Verify(_sk *C.cipher__SecKey) (____error_code uint32) {
 }
 
 //export SKY_cipher_SecKey_Hex
-func SKY_cipher_SecKey_Hex(_sk *C.cipher__SecKey, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_SecKey_Hex(_sk *C.cipher__SecKey, _arg1 *C.GoString_) (____error_code uint32) {
 	sk := (*cipher.SecKey)(unsafe.Pointer(_sk))
-	*_arg1 = sk.Hex()
+	__arg1 := sk.Hex()
+	copyString(__arg1, _arg1)
 	return
 }
 

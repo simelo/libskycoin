@@ -10,6 +10,7 @@ package main
 import "C"
 
 import (
+	"reflect"
 	"unsafe"
 
 	cipher "github.com/skycoin/skycoin/src/cipher"
@@ -49,10 +50,10 @@ func SKY_cipher_BitcoinAddressFromSecKey(_secKey *C.cipher__SecKey, _arg1 *C.cip
 }
 
 //export SKY_cipher_BitcoinWalletImportFormatFromSeckey
-func SKY_cipher_BitcoinWalletImportFormatFromSeckey(_seckey *C.cipher__SecKey, _arg1 *string) {
+func SKY_cipher_BitcoinWalletImportFormatFromSeckey(_seckey *C.cipher__SecKey, _arg1 *C.GoString_) {
 	seckey := (*cipher.SecKey)(unsafe.Pointer(_seckey))
-	*_arg1 = cipher.BitcoinWalletImportFormatFromSeckey(*seckey)
-
+	s := cipher.BitcoinWalletImportFormatFromSeckey(*seckey)
+	copyString(s, _arg1)
 }
 
 //export SKY_cipher_BitcoinAddressFromBytes
@@ -82,9 +83,10 @@ func SKY_cipher_BitcoinAddress_Null(_addr *C.cipher__BitcoinAddress) bool {
 }
 
 //export SKY_cipher_BitcoinAddress_Bytes
-func SKY_cipher_BitcoinAddress_Bytes(_addr *C.cipher__BitcoinAddress, _arg0 *[]byte) {
+func SKY_cipher_BitcoinAddress_Bytes(_addr *C.cipher__BitcoinAddress, _arg0 *C.GoSlice_) {
 	addr := (*cipher.BitcoinAddress)(unsafe.Pointer(_addr))
-	*_arg0 = addr.Bytes()
+	bytes := addr.Bytes()
+	copyToGoSlice(reflect.ValueOf(bytes), _arg0)
 }
 
 //export SKY_cipher_BitcoinAddress_Verify
@@ -98,8 +100,8 @@ func SKY_cipher_BitcoinAddress_Verify(_addr *C.cipher__BitcoinAddress, _key *C.c
 //export SKY_cipher_BitcoinAddress_String
 func SKY_cipher_BitcoinAddress_String(_addr *C.cipher__BitcoinAddress, _arg1 *C.GoString_) {
 	addr := (*cipher.BitcoinAddress)(unsafe.Pointer(_addr))
-	__arg1 := addr.String()
-	copyString(__arg1,_arg1)
+	s := addr.String()
+	copyString(s, _arg1)
 }
 
 //export SKY_cipher_BitcoinAddress_Checksum
