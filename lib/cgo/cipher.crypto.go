@@ -138,13 +138,13 @@ func SKY_cipher_SecKey_Hex(_sk *C.cipher__SecKey, _arg1 *C.GoString_) (____error
 }
 
 //export SKY_cipher_ECDH
-func SKY_cipher_ECDH(_pub *C.cipher__PubKey, _sec *C.cipher__SecKey, _arg2 *[]byte) (____error_code uint32) {
+func SKY_cipher_ECDH(_pub *C.cipher__PubKey, _sec *C.cipher__SecKey, _arg2 *C.GoSlice_) (____error_code uint32) {
 	pub := (*cipher.PubKey)(unsafe.Pointer(_pub))
 	sec := (*cipher.SecKey)(unsafe.Pointer(_sec))
 	b, err := cipher.ECDH(*pub, *sec)
 	____error_code = libErrorCode(err)
 	if err == nil {
-		*_arg2 = b
+		copyToGoSlice(reflect.ValueOf(b), _arg2)
 	}
 	return
 }
@@ -257,10 +257,10 @@ func SKY_cipher_GenerateDeterministicKeyPairs(_seed []byte, _n int, _arg2 *C.GoS
 }
 
 //export SKY_cipher_GenerateDeterministicKeyPairsSeed
-func SKY_cipher_GenerateDeterministicKeyPairsSeed(_seed []byte, _n int, _arg2 *[]byte, _arg3 *C.GoSlice_) (____error_code uint32) {
+func SKY_cipher_GenerateDeterministicKeyPairsSeed(_seed []byte, _n int, _arg2 *C.GoSlice_, _arg3 *C.GoSlice_) (____error_code uint32) {
 	h, sks, err := cipher.GenerateDeterministicKeyPairsSeed(_seed, _n)
 	if err == nil {
-		*_arg2 = h
+		copyToGoSlice(reflect.ValueOf(h), _arg2)
 		copyToGoSlice(reflect.ValueOf(sks), _arg3)
 	}
 
