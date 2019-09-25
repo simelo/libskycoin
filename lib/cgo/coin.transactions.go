@@ -345,7 +345,7 @@ func SKY_coin_Transaction_HashInner(handle C.Transaction__Handle, _arg0 *C.ciphe
 }
 
 //export SKY_coin_Transaction_Serialize
-func SKY_coin_Transaction_Serialize(handle C.Transaction__Handle, _arg0 *[]byte) (____error_code uint32) {
+func SKY_coin_Transaction_Serialize(handle C.Transaction__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	txn, ok := lookupTransactionHandle(handle)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
@@ -354,7 +354,7 @@ func SKY_coin_Transaction_Serialize(handle C.Transaction__Handle, _arg0 *[]byte)
 	__arg0, ____return_err := txn.Serialize()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		*_arg0 = __arg0
+		copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
 	}
 	return
 }

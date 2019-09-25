@@ -171,9 +171,10 @@ func SKY_cipher_SigFromHex(_s string, _arg1 *C.cipher__Sig) (____error_code uint
 }
 
 //export SKY_cipher_Sig_Hex
-func SKY_cipher_Sig_Hex(_s *C.cipher__Sig, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_Sig_Hex(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
 	s := (*cipher.Sig)(unsafe.Pointer(_s))
-	*_arg1 = s.Hex()
+	__arg1 := s.Hex()
+	copyString(__arg1,_arg1)
 	return
 }
 
@@ -287,9 +288,10 @@ func SKY_cipher_CheckSecKeyHash(_seckey *C.cipher__SecKey, _hash *C.cipher__SHA2
 }
 
 //export SKY_cipher_Sig_String
-func SKY_cipher_Sig_String(_s *C.cipher__Sig, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_Sig_String(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
 	s := (*cipher.Sig)(unsafe.Pointer(_s))
-	*_arg1 = s.String()
+	__arg1 := s.String()
+	copyString(__arg1,_arg1)
 	return
 }
 

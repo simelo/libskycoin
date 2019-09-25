@@ -125,13 +125,13 @@ func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.Go
 
 // nolint megacheck
 //export SKY_params_Distribution_SetAddresses
-func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *[]string) (____error_code uint32) {
+func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 []string) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	d.Addresses = *_arg0
+	d.Addresses = _arg0
 	_d = registerDistributionHandle(d)
 	return
 }
