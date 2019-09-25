@@ -175,10 +175,10 @@ func SKY_coin_BlockHeader_Hash(_bh C.BlockHeader__Handle, _arg0 *C.cipher__SHA25
 }
 
 //export SKY_coin_BlockHeader_Bytes
-func SKY_coin_BlockHeader_Bytes(_bh *C.coin__BlockHeader, _arg0 *[]byte) (____error_code uint32) {
+func SKY_coin_BlockHeader_Bytes(_bh *C.coin__BlockHeader, _arg0 *C.GoSlice_) (____error_code uint32) {
 	bh := *(*coin.BlockHeader)(unsafe.Pointer(_bh))
 	__arg0 := bh.Bytes()
-	*_arg0 = __arg0
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
 	return
 }
 
