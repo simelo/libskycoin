@@ -746,3 +746,14 @@ func SKY_coin_DeserializeTransactionHex(_s string, _arg0 *C.Transaction__Handle)
 	}
 	return
 }
+
+//export SKY_coin_GetTransactionObject
+func SKY_coin_GetTransactionObject(handle C.Transaction__Handle, _pptx **C.coin__Transaction) (____error_code uint32) {
+	ptx, ok := lookupTransactionHandle(handle)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+	} else {
+		*_pptx = (*C.coin__Transaction)(unsafe.Pointer(ptx))
+	}
+	return
+}
