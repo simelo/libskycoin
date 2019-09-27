@@ -42,6 +42,8 @@ extern GoInt isGoStringEq(GoString string1, GoString string2);
 
 extern GoInt isGoString_Eq(GoString_ string1, GoString_ string2);
 
+extern GoInt isGoString_toGoStringEq(GoString_ string1, GoString string2);
+
 extern GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2);
 extern GoInt isPublicKeyEq(PublicKey__Handle handle1, PublicKey__Handle handle2);
 

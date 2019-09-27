@@ -14,6 +14,18 @@ GoInt isGoStringEq(GoString string1, GoString string2)
            (strncmp(string1.p, string2.p, string1.n) == 0);
 }
 
+GoInt isGoString_Eq(GoString_ string1, GoString_ string2)
+{
+    return (string1.n == string2.n) &&
+           (strncmp(string1.p, string2.p, string1.n) == 0);
+}
+
+GoInt isGoString_toGoStringEq(GoString_ string1, GoString string2)
+{
+    return (string1.n == string2.n) &&
+           (strncmp(string1.p, string2.p, string2.n) == 0);
+}
+
 GoInt isPubKeyEq(cipher__PubKey* pubkey1, cipher__PubKey* pubkey2)
 {
     return isU8Eq(*pubkey1, *pubkey2, sizeof(cipher__PubKey));

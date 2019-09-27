@@ -653,22 +653,26 @@ END_TEST
 
 START_TEST(TestParentPublicChildDerivation)
 {
-    GoSlice extendedMasterPublicBytes;
+    GoSlice_ extendedMasterPublicBytes_tmp;
     GoString tmp_str = {"xpub6DxSCdWu6jKqr4isjo7bsPeDD6s3J4YVQV1JSHZg12Eagdqnf7XX4fxqyW2sLhUoFWutL7tAELU2LiGZrEXtjVbvYptvTX5Eoa4Mamdjm9u", 111};
-    GoUint32 err = SKY_base58_Decode(tmp_str, &extendedMasterPublicBytes);
+    GoUint32 err = SKY_base58_Decode(tmp_str, &extendedMasterPublicBytes_tmp);
     ck_assert_int_eq(err, SKY_OK);
 
     PublicKey__Handle extendedMasterPublic = 0;
+    GoSlice extendedMasterPublicBytes;
+    copyGoSlice_toGoSlice(&extendedMasterPublicBytes, &extendedMasterPublicBytes_tmp, extendedMasterPublicBytes_tmp.len);
     err = SKY_bip32_DeserializePublicKey(extendedMasterPublicBytes, &extendedMasterPublic);
     ck_assert_int_eq(err, SKY_OK);
 
-    GoSlice extendedMasterPrivateBytes;
+    GoSlice extendedMasterPrivateBytes_tmp;
     tmp_str.p = "xprv9zy5o7z1GMmYdaeQdmabWFhUf52Ytbpe3G5hduA4SghboqWe7aDGWseN8BJy1GU72wPjkCbBE1hvbXYqpCecAYdaivxjNnBoSNxwYD4wHpW";
     tmp_str.n = 111;
-    err = SKY_base58_Decode(tmp_str, &extendedMasterPrivateBytes);
+    err = SKY_base58_Decode(tmp_str, &extendedMasterPrivateBytes_tmp);
     ck_assert_int_eq(err, SKY_OK);
 
     PrivateKey__Handle extendedMasterPrivate = 0;
+    GoSlice extendedMasterPrivateBytes;
+    copyGoSlice_toGoSlice(&extendedMasterPrivateBytes, &extendedMasterPrivateBytes_tmp, extendedMasterPrivateBytes_tmp.len);
     err = SKY_bip32_DeserializePrivateKey(extendedMasterPrivateBytes, &extendedMasterPrivate);
     ck_assert_int_eq(err, SKY_OK);
 
@@ -830,13 +834,16 @@ START_TEST(TestParentPublicChildDerivation)
         ck_assert_int_eq(err, SKY_OK);
         err = SKY_bip32_PublicKey_NewPublicChildKey(extendedMasterPublic, element_tmp.ChildNumber, &pubKey);
         ck_assert_int_eq(err, SKY_OK);
-        GoSlice pubkey_key;
-        err = SKY_bip32_PublicKey_GetKey(pubKey, &pubkey_key);
+        GoSlice_ pubkey_key_tmp;
+        err = SKY_bip32_PublicKey_GetKey(pubKey, &pubkey_key_tmp);
         ck_assert_int_eq(err, SKY_OK);
 
-        GoString pubkey_hexpubkey;
+        GoString_ pubkey_hexpubkey;
+        GoSlice pubkey_key;
+        copyGoSlice_toGoSlice(&pubkey_key, &pubkey_key_tmp, pubkey_key_tmp.len);
         err = SKY_base58_Hex2String(pubkey_key, &pubkey_hexpubkey);
-        ck_assert(isGoStringEq(child.hexPubKey, pubkey_hexpubkey));
+        ck_assert_int_eq(err, SKY_OK);
+        ck_assert(isGoString_toGoStringEq(pubkey_hexpubkey, child.hexPubKey));
 
         PublicKey__Handle pubKey2 = 0;
         err = SKY_bip32_PrivateKey_NewPublicChildKey(extendedMasterPrivate, element_tmp.ChildNumber, &pubKey2);
@@ -946,11 +953,13 @@ START_TEST(TestDeserializePrivateInvalidStrings)
     for (size_t i = 0; i < 12; i++) {
         tests_Struct test = tests[i];
         GoUint8 bufferb[MAXBUFFER];
-        GoSlice b = {bufferb, 0, MAXBUFFER};
-        GoUint32 err = SKY_base58_Decode(test.base58, &b);
+        GoSlice_ b_tmp = {bufferb, 0, MAXBUFFER};
+        GoUint32 err = SKY_base58_Decode(test.base58, &b_tmp);
         ck_assert_int_eq(err, SKY_OK);
 
         PrivateKey__Handle rest_priv = 0;
+        GoSlice b;
+        copyGoSlice_toGoSlice(&b, &b_tmp, b_tmp.len);
         err = SKY_bip32_DeserializePrivateKey(b, &rest_priv);
         ck_assert_int_eq(err, test.err);
     }
@@ -1000,11 +1009,13 @@ START_TEST(TestDeserializePublicInvalidStrings)
     for (size_t i = 0; i < 9; i++) {
         tests_Struct test = tests[i];
         GoUint8 bufferb[MAXBUFFER];
-        GoSlice b = {bufferb, 0, MAXBUFFER};
-        GoUint32 err = SKY_base58_Decode(test.base58, &b);
+        GoSlice_ b_tmp = {bufferb, 0, MAXBUFFER};
+        GoUint32 err = SKY_base58_Decode(test.base58, &b_tmp);
         ck_assert_msg(err == SKY_OK, " Iter %d", i);
 
         PublicKey__Handle rest_pub = 0;
+        GoSlice b;
+        copyGoSlice_toGoSlice(&b, &b_tmp, b_tmp.len);
         err = SKY_bip32_DeserializePublicKey(b, &rest_pub);
         ck_assert_msg(err == test.err, "Iter %d", i);
     }
@@ -1092,19 +1103,21 @@ START_TEST(TestNewPrivateKeyFromPath)
     for (size_t i = 0; i < 4; i++) {
         cases_Str tc = cases[i];
         GoUint8 bufferseed[MAXBUFFER];
-        GoSlice seed = {bufferseed, 0, MAXBUFFER};
-        GoUint32 err = SKY_base58_String2Hex(tc.seed, &seed);
+        GoSlice_ seed_tmp = {bufferseed, 0, MAXBUFFER};
+        GoUint32 err = SKY_base58_String2Hex(tc.seed, &seed_tmp);
         ck_assert(err == SKY_OK);
 
         PrivateKey__Handle k = 0;
+        GoSlice seed;
+        copyGoSlice_toGoSlice(&seed, &seed_tmp, seed_tmp.len);
         err = SKY_bip32_NewPrivateKeyFromPath(seed, tc.path, &k);
         ck_assert(err == tc.err);
         if (err == SKY_OK) {
             GoUint8 bufferk_string[MAXBUFFER];
-            GoString k_string = {bufferk_string, 0};
+            GoString_ k_string = {bufferk_string, 0};
             err = SKY_bip32_PrivateKey_String(k, &k_string);
             ck_assert(err == SKY_OK);
-            ck_assert(isGoStringEq(tc.key, k_string));
+            ck_assert(isGoString_toGoStringEq(k_string, tc.key));
         }
     }
 }

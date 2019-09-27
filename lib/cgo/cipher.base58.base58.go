@@ -20,6 +20,10 @@ import "C"
 //export SKY_base58_Hex2Base58
 func SKY_base58_Hex2Base58(_val []byte, _arg1 *C.GoString_) (____error_code uint32) {
 	val := *(*[]byte)(unsafe.Pointer(&_val))
+	if val == nil {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
 	__arg1 := string(base58.Encode(val))
 	copyString(__arg1, _arg1)
 	return
@@ -28,6 +32,10 @@ func SKY_base58_Hex2Base58(_val []byte, _arg1 *C.GoString_) (____error_code uint
 //export SKY_base58_Encode
 func SKY_base58_Encode(_bin []byte, _arg1 *C.GoString_) (____error_code uint32) {
 	bin := *(*[]byte)(unsafe.Pointer(&_bin))
+	if bin == nil {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
 	__arg1 := base58.Encode(bin)
 	copyString(__arg1, _arg1)
 	return
@@ -60,6 +68,10 @@ func SKY_base58_String2Hex(_s string, _arg1 *C.GoSlice_) (____error_code uint32)
 //export SKY_base58_Hex2String
 func SKY_base58_Hex2String(_b []byte, _arg1 *C.GoString_) (____error_code uint32) {
 	bin := *(*[]byte)(unsafe.Pointer(&_b))
+	if bin == nil {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
 	__arg1 := hex.EncodeToString(bin)
 	copyString(__arg1, _arg1)
 	return

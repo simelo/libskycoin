@@ -38,11 +38,6 @@ GoInt isBitcoinAddressEq(cipher__BitcoinAddress* addr1, cipher__BitcoinAddress* 
     return (addr1->Version == addr2->Version && isRipemd160Eq(&addr1->Key, &addr2->Key));
 }
 
-GoInt isGoString_Eq(GoString_ string1, GoString_ string2)
-{
-    return (string1.n == string2.n) &&
-           (strcmp(string1.p, string2.p) == 0);
-}
 
 GoInt isSecKeyEq(cipher__SecKey* seckey1, cipher__SecKey* seckey2)
 {
@@ -170,22 +165,22 @@ GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2)
 {
     GoUint8 bufferVersion1[1024];
     GoUint8 bufferVersion2[1024];
-    GoSlice Version1 = {bufferVersion1, 0, 1024};
-    GoSlice Version2 = {bufferVersion2, 0, 1024};
+    GoSlice_ Version1 = {bufferVersion1, 0, 1024};
+    GoSlice_ Version2 = {bufferVersion2, 0, 1024};
     GoUint8 bufferParentFingerprint1[1024];
     GoUint8 bufferParentFingerprint2[1024];
-    GoSlice ParentFingerprint1 = {bufferParentFingerprint1, 0, 1024};
-    GoSlice ParentFingerprint2 = {bufferParentFingerprint2, 0, 1024};
+    GoSlice_ ParentFingerprint1 = {bufferParentFingerprint1, 0, 1024};
+    GoSlice_ ParentFingerprint2 = {bufferParentFingerprint2, 0, 1024};
     GoUint32 childNumber1;
     GoUint32 childNumber2;
     GoUint8 bufferChainCode1[1024];
     GoUint8 bufferChainCode2[1024];
-    GoSlice ChainCode1 = {bufferChainCode1, 0, 1024};
-    GoSlice ChainCode2 = {bufferChainCode2, 0, 1024};
+    GoSlice_ ChainCode1 = {bufferChainCode1, 0, 1024};
+    GoSlice_ ChainCode2 = {bufferChainCode2, 0, 1024};
     GoUint8 bufferKey1[1024];
     GoUint8 bufferKey2[1024];
-    GoSlice Key1 = {bufferKey1, 0, 1024};
-    GoSlice Key2 = {bufferKey2, 0, 1024};
+    GoSlice_ Key1 = {bufferKey1, 0, 1024};
+    GoSlice_ Key2 = {bufferKey2, 0, 1024};
     GoUint8 Depth1;
     GoUint8 Depth2;
 
@@ -193,7 +188,7 @@ GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PrivateKey_GetVersion(handle2, &Version2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&Version1, &Version2)) {
+    if (!isGoSlice_Eq(&Version1, &Version2)) {
         printf("Version not equal\n");
         return 0;
     }
@@ -211,7 +206,7 @@ GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PrivateKey_GetParentFingerprint(handle2, &ParentFingerprint2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&ParentFingerprint1, &ParentFingerprint2)) {
+    if (!isGoSlice_Eq(&ParentFingerprint1, &ParentFingerprint2)) {
         printf("ParentFingerprint not equal\n");
         return 0;
     }
@@ -229,7 +224,7 @@ GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PrivateKey_GetChainCode(handle2, &ChainCode2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&ChainCode1, &ChainCode2)) {
+    if (!isGoSlice_Eq(&ChainCode1, &ChainCode2)) {
         printf("ChainCode not equal\n");
         return 0;
     }
@@ -238,7 +233,7 @@ GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PrivateKey_GetKey(handle2, &Key2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&Key1, &Key2)) {
+    if (!isGoSlice_Eq(&Key1, &Key2)) {
         printf("Key not equal\n");
         return 0;
     }
@@ -248,16 +243,24 @@ GoInt isPrivateKeyEq(PrivateKey__Handle handle1, PrivateKey__Handle handle2)
 
 GoInt isPublicKeyEq(PublicKey__Handle handle1, PublicKey__Handle handle2)
 {
-    GoSlice Version1;
-    GoSlice Version2;
-    GoSlice ParentFingerprint1;
-    GoSlice ParentFingerprint2;
+    GoUint8 bufferVersion1[1024];
+    GoUint8 bufferVersion2[1024];
+    GoSlice_ Version1 = {bufferVersion1, 0, 1024};
+    GoSlice_ Version2 = {bufferVersion2, 0, 1024};
+    GoUint8 bufferParentFingerprint1[1024];
+    GoUint8 bufferParentFingerprint2[1024];
+    GoSlice_ ParentFingerprint1 = {bufferParentFingerprint1, 0, 1024};
+    GoSlice_ ParentFingerprint2 = {bufferParentFingerprint2, 0, 1024};
     GoUint32 childNumber1;
     GoUint32 childNumber2;
-    GoSlice ChainCode1;
-    GoSlice ChainCode2;
-    GoSlice Key1;
-    GoSlice Key2;
+    GoUint8 bufferChainCode1[1024];
+    GoUint8 bufferChainCode2[1024];
+    GoSlice_ ChainCode1 = {bufferChainCode1, 0, 1024};
+    GoSlice_ ChainCode2 = {bufferChainCode2, 0, 1024};
+    GoUint8 bufferKey1[1024];
+    GoUint8 bufferKey2[1024];
+    GoSlice_ Key1 = {bufferKey1, 0, 1024};
+    GoSlice_ Key2 = {bufferKey2, 0, 1024};
     GoUint8 Depth1;
     GoUint8 Depth2;
 
@@ -265,7 +268,7 @@ GoInt isPublicKeyEq(PublicKey__Handle handle1, PublicKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PublicKey_GetVersion(handle2, &Version2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&Version1, &Version2)) {
+    if (!isGoSlice_Eq(&Version1, &Version2)) {
         return 0;
     }
 
@@ -281,7 +284,7 @@ GoInt isPublicKeyEq(PublicKey__Handle handle1, PublicKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PublicKey_GetParentFingerprint(handle2, &ParentFingerprint2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&ParentFingerprint1, &ParentFingerprint2)) {
+    if (!isGoSlice_Eq(&ParentFingerprint1, &ParentFingerprint2)) {
         return 0;
     }
 
@@ -297,7 +300,7 @@ GoInt isPublicKeyEq(PublicKey__Handle handle1, PublicKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PublicKey_GetChainCode(handle2, &ChainCode2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&ChainCode1, &ChainCode2)) {
+    if (!isGoSlice_Eq(&ChainCode1, &ChainCode2)) {
         return 0;
     }
 
@@ -305,7 +308,7 @@ GoInt isPublicKeyEq(PublicKey__Handle handle1, PublicKey__Handle handle2)
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_bip32_PublicKey_GetKey(handle2, &Key2);
     ck_assert_int_eq(err, SKY_OK);
-    if (!isGoSliceEq(&Key1, &Key2)) {
+    if (!isGoSlice_Eq(&Key1, &Key2)) {
         return 0;
     }
 

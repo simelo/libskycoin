@@ -73,7 +73,7 @@ func SKY_bip44_Account_Change(_a C.Account__Handle, _arg0 *C.PrivateKey__Handle)
 }
 
 //export SKY_bip44_Account_String
-func SKY_bip44_Account_String(_a C.Account__Handle, _arg0 *string) (___err_code uint32) {
+func SKY_bip44_Account_String(_a C.Account__Handle, _arg0 *C.GoString_) (___err_code uint32) {
 
 	a, oka := lookupAccountHandle(_a)
 	if !oka {
@@ -82,7 +82,8 @@ func SKY_bip44_Account_String(_a C.Account__Handle, _arg0 *string) (___err_code 
 		return
 	}
 
-	*_arg0 = a.String()
+	__arg0 := a.String()
+	copyString(__arg0, _arg0)
 	return
 }
 
