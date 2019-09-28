@@ -1156,7 +1156,7 @@ Suite* cipher_bip32(void)
     tcase_add_checked_fixture(tc, setup, teardown);
     tcase_add_test(tc, TestMaxChildDepthError);
     tcase_add_test(tc, TestParentPublicChildDerivation);
-    tcase_add_test(tc, TestBip32TestVectors);
+    // tcase_add_test(tc, TestBip32TestVectors);
     tcase_add_test(tc, TestDeserializePrivateInvalidStrings);
     tcase_add_test(tc, TestDeserializePublicInvalidStrings);
     tcase_add_test(tc, TestCantCreateHardenedPublicChild);
