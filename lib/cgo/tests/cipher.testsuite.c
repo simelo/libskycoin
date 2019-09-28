@@ -387,7 +387,7 @@ void ValidateSeedData(SeedTestData* seedData, InputTestData* inputData)
 {
     cipher__PubKey pubkey;
     cipher__SecKey seckey;
-    GoSlice keys;
+    GoSlice_ keys;
 
     // Force allocation of memory for slice buffer
     keys.len = keys.cap = 0;

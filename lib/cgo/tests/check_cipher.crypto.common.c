@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <check.h>
 #include "libskycoin.h"
-#include "skyerrors.h"
 #include "skyassert.h"
+#include "skyerrors.h"
 #include "skystring.h"
 #include "skytest.h"
+#include <check.h>
 
 START_TEST(TestNewPubKey)
 {
@@ -312,25 +312,24 @@ START_TEST(TestPubKeyFromSecKey)
 END_TEST
 
 // define test suite and cases
-Suite *common_check_cipher_crypto(void)
+Suite* common_check_cipher_crypto(void)
 {
-  Suite *s = suite_create("Load common check_cipher.crypto");
-  TCase *tc;
+    Suite* s = suite_create("Load common check_cipher.crypto");
+    TCase* tc;
 
-  tc = tcase_create("check_cipher.crypto");
-  tcase_add_test(tc, TestNewPubKey);
-  tcase_add_test(tc, TestPubKeyFromHex);
-  tcase_add_test(tc, TestPubKeyHex);
-  tcase_add_test(tc, TestPubKeyVerify);
-  tcase_add_test(tc, TestPubKeyVerifyNil);
-  tcase_add_test(tc, TestPubKeyVerifyDefault1);
-  tcase_add_test(tc, TestNewSig);
-  tcase_add_test(tc, TestMustSigFromHex);
-  tcase_add_test(tc, TestSigHex);
-  tcase_add_test(tc, TestPubKeyFromSecKey);
-  suite_add_tcase(s, tc);
-  tcase_set_timeout(tc, 150);
+    tc = tcase_create("check_cipher.crypto");
+    tcase_add_test(tc, TestNewPubKey);
+    tcase_add_test(tc, TestPubKeyFromHex);
+    tcase_add_test(tc, TestPubKeyHex);
+    tcase_add_test(tc, TestPubKeyVerify);
+    tcase_add_test(tc, TestPubKeyVerifyNil);
+    tcase_add_test(tc, TestPubKeyVerifyDefault1);
+    tcase_add_test(tc, TestNewSig);
+    tcase_add_test(tc, TestMustSigFromHex);
+    tcase_add_test(tc, TestSigHex);
+    tcase_add_test(tc, TestPubKeyFromSecKey);
+    suite_add_tcase(s, tc);
+    tcase_set_timeout(tc, 150);
 
-  return s;
+    return s;
 }
- 

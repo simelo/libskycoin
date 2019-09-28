@@ -10,9 +10,9 @@
 
 START_TEST(TestDistributionAddressArrays)
 {
-    GoSlice all = {NULL, 0, 0};
-    GoSlice unlocked = {NULL, 0, 0};
-    GoSlice locked = {NULL, 0, 0};
+    GoSlice_ all = {NULL, 0, 0};
+    GoSlice_ unlocked = {NULL, 0, 0};
+    GoSlice_ locked = {NULL, 0, 0};
     Distribution__Handle dist = 0;
     GoUint32 err = SKY_params_Distribution_GetMainNetDistribution(&dist);
     ck_assert_int_eq(err, SKY_OK);

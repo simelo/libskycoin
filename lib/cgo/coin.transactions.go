@@ -362,6 +362,11 @@ func SKY_coin_Transaction_Serialize(handle C.Transaction__Handle, _arg0 *C.GoSli
 //export SKY_coin_TransactionDeserialize
 func SKY_coin_TransactionDeserialize(_b []byte, _arg1 *C.Transaction__Handle) (____error_code uint32) {
 	b := *(*[]byte)(unsafe.Pointer(&_b))
+
+	if b == nil {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
 	__arg1, ____return_err := coin.DeserializeTransaction(b)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {

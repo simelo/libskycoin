@@ -11,7 +11,6 @@
 extern void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256);
 
 
-
 START_TEST(TestSumSHA256)
 {
     GoUint8 bbuff[257];

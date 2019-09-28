@@ -188,10 +188,8 @@ START_TEST(TestSHA256FromHex)
     ck_assert(error == SKY_ErrInvalidHexLength);
 
     // Valid hex hash
-    GoString s2;
-    memset(&s2, 0, sizeof(GoString_));
+    GoString_ s2;
     SKY_cipher_SHA256_Hex(&h, &s2);
-    registerMemCleanup((void*)s2.p);
     cipher__SHA256 h2;
     GoString tmps2 = {s2.p, s2.n};
     error = SKY_cipher_SHA256FromHex(tmps2, &h2);
