@@ -48,6 +48,7 @@ int cutUxArray(coin__UxArray* slice, int start, int end, int elem_size, coin__Ux
 int concatSlices(GoSlice_* slice1, GoSlice_* slice2, int elem_size, GoSlice_* result);
 int concatUxArray(coin__UxArray* slice1, coin__UxArray* slice2, int elem_size, coin__UxArray* result);
 
+int copyGoStringtoGoString_(GoString* pdest, GoString_* psource);
 /*----------------------------------------------------------------------
  * JSON helpers
  *----------------------------------------------------------------------
