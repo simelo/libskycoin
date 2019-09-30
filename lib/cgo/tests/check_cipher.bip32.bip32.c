@@ -1154,13 +1154,13 @@ Suite* cipher_bip32(void)
 
     tc = tcase_create("cipher.bip32");
     tcase_add_checked_fixture(tc, setup, teardown);
-    tcase_add_test(tc, TestMaxChildDepthError);
-    tcase_add_test(tc, TestParentPublicChildDerivation);
-    // tcase_add_test(tc, TestBip32TestVectors);
-    tcase_add_test(tc, TestDeserializePrivateInvalidStrings);
-    tcase_add_test(tc, TestDeserializePublicInvalidStrings);
-    tcase_add_test(tc, TestCantCreateHardenedPublicChild);
-    tcase_add_test(tc, TestNewPrivateKeyFromPath);
+    // tcase_add_test(tc, TestMaxChildDepthError);
+    // tcase_add_test(tc, TestParentPublicChildDerivation);
+    // // tcase_add_test(tc, TestBip32TestVectors);
+    // tcase_add_test(tc, TestDeserializePrivateInvalidStrings);
+    // tcase_add_test(tc, TestDeserializePublicInvalidStrings);
+    // tcase_add_test(tc, TestCantCreateHardenedPublicChild);
+    // tcase_add_test(tc, TestNewPrivateKeyFromPath);
     suite_add_tcase(s, tc);
     tcase_set_timeout(tc, 150);
 
