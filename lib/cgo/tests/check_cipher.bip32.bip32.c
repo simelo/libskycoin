@@ -680,25 +680,29 @@ END_TEST
 START_TEST(TestParentPublicChildDerivation)
 {
     printf("Load TestParentPublicChildDerivation\n");
-    GoSlice_ extendedMasterPublicBytes_tmp;
+    GoUint8 buffer_extendedMasterPublicBytes_tmp[1024];
+    GoSlice_ extendedMasterPublicBytes_tmp = {buffer_extendedMasterPublicBytes_tmp, 0, 1024};
     GoString tmp_str = {"xpub6DxSCdWu6jKqr4isjo7bsPeDD6s3J4YVQV1JSHZg12Eagdqnf7XX4fxqyW2sLhUoFWutL7tAELU2LiGZrEXtjVbvYptvTX5Eoa4Mamdjm9u", 111};
     GoUint32 err = SKY_base58_Decode(tmp_str, &extendedMasterPublicBytes_tmp);
     ck_assert_int_eq(err, SKY_OK);
 
     PublicKey__Handle extendedMasterPublic = 0;
-    GoSlice extendedMasterPublicBytes;
+    GoUint8 buffer_extendedMasterPublicBytes[1024];
+    GoSlice extendedMasterPublicBytes = {buffer_extendedMasterPublicBytes, 0, 1024};
     copyGoSlice_toGoSlice(&extendedMasterPublicBytes, &extendedMasterPublicBytes_tmp, extendedMasterPublicBytes_tmp.len);
     err = SKY_bip32_DeserializePublicKey(extendedMasterPublicBytes, &extendedMasterPublic);
     ck_assert_int_eq(err, SKY_OK);
 
-    GoSlice extendedMasterPrivateBytes_tmp;
+    GoUint8 buffer_extendedMasterPrivateBytes_tmp[1024];
+    GoSlice_ extendedMasterPrivateBytes_tmp = {buffer_extendedMasterPrivateBytes_tmp, 0, 1024};
     tmp_str.p = "xprv9zy5o7z1GMmYdaeQdmabWFhUf52Ytbpe3G5hduA4SghboqWe7aDGWseN8BJy1GU72wPjkCbBE1hvbXYqpCecAYdaivxjNnBoSNxwYD4wHpW";
     tmp_str.n = 111;
     err = SKY_base58_Decode(tmp_str, &extendedMasterPrivateBytes_tmp);
     ck_assert_int_eq(err, SKY_OK);
 
     PrivateKey__Handle extendedMasterPrivate = 0;
-    GoSlice extendedMasterPrivateBytes;
+    GoUint8 buffer_extendedMasterPrivateBytes[1024];
+    GoSlice extendedMasterPrivateBytes = {buffer_extendedMasterPrivateBytes, 0, 1024};
     copyGoSlice_toGoSlice(&extendedMasterPrivateBytes, &extendedMasterPrivateBytes_tmp, extendedMasterPrivateBytes_tmp.len);
     err = SKY_bip32_DeserializePrivateKey(extendedMasterPrivateBytes, &extendedMasterPrivate);
     ck_assert_int_eq(err, SKY_OK);
@@ -861,7 +865,8 @@ START_TEST(TestParentPublicChildDerivation)
         ck_assert_int_eq(err, SKY_OK);
         err = SKY_bip32_PublicKey_NewPublicChildKey(extendedMasterPublic, element_tmp.ChildNumber, &pubKey);
         ck_assert_int_eq(err, SKY_OK);
-        GoSlice_ pubkey_key_tmp;
+        GoUint8 buffer_pubkey_key_tmp[1024];
+        GoSlice_ pubkey_key_tmp = {buffer_pubkey_key_tmp, 0, 1024};
         err = SKY_bip32_PublicKey_GetKey(pubKey, &pubkey_key_tmp);
         ck_assert_int_eq(err, SKY_OK);
 
@@ -897,7 +902,7 @@ START_TEST(TestMaxChildDepthError)
 {
     printf("Load TestMaxChildDepthError \n");
     GoUint8 bufferTemp[1024];
-    GoSlice tmp = {bufferTemp, 0, 32};
+    GoSlice tmp = {bufferTemp, 0, 1024};
     randBytes(&tmp, 32);
     PrivateKey__Handle key = 0;
     GoUint32 err = SKY_bip32_NewMasterKey(tmp, &key);
