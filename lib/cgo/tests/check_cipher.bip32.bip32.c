@@ -352,6 +352,7 @@ void testVectorKeyPairs(testMasterKey vector)
 
 START_TEST(TestBip32TestVectors)
 {
+    printf("Load TestBip32TestVectors\n");
     testMasterKey vector1;
     vector1.seed.p = "000102030405060708090a0b0c0d0e0f";
     vector1.seed.n = 32;
@@ -678,6 +679,7 @@ END_TEST
 
 START_TEST(TestParentPublicChildDerivation)
 {
+    printf("Load TestParentPublicChildDerivation\n");
     GoSlice_ extendedMasterPublicBytes_tmp;
     GoString tmp_str = {"xpub6DxSCdWu6jKqr4isjo7bsPeDD6s3J4YVQV1JSHZg12Eagdqnf7XX4fxqyW2sLhUoFWutL7tAELU2LiGZrEXtjVbvYptvTX5Eoa4Mamdjm9u", 111};
     GoUint32 err = SKY_base58_Decode(tmp_str, &extendedMasterPublicBytes_tmp);
@@ -893,6 +895,7 @@ END_TEST
 
 START_TEST(TestMaxChildDepthError)
 {
+    printf("Load TestMaxChildDepthError \n");
     GoUint8 bufferTemp[1024];
     GoSlice tmp = {bufferTemp, 0, 32};
     randBytes(&tmp, 32);
@@ -925,6 +928,7 @@ typedef struct {
 
 START_TEST(TestDeserializePrivateInvalidStrings)
 {
+    printf("Load TestDeserializePrivateInvalidStrings\n");
     tests_Struct tests[MAXBUFFER];
     // 0
     tests[0].err = SKY_ErrSerializedKeyWrongSize;
@@ -993,6 +997,7 @@ END_TEST
 
 START_TEST(TestDeserializePublicInvalidStrings)
 {
+    printf("Load TestDeserializePublicInvalidStrings\n");
     tests_Struct tests[MAXBUFFER];
     // 0
     tests[0].err = SKY_ErrSerializedKeyWrongSize;
@@ -1049,6 +1054,7 @@ END_TEST
 
 START_TEST(TestCantCreateHardenedPublicChild)
 {
+    printf("Load TestCantCreateHardenedPublicChild\n");
     GoUint8 bufferb[MAXBUFFER];
     GoSlice b = {bufferb, 0, MAXBUFFER};
     randBytes(&b, 32);
@@ -1091,6 +1097,7 @@ typedef struct
 
 START_TEST(TestNewPrivateKeyFromPath)
 {
+    printf("Load TestNewPrivateKeyFromPath\n");
     cases_Str cases[MAXBUFFER];
     // 0
     cases[0].seed.p = "6162636465666768696A6B6C6D6E6F707172737475767778797A";
