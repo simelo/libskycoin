@@ -317,7 +317,7 @@ func SKY_bip32_PrivateKey_ChildNumber(_pk C.PrivateKey__Handle, _arg0 *uint32) (
 		return
 	}
 
-	*_arg0 = pk.ChildNumber()
+	*_arg0 = uint32(pk.ChildNumber())
 	return
 }
 
@@ -331,7 +331,7 @@ func SKY_bip32_PublicKey_ChildNumber(_pk C.PublicKey__Handle, _arg0 *uint32) (__
 		return
 	}
 
-	*_arg0 = pk.ChildNumber()
+	*_arg0 = uint32(pk.ChildNumber())
 	return
 }
 

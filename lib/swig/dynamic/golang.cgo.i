@@ -69,7 +69,18 @@
 
 /*GoUint64* as function return typemap*/
 %typemap(argout) GoUint64* {
-	%append_output( SWIG_From_long( *$1 ) );
+	%append_output( SWIG_From_unsigned_SS_long_SS_long( *$1 ) );
+}
+
+/*GoUint32* parameter as reference */
+%typemap(in, numinputs=0) GoUint32* (GoUint32 temp) {
+	temp = 0;
+	$1 = &temp;
+}
+
+/*GoUint32* as function return typemap*/
+%typemap(argout) GoUint32* {
+	%append_output( SWIG_From_unsigned_SS_int( *$1 ) );
 }
 
 /*GoInt64* parameter as reference */
