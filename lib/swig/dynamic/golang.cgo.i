@@ -83,6 +83,17 @@
 	%append_output( SWIG_From_unsigned_SS_int( *$1 ) );
 }
 
+/*GoUint8* parameter as reference */
+%typemap(in, numinputs=0) GoUint8* (GoUint8 temp) {
+	temp = 0;
+	$1 = &temp;
+}
+
+/*GoUint8* as function return typemap*/
+%typemap(argout) GoUint8* {
+	%append_output( SWIG_From_unsigned_SS_char( *$1 ) );
+}
+
 /*GoInt64* parameter as reference */
 %typemap(in, numinputs=0) GoInt64* (GoInt64 temp) {
 	temp = 0;

@@ -216,7 +216,8 @@ func SKY_bip32_PublicKey_String(_pk C.PublicKey__Handle, _arg0 *C.GoString_) (__
 
 //export SKY_bip32_DeserializeEncodedPrivateKey
 func SKY_bip32_DeserializeEncodedPrivateKey(_xprv string, _arg0 *C.PrivateKey__Handle) (___error_code uint32) {
-	pk, ___return_err := bip32.DeserializeEncodedPrivateKey(_xprv)
+	xprv := string(_xprv)
+	pk, ___return_err := bip32.DeserializeEncodedPrivateKey(xprv)
 	___error_code = libErrorCode(___return_err)
 	if ___return_err == nil {
 		*_arg0 = registerPrivateKeyHandle(pk)
@@ -237,6 +238,7 @@ func SKY_bip32_DeserializePrivateKey(_data []byte, _arg0 *C.PrivateKey__Handle) 
 
 //export SKY_bip32_DeserializeEncodedPublicKey
 func SKY_bip32_DeserializeEncodedPublicKey(_xpub string, _arg0 *C.PublicKey__Handle) (___error_code uint32) {
+	xpub := string(_xpub)
 	pk, ___return_err := bip32.DeserializeEncodedPublicKey(_xpub)
 	___error_code = libErrorCode(___return_err)
 	if ___return_err == nil {
@@ -317,7 +319,8 @@ func SKY_bip32_PrivateKey_ChildNumber(_pk C.PrivateKey__Handle, _arg0 *uint32) (
 		return
 	}
 
-	*_arg0 = uint32(pk.ChildNumber())
+	__arg0 := pk.ChildNumber()
+	*_arg0 = uint32(__arg0)
 	return
 }
 
@@ -331,7 +334,8 @@ func SKY_bip32_PublicKey_ChildNumber(_pk C.PublicKey__Handle, _arg0 *uint32) (__
 		return
 	}
 
-	*_arg0 = uint32(pk.ChildNumber())
+	__arg0 := uint32(pk.ChildNumber())
+	*_arg0 = __arg0
 	return
 }
 
