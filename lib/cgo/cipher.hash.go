@@ -36,16 +36,16 @@ func SKY_cipher_HashRipemd160(_data []byte, _arg1 *C.cipher__Ripemd160) (____err
 //export SKY_cipher_SHA256_Set
 func SKY_cipher_SHA256_Set(_g *C.cipher__SHA256, _b []byte) (____error_code uint32) {
 	g := (*cipher.SHA256)(unsafe.Pointer(_g))
-
 	err := g.Set(_b)
 	____error_code = libErrorCode(err)
 	return
 }
 
 //export SKY_cipher_SHA256_Hex
-func SKY_cipher_SHA256_Hex(_g *C.cipher__SHA256, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_SHA256_Hex(_g *C.cipher__SHA256, _arg1 *C.GoString_) (____error_code uint32) {
 	g := (*cipher.SHA256)(unsafe.Pointer(_g))
-	*_arg1 = g.Hex()
+	__arg1 := g.Hex()
+	copyString(__arg1, _arg1)
 	return
 }
 

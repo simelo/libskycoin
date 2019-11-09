@@ -291,7 +291,7 @@ func SKY_api_Client_Wallets(_c C.Client__Handle, _arg0 *C.Wallets__Handle) (____
 }
 
 //export SKY_api_Client_NewWalletAddress
-func SKY_api_Client_NewWalletAddress(_c C.Client__Handle, _id string, _n int, _password string, _arg3 *C.Strings__Handle) (____error_code uint32) {
+func SKY_api_Client_NewWalletAddress(_c C.Client__Handle, _id string, _n int, _password string, _arg3 *[]string) (____error_code uint32) {
 	c, okc := lookupClientHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
@@ -303,7 +303,7 @@ func SKY_api_Client_NewWalletAddress(_c C.Client__Handle, _id string, _n int, _p
 	__arg3, ____return_err := c.NewWalletAddress(id, n, password)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		*_arg3 = (C.Strings__Handle)(registerHandle(__arg3))
+		*_arg3 = __arg3
 	}
 	return
 }

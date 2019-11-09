@@ -194,7 +194,7 @@ START_TEST(TestToString)
 {
     char buffer[BUFFER_SIZE];
     char bufferNull[BUFFER_SIZE];
-    GoString s = {buffer, 0};
+    GoString_ s = {buffer, 0};
     tmpstruct cases[] = {
         {.s = {"0.000000", 8}, .n = 0, .e = SKY_OK},
         {.s = {"0.000001", 8}, .n = 1, .e = SKY_OK},
@@ -207,7 +207,6 @@ START_TEST(TestToString)
     };
     int len = (sizeof(cases) / sizeof(tmpstruct));
 
-    GoString nullStr = {bufferNull, 0};
     int i;
     for (i = 0; i < len; i++) {
         tmpstruct tc = cases[i];
@@ -216,7 +215,7 @@ START_TEST(TestToString)
 
         if (tc.e == SKY_OK) {
             ck_assert(err == SKY_OK);
-            ck_assert(isGoStringEq(tc.s, s));
+            ck_assert(isGoString_toGoStringEq(s, tc.s));
         } else {
             ck_assert(err == tc.e);
         }

@@ -112,30 +112,26 @@ func SKY_params_Distribution_SetUnlockTimeInterval(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_GetAddresses
-func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_GetAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	*_arg0 = registerStringsHandle(d.Addresses)
+	arg0 := d.Addresses
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
 	return
 }
 
 // nolint megacheck
 //export SKY_params_Distribution_SetAddresses
-func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_SetAddresses(_d C.Distribution__Handle, _arg0 []string) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	s, oks := lookupStringsHandle(*_arg0)
-	if !oks {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	d.Addresses = s
+	d.Addresses = _arg0
 	_d = registerDistributionHandle(d)
 	return
 }
@@ -166,7 +162,7 @@ func SKY_params_Distribution_AddressInitialBalance(_d C.Distribution__Handle, _a
 }
 
 //export SKY_params_Distribution_UnlockedAddresses
-func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
@@ -174,12 +170,13 @@ func SKY_params_Distribution_UnlockedAddresses(_d C.Distribution__Handle, _arg0 
 	}
 
 	arg0 := d.UnlockedAddresses()
-	*_arg0 = registerStringsHandle(arg0)
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
+
 	return
 }
 
 //export SKY_params_Distribution_LockedAddresses
-func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C.Strings__Handle) (____error_code uint32) {
+func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
 	d, ok := lookupDistributionHandle(_d)
 	if !ok {
 		____error_code = SKY_BAD_HANDLE
@@ -187,7 +184,7 @@ func SKY_params_Distribution_LockedAddresses(_d C.Distribution__Handle, _arg0 *C
 	}
 
 	arg0 := d.LockedAddresses()
-	*_arg0 = registerStringsHandle(arg0)
+	copyToGoSlice(reflect.ValueOf(arg0), _arg0)
 	return
 }
 
@@ -228,14 +225,15 @@ func SKY_params_Distribution_LockedAddressesDecoded(_d C.Distribution__Handle, _
 }
 
 //export SKY_params_Distribution_GetMainNetDistribution
-func SKY_params_Distribution_GetMainNetDistribution(_d *C.Distribution__Handle) (____error_code uint32) {
-	d, ok := lookupDistributionHandle(*_d)
-	if !ok {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	*d = params.MainNetDistribution
-	*_d = registerDistributionHandle(d)
+func SKY_params_Distribution_GetMainNetDistribution(handle *C.Distribution__Handle) (____error_code uint32) {
+	d := params.Distribution{}
+	d.MaxCoinSupply = params.MainNetDistribution.MaxCoinSupply
+	d.InitialUnlockedCount = params.MainNetDistribution.InitialUnlockedCount
+	d.UnlockAddressRate = params.MainNetDistribution.UnlockAddressRate
+	d.UnlockTimeInterval = params.MainNetDistribution.UnlockTimeInterval
+	d.Addresses = make([]string, 0)
+	d.Addresses = append(d.Addresses, params.MainNetDistribution.Addresses...)
+	*handle = registerDistributionHandle(&d)
 	return
 }
 

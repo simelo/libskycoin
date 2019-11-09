@@ -10,16 +10,42 @@
 
 extern void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256);
 
+
+START_TEST(TestSumSHA256)
+{
+    printf("Load TestSumSHA256 \n");
+    GoUint8 bbuff[257];
+    GoUint8 cbuff[257];
+    GoSlice b = {bbuff, 0, 257};
+    GoSlice_ b_tmp = {bbuff, 0, 257};
+    cipher__SHA256 h1;
+    randBytes(&b, 256);
+    SKY_cipher_SumSHA256(b, &h1);
+    cipher__SHA256 tmp = "";
+    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
+    GoSlice c = {cbuff, 0, 257};
+    randBytes(&c, 256);
+    cipher__SHA256 h2;
+    SKY_cipher_SumSHA256(c, &h2);
+    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
+    cipher__SHA256 tmp_h2;
+    freshSumSHA256(c, &tmp_h2);
+    ck_assert(isU8Eq(h2, tmp_h2, 32));
+}
+END_TEST
+
 START_TEST(TestRipemd160Set)
 {
+    printf("Load TestRipemd160Set \n");
     cipher__Ripemd160 h;
     unsigned char buff[101];
     GoSlice slice = {buff, 0, 101};
+    GoSlice_ slice_tmp = {buff, 0, 101};
     int error;
 
     memset(h, 0, sizeof(cipher__Ripemd160));
-    randBytes(&slice, 21);
 
+    randBytes(&slice, 21);
     error = SKY_cipher_Ripemd160_Set(&h, slice);
     ck_assert(error == SKY_ErrInvalidLengthRipemd160);
 
@@ -44,6 +70,7 @@ END_TEST
 
 START_TEST(TestDoubleSHA256)
 {
+    printf("Load TestDoubleSHA256\n");
     unsigned char bbuff[130];
     GoSlice b = {bbuff, 0, 130};
     randBytes(&b, 128);
@@ -58,6 +85,7 @@ END_TEST
 
 START_TEST(TestXorSHA256)
 {
+    printf("Load TestXorSHA256 \n");
     unsigned char bbuff[129], cbuff[129];
     GoSlice b = {bbuff, 0, 129};
     GoSlice c = {cbuff, 0, 129};
@@ -83,6 +111,7 @@ END_TEST
 
 START_TEST(TestMerkle)
 {
+    printf("Load TestMerkle \n");
     unsigned char buff[129];
     cipher__SHA256 hashlist[5];
     GoSlice b = {buff, 0, 129}, hashes = {hashlist, 0, 5};
@@ -144,6 +173,7 @@ Suite* cipher_hash(void)
 
     tc = tcase_create("cipher.hash");
     tcase_add_checked_fixture(tc, setup, teardown);
+    tcase_add_test(tc, TestSumSHA256);
     tcase_add_test(tc, TestRipemd160Set);
     tcase_add_test(tc, TestDoubleSHA256);
     tcase_add_test(tc, TestXorSHA256);

@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <check.h>
 #include "libskycoin.h"
-#include "skyerrors.h"
 #include "skyassert.h"
+#include "skyerrors.h"
 #include "skystring.h"
 #include "skytest.h"
+#include <check.h>
 
 START_TEST(TestNewPubKey)
 {
@@ -104,7 +104,7 @@ START_TEST(TestPubKeyHex)
 
     GoUint32 err = SKY_cipher_GenerateKeyPair(&p, &sk);
     ck_assert(err == SKY_OK);
-    GoString_ tmp_s3 = {buff_s3, 0};
+    GoString tmp_s3 = {buff_s3, 0};
     err = SKY_cipher_PubKey_Hex(&p, &tmp_s3);
     ck_assert(err == SKY_OK);
     s3.n = tmp_s3.n;
@@ -115,7 +115,7 @@ START_TEST(TestPubKeyHex)
     ck_assert(isPubKeyEq(&p, &p2));
 
     unsigned char s4_buff[50];
-    GoString_ tmp_s4 = {s4_buff, 0};
+    GoString tmp_s4 = {s4_buff, 0};
     err = SKY_cipher_PubKey_Hex(&p2, &tmp_s4);
     ck_assert(err == SKY_OK);
     s4.n = s4.n;
@@ -263,7 +263,7 @@ START_TEST(TestSigHex)
 
     ck_assert(errorcode == SKY_OK);
     char buffer[100];
-    GoString_ tmp_str = {buffer, 0};
+    GoString tmp_str = {buffer, 0};
     SKY_cipher_Sig_Hex(&s, &tmp_str);
     str.p = tmp_str.p;
     str.n = tmp_str.n;
@@ -312,25 +312,24 @@ START_TEST(TestPubKeyFromSecKey)
 END_TEST
 
 // define test suite and cases
-Suite *common_check_cipher_crypto(void)
+Suite* common_check_cipher_crypto(void)
 {
-  Suite *s = suite_create("Load common check_cipher.crypto");
-  TCase *tc;
+    Suite* s = suite_create("Load common check_cipher.crypto");
+    TCase* tc;
 
-  tc = tcase_create("check_cipher.crypto");
-  tcase_add_test(tc, TestNewPubKey);
-  tcase_add_test(tc, TestPubKeyFromHex);
-  tcase_add_test(tc, TestPubKeyHex);
-  tcase_add_test(tc, TestPubKeyVerify);
-  tcase_add_test(tc, TestPubKeyVerifyNil);
-  tcase_add_test(tc, TestPubKeyVerifyDefault1);
-  tcase_add_test(tc, TestNewSig);
-  tcase_add_test(tc, TestMustSigFromHex);
-  tcase_add_test(tc, TestSigHex);
-  tcase_add_test(tc, TestPubKeyFromSecKey);
-  suite_add_tcase(s, tc);
-  tcase_set_timeout(tc, 150);
+    tc = tcase_create("check_cipher.crypto");
+    tcase_add_test(tc, TestNewPubKey);
+    tcase_add_test(tc, TestPubKeyFromHex);
+    tcase_add_test(tc, TestPubKeyHex);
+    tcase_add_test(tc, TestPubKeyVerify);
+    tcase_add_test(tc, TestPubKeyVerifyNil);
+    tcase_add_test(tc, TestPubKeyVerifyDefault1);
+    tcase_add_test(tc, TestNewSig);
+    tcase_add_test(tc, TestMustSigFromHex);
+    tcase_add_test(tc, TestSigHex);
+    tcase_add_test(tc, TestPubKeyFromSecKey);
+    suite_add_tcase(s, tc);
+    tcase_set_timeout(tc, 150);
 
-  return s;
+    return s;
 }
- 

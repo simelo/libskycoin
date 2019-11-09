@@ -56,10 +56,10 @@ func SKY_cli_FormatAddressesAsJoinedArray(_addrs []C.cipher__Address, _arg1 *str
 }
 
 //export SKY_cli_AddressesToStrings
-func SKY_cli_AddressesToStrings(_addrs []C.cipher__Address, _arg1 *C.Strings__Handle) (____error_code uint32) {
+func SKY_cli_AddressesToStrings(_addrs []C.cipher__Address, _arg1 *[]string) (____error_code uint32) {
 	addrs := *(*[]cipher.Address)(unsafe.Pointer(&_addrs))
 	__addrs := toAddresserArray(addrs)
-	__arg1 := cli.AddressesToStrings(__addrs)
-	*_arg1 = registerStringsHandle(__arg1)
+	*_arg1 = cli.AddressesToStrings(__addrs)
+
 	return
 }

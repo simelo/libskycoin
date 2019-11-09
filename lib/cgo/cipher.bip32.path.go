@@ -63,7 +63,7 @@ func SKY_bip32_Path_GetElements(handle C.Path__Handle, post int, _arg0 *C.bip32_
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	
+
 	*_arg0 = *(*C.bip32__PathNode)(unsafe.Pointer(&p.Elements[post]))
 	return
 }

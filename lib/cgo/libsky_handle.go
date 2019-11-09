@@ -550,22 +550,8 @@ func lookupDistributionHandle(handle C.Distribution__Handle) (*params.Distributi
 	return nil, false
 }
 
-func registerStringsHandle(obj []string) C.Strings__Handle {
-	return (C.Strings__Handle)(registerHandle(obj))
-}
-
-func lookupStringsHandle(handle C.Strings__Handle) ([]string, bool) {
-	obj, ok := lookupHandle(C.Handle(handle))
-	if ok {
-		if obj, isOK := (obj).([]string); isOK {
-			return obj, true
-		}
-	}
-	return nil, false
-}
-
 func registerCreateWalletOptionsHandle(obj *api.CreateWalletOptions) C.CreateWalletOptions__Handle {
-	return (C.Strings__Handle)(registerHandle(obj))
+	return (C.CreateWalletOptions__Handle)(registerHandle(obj))
 }
 
 func lookupCreateWalletOptionsHandle(handle C.CreateWalletOptions__Handle) (*api.CreateWalletOptions, bool) {
@@ -579,7 +565,7 @@ func lookupCreateWalletOptionsHandle(handle C.CreateWalletOptions__Handle) (*api
 }
 
 func registerWalletRecoverRequestHandle(obj *api.WalletRecoverRequest) C.WalletRecoverRequest__Handle {
-	return (C.Strings__Handle)(registerHandle(obj))
+	return (C.CreateWalletOptions__Handle)(registerHandle(obj))
 }
 
 func lookupWalletRecoverRequestHandle(handle C.WalletRecoverRequest__Handle) (*api.WalletRecoverRequest, bool) {

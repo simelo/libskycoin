@@ -17,8 +17,9 @@ import (
 import "C"
 
 //export SKY_cipher_RandByte
-func SKY_cipher_RandByte(_n int, _arg1 *[]byte) (____error_code uint32) {
-	*_arg1 = cipher.RandByte(_n)
+func SKY_cipher_RandByte(_n int, _arg1 *C.GoSlice_) (____error_code uint32) {
+	__arg1 := cipher.RandByte(_n)
+	copyToGoSlice(reflect.ValueOf(__arg1), _arg1)
 	return
 }
 
@@ -83,9 +84,10 @@ func SKY_cipher_PubKey_Verify(_pk *C.cipher__PubKey) (____error_code uint32) {
 }
 
 //export SKY_cipher_PubKey_Hex
-func SKY_cipher_PubKey_Hex(_pk *C.cipher__PubKey, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_PubKey_Hex(_pk *C.cipher__PubKey, _arg1 *C.GoString_) (____error_code uint32) {
 	pk := (*cipher.PubKey)(unsafe.Pointer(_pk))
-	*_arg1 = pk.Hex()
+	__arg1 := pk.Hex()
+	copyString(__arg1, _arg1)
 	return SKY_OK
 }
 
@@ -128,20 +130,21 @@ func SKY_cipher_SecKey_Verify(_sk *C.cipher__SecKey) (____error_code uint32) {
 }
 
 //export SKY_cipher_SecKey_Hex
-func SKY_cipher_SecKey_Hex(_sk *C.cipher__SecKey, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_SecKey_Hex(_sk *C.cipher__SecKey, _arg1 *C.GoString_) (____error_code uint32) {
 	sk := (*cipher.SecKey)(unsafe.Pointer(_sk))
-	*_arg1 = sk.Hex()
+	__arg1 := sk.Hex()
+	copyString(__arg1, _arg1)
 	return
 }
 
 //export SKY_cipher_ECDH
-func SKY_cipher_ECDH(_pub *C.cipher__PubKey, _sec *C.cipher__SecKey, _arg2 *[]byte) (____error_code uint32) {
+func SKY_cipher_ECDH(_pub *C.cipher__PubKey, _sec *C.cipher__SecKey, _arg2 *C.GoSlice_) (____error_code uint32) {
 	pub := (*cipher.PubKey)(unsafe.Pointer(_pub))
 	sec := (*cipher.SecKey)(unsafe.Pointer(_sec))
 	b, err := cipher.ECDH(*pub, *sec)
 	____error_code = libErrorCode(err)
 	if err == nil {
-		*_arg2 = b
+		copyToGoSlice(reflect.ValueOf(b), _arg2)
 	}
 	return
 }
@@ -168,9 +171,10 @@ func SKY_cipher_SigFromHex(_s string, _arg1 *C.cipher__Sig) (____error_code uint
 }
 
 //export SKY_cipher_Sig_Hex
-func SKY_cipher_Sig_Hex(_s *C.cipher__Sig, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_Sig_Hex(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
 	s := (*cipher.Sig)(unsafe.Pointer(_s))
-	*_arg1 = s.Hex()
+	__arg1 := s.Hex()
+	copyString(__arg1,_arg1)
 	return
 }
 
@@ -254,10 +258,10 @@ func SKY_cipher_GenerateDeterministicKeyPairs(_seed []byte, _n int, _arg2 *C.GoS
 }
 
 //export SKY_cipher_GenerateDeterministicKeyPairsSeed
-func SKY_cipher_GenerateDeterministicKeyPairsSeed(_seed []byte, _n int, _arg2 *[]byte, _arg3 *C.GoSlice_) (____error_code uint32) {
+func SKY_cipher_GenerateDeterministicKeyPairsSeed(_seed []byte, _n int, _arg2 *C.GoSlice_, _arg3 *C.GoSlice_) (____error_code uint32) {
 	h, sks, err := cipher.GenerateDeterministicKeyPairsSeed(_seed, _n)
 	if err == nil {
-		*_arg2 = h
+		copyToGoSlice(reflect.ValueOf(h), _arg2)
 		copyToGoSlice(reflect.ValueOf(sks), _arg3)
 	}
 
@@ -284,9 +288,10 @@ func SKY_cipher_CheckSecKeyHash(_seckey *C.cipher__SecKey, _hash *C.cipher__SHA2
 }
 
 //export SKY_cipher_Sig_String
-func SKY_cipher_Sig_String(_s *C.cipher__Sig, _arg1 *string) (____error_code uint32) {
+func SKY_cipher_Sig_String(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
 	s := (*cipher.Sig)(unsafe.Pointer(_s))
-	*_arg1 = s.String()
+	__arg1 := s.String()
+	copyString(__arg1,_arg1)
 	return
 }
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"unsafe"
 
 	"github.com/skycoin/skycoin/src/cipher/bip39"
@@ -56,13 +57,13 @@ func SKY_bip39_ValidateMnemonic(_mnemonic string) (____error_code uint32) {
 }
 
 //export SKY_bip39_NewSeed
-func SKY_bip39_NewSeed(_mnemonic string, _password string, _arg1 *[]byte) (____error_code uint32) {
+func SKY_bip39_NewSeed(_mnemonic string, _password string, _arg1 *C.GoSlice_) (____error_code uint32) {
 	mnemonic := _mnemonic
 	password := _password
 	__arg1, ____return_err := bip39.NewSeed(mnemonic, password)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		*_arg1 = __arg1
+		copyToGoSlice(reflect.ValueOf(__arg1), _arg1)
 	}
 	return
 }

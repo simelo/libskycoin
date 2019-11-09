@@ -5,8 +5,8 @@
 #include <string.h>
 
 #include "libskycoin.h"
-#include "skyerrors.h"
 #include "skyassert.h"
+#include "skyerrors.h"
 #include "skystring.h"
 #include "skytest.h"
 

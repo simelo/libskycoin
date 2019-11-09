@@ -21,6 +21,7 @@ void freshSumSHA256(GoSlice bytes, cipher__SHA256* sha256)
 
 START_TEST(TestAddSHA256)
 {
+    printf("Load TestAddSHA256 \n");
     unsigned char bbuff[130];
     GoSlice b = {bbuff, 0, 130};
     randBytes(&b, 128);
@@ -45,6 +46,7 @@ END_TEST
 
 START_TEST(TestHashRipemd160)
 {
+    printf("Load TestHashRipemd160\n");
     cipher__Ripemd160 tmp;
     cipher__Ripemd160 r;
     cipher__Ripemd160 r2;
@@ -69,6 +71,7 @@ END_TEST
 
 START_TEST(TestSHA256KnownValue)
 {
+    printf("Load TestSHA256KnownValue\n");
     typedef struct
     {
         char* input;
@@ -111,56 +114,10 @@ START_TEST(TestSHA256KnownValue)
 }
 END_TEST
 
-START_TEST(TestSumSHA256)
-{
-    GoUint8 bbuff[257];
-    GoUint8 cbuff[257];
-    GoSlice b = {bbuff, 0, 257};
-    cipher__SHA256 h1;
-    // randBytes(&b, 256);
-    SKY_cipher_RandByte(256, &b);
-    SKY_cipher_SumSHA256(b, &h1);
-    cipher__SHA256 tmp = "";
-    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
-    GoSlice c = {cbuff, 0, 257};
-    randBytes(&c, 256);
-    cipher__SHA256 h2;
-    SKY_cipher_SumSHA256(c, &h2);
-    ck_assert_int_eq(isU8Eq(h1, tmp, 32), 0);
-    cipher__SHA256 tmp_h2;
-    freshSumSHA256(c, &tmp_h2);
-    ck_assert(isU8Eq(h2, tmp_h2, 32));
-}
-END_TEST
-
-START_TEST(TestSHA256Hex)
-{
-    cipher__SHA256 h;
-    unsigned char buff[101];
-    GoSlice slice = {buff, 0, 101};
-    int error;
-
-    memset(&h, 0, sizeof(h));
-    randBytes(&slice, 32);
-    SKY_cipher_SHA256_Set(&h, slice);
-    GoString s;
-
-    SKY_cipher_SHA256_Hex(&h, &s);
-    registerMemCleanup((void*)s.p);
-
-    cipher__SHA256 h2;
-    error = SKY_cipher_SHA256FromHex(s, &h2);
-    ck_assert(error == SKY_OK);
-    ck_assert(isU8Eq(h, h2, 32));
-
-    GoString s2;
-    SKY_cipher_SHA256_Hex(&h2, &s2);
-    ck_assert(isGoStringEq(s, s2));
-}
-END_TEST
 
 START_TEST(TestSHA256Set)
 {
+    printf("Load TestSHA256Hex \n");
     cipher__SHA256 h;
     unsigned char buff[101];
     GoSlice slice = {buff, 0, 101};
@@ -191,6 +148,7 @@ END_TEST
 
 START_TEST(TestSHA256FromHex)
 {
+    printf("Load TestSHA256FromHex \n");
     unsigned int error;
     cipher__SHA256 tmp;
     // Invalid hex hash
@@ -211,9 +169,7 @@ START_TEST(TestSHA256FromHex)
 
     // Valid hex hash
     GoString_ s2;
-    memset(&s2, 0, sizeof(GoString_));
     SKY_cipher_SHA256_Hex(&h, &s2);
-    registerMemCleanup((void*)s2.p);
     cipher__SHA256 h2;
     GoString tmps2 = {s2.p, s2.n};
     error = SKY_cipher_SHA256FromHex(tmps2, &h2);
@@ -224,6 +180,7 @@ END_TEST
 
 START_TEST(TestSHA256Null)
 {
+    printf("Load TestSHA256Null \n");
     cipher__SHA256 x;
     memset(&x, 0, sizeof(cipher__SHA256));
     GoUint32 result;
@@ -245,13 +202,11 @@ Suite* common_check_cipher_hash(void)
     Suite* s = suite_create("Load common check_cipher.hash");
     TCase* tc;
 
-    tc = tcase_create("check_cipher.hash");
+    tc = tcase_create("check_cipher.hash.common");
     tcase_add_test(tc, TestSHA256Set);
     tcase_add_test(tc, TestAddSHA256);
     tcase_add_test(tc, TestHashRipemd160);
     tcase_add_test(tc, TestSHA256KnownValue);
-    tcase_add_test(tc, TestSumSHA256);
-    tcase_add_test(tc, TestSHA256Hex);
     tcase_add_test(tc, TestSHA256FromHex);
     tcase_add_test(tc, TestSHA256Null);
     suite_add_tcase(s, tc);
