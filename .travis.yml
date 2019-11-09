@@ -20,7 +20,7 @@ env:
     - LIB_DIR: lib
     - CGO_ENABLED: 1
     - VERSION_UPGRADE_TEST_WAIT_TIMEOUT: 60s
-    - PATH_DIR: "$GOPATH/src/github.com/skycoin/libskycoin/"
+    - PATH_DIR: "$GOPATH/src/github.com/fibercrypto/libskycoin/"
 install:
   # Install gox
   - go get github.com/gz-c/gox
@@ -51,7 +51,7 @@ deploy:
     draft: true
     overwrite: true
     on:
-      repo: skycoin/libskycoin
+      repo: fibercrypto/libskycoin
       tags: true
 notifications:
   email: false
