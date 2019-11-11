@@ -3,7 +3,7 @@ jobs:
   orangepi-plus2:
     docker:
       - image: circleci/golang:1.12
-    working_directory: $GOPATH/src/github.com/skycoin/libskycoin
+    working_directory: $GOPATH/src/github.com/fibercrypto/libskycoin
     environment:
       QEMU_PLATFORM: orangepi-plus2
 
@@ -13,12 +13,12 @@ jobs:
       - setup_remote_docker:
           version: 18.06.0-ce
           docker_layer_caching: true
-      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/skycoin/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/skycoin/libskycoin -t skydev-test
+      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/fibercrypto/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/fibercrypto/libskycoin -t skydev-test
 
   raspberrypi3:
     docker:
       - image: circleci/golang:1.12
-    working_directory: $GOPATH/src/github.com/skycoin/libskycoin
+    working_directory: $GOPATH/src/github.com/fibercrypto/libskycoin
     environment:
       QEMU_PLATFORM: raspberrypi3
 
@@ -28,12 +28,12 @@ jobs:
       - setup_remote_docker:
           version: 18.06.0-ce
           docker_layer_caching: true
-      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/skycoin/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/skycoin/libskycoin -t skydev-test
+      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/fibercrypto/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/fibercrypto/libskycoin -t skydev-test
 
   raspberrypi2:
     docker:
       - image: circleci/golang:1.12
-    working_directory: $GOPATH/src/github.com/skycoin/libskycoin
+    working_directory: $GOPATH/src/github.com/fibercrypto/libskycoin
     environment:
       QEMU_PLATFORM: raspberry-pi2
 
@@ -43,12 +43,12 @@ jobs:
       - setup_remote_docker:
           version: 18.06.0-ce
           docker_layer_caching: true
-      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/skycoin/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/skycoin/libskycoin -t skydev-test
+      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/fibercrypto/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/fibercrypto/libskycoin -t skydev-test
 
   bananapi_m1_plus:
     docker:
       - image: circleci/golang:1.12
-    working_directory: $GOPATH/src/github.com/skycoin/libskycoin
+    working_directory: $GOPATH/src/github.com/fibercrypto/libskycoin
     environment:
       QEMU_PLATFORM: bananapi-m1-plus
 
@@ -58,12 +58,12 @@ jobs:
       - setup_remote_docker:
           version: 18.06.0-ce
           docker_layer_caching: true
-      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/skycoin/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/skycoin/libskycoin -t skydev-test
+      - run: docker build  --build-arg QEMU_PLATFORM --build-arg QEMU_OS=debian --file $GOPATH/src/github.com/fibercrypto/libskycoin/docker/images/test-arm/Dockerfile  $GOPATH/src/github.com/fibercrypto/libskycoin -t skydev-test
 
   deploy_arm_armv7:
     docker:
       - image: circleci/golang:1.12
-    working_directory: $GOPATH/src/github.com/skycoin/libskycoin
+    working_directory: $GOPATH/src/github.com/fibercrypto/libskycoin
     environment:
       QEMU_PLATFORM: armv7hf
     steps:
@@ -72,12 +72,12 @@ jobs:
       - setup_remote_docker:
           version: 18.06.0-ce
           docker_layer_caching: true
-      - run: cd $GOPATH/src/github.com/skycoin/libskycoin/ci-scripts &&  bash deploy-arm.sh
+      - run: cd $GOPATH/src/github.com/fibercrypto/libskycoin/ci-scripts &&  bash deploy-arm.sh
   
   deploy_arm_armv8:
     docker:
       - image: circleci/golang:1.12
-    working_directory: $GOPATH/src/github.com/skycoin/libskycoin
+    working_directory: $GOPATH/src/github.com/fibercrypto/libskycoin
     environment:
       QEMU_PLATFORM: aarch64
     steps:
@@ -86,7 +86,7 @@ jobs:
       - setup_remote_docker:
           version: 18.06.0-ce
           docker_layer_caching: true
-      - run: cd $GOPATH/src/github.com/skycoin/libskycoin/ci-scripts &&  bash deploy-arm.sh
+      - run: cd $GOPATH/src/github.com/fibercrypto/libskycoin/ci-scripts &&  bash deploy-arm.sh
 
 workflows:
   version: 2
