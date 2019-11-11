@@ -29,35 +29,32 @@ func SKY_cli_CLI_Run(_app C.CLI__Handle) (____error_code uint32) {
 }
 
 //export SKY_cli_Config_GetCoin
-func SKY_cli_Config_GetCoin(_c C.Config__Handle, _arg0 *C.GoString_) (____error_code uint32) {
+func SKY_cli_Config_GetCoin(_c C.Config__Handle, _arg0 *string) (____error_code uint32) {
 	__c, okc := lookupConfigHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 	c := *__c
-	__arg0 := c.Coin
-	copyString(__arg0, _arg0)
+	*_arg0 = c.Coin
 	return
 }
 
 //export SKY_cli_Config_GetRPCAddress
-func SKY_cli_Config_GetRPCAddress(_c C.Config__Handle, _arg0 *C.GoString_) (____error_code uint32) {
+func SKY_cli_Config_GetRPCAddress(_c C.Config__Handle, _arg0 *string) (____error_code uint32) {
 	__c, okc := lookupConfigHandle(_c)
 	if !okc {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
 	c := *__c
-	__arg0 := c.RPCAddress
-	copyString(__arg0, _arg0)
+	*_arg0 = c.RPCAddress
 	return
 }
 
 //export SKY_cli_Getenv
-func SKY_cli_Getenv(varname string, _arg0 *C.GoString_) (____error_code uint32) {
-	__arg0 := os.Getenv(varname)
-	copyString(__arg0, _arg0)
+func SKY_cli_Getenv(varname string, _arg0 *string) (____error_code uint32) {
+	*_arg0 = os.Getenv(varname)
 	return
 }
 

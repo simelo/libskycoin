@@ -84,8 +84,8 @@ func SKY_cipher_Address_Verify(_addr *C.cipher__Address, _key *C.cipher__PubKey)
 //export SKY_cipher_Address_String
 func SKY_cipher_Address_String(_addr *C.cipher__Address, _arg1 *C.GoString_) (____error_code uint32) {
 	addr := (*cipher.Address)(unsafe.Pointer(_addr))
-	s := addr.String()
-	copyString(s, _arg1)
+	__arg1 := addr.String()
+	copyString(__arg1, _arg1)
 	return
 }
 

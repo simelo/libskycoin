@@ -19,3 +19,8 @@ typedef struct {
     coin__Block _unnamed;
     cipher__Sig Sig;
 } coin__SignedBlock;
+
+typedef struct {
+    cipher__SHA256 Hash;
+    cipher__SHA256 PrevHash;
+} coin__HashPair;

@@ -115,6 +115,50 @@ typedef void* GoMap_;
 typedef void* GoChan_;
 
 /**
+ * Instances of Go interface types.
+ */
+typedef struct {
+    void* t; ///< Pointer to the information of the concrete Go type
+             ///< bound to this interface reference.
+    void* v; ///< Pointer to the data corresponding to the value
+             ///< bound to this interface type.
+} GoInterface_;
+/**
+ * Instances of Go slices
+ */
+typedef struct {
+    void* data;
+    GoInt_ len;
+    GoInt_ cap;
+} GoSlice_;
+
+typedef struct {
+    BOOL neg;
+    GoSlice_ nat;
+} Number;
+
+typedef struct {
+    // TODO: stdevEclipse Define Signature
+    Number R;
+    Number S;
+} Signature;
+
+#include "skytypes.gen.h"
+
+/**
+ * Internal representation of a Skycoin wallet.
+ */
+typedef struct {
+    GoMap_ Meta;      ///< Records items that are not deterministic, like filename,
+                      ///< lable, wallet type, secrets, etc.
+    GoSlice_ Entries; ///< Entries field stores the address entries that are
+                      ///< deterministically generated from seed.
+} Wallet;
+
+typedef GoUint8_ poly1305__Mac[16];
+typedef GoUint8_ poly1305__Key[32];
+
+/**
  * Memory handles returned back to the caller and manipulated
  * internally by API functions. Usually used to avoid type dependencies
  * with internal implementation types.
@@ -171,10 +215,6 @@ typedef Handle WalletResponse__Handle;
  */
 typedef Handle CreateTransactionRequest__Handle;
 
-/**
- * String Slice Handle
- */
-typedef Handle Strings__Handle;
 
 /**
  * Instances of Go `map` type, deal map[string] as handle
@@ -196,51 +236,67 @@ typedef Handle ReadableOutputSet_Handle;
  */
 typedef Handle CreateTransactionParams__Handle;
 
-/**
- * Instances of Go interface types.
- */
-typedef struct {
-    void* t; ///< Pointer to the information of the concrete Go type
-             ///< bound to this interface reference.
-    void* v; ///< Pointer to the data corresponding to the value
-             ///< bound to this interface type.
-} GoInterface_;
-/**
- * Instances of Go slices
- */
-typedef struct {
-    void* data; ///< Pointer to buffer containing slice data.
-    GoInt_ len; ///< Number of items stored in slice buffer
-    GoInt_ cap; ///< Maximum number of items that fits in this slice
-                ///< considering allocated memory and item type's
-                ///< size.
-} GoSlice_;
-
-typedef struct {
-    BOOL neg;
-    GoSlice_ nat;
-} Number;
-
-typedef struct {
-    // TODO: stdevEclipse Define Signature
-    Number R;
-    Number S;
-} Signature;
-
-#include "skytypes.gen.h"
 
 /**
- * Internal representation of a Skycoin wallet.
+ * CollectionWallets Handle, slice of Wallet
  */
-typedef struct {
-    GoMap_ Meta;      ///< Records items that are not deterministic, like filename,
-                      ///< lable, wallet type, secrets, etc.
-    GoSlice_ Entries; ///< Entries field stores the address entries that are
-                      ///< deterministically generated from seed.
-} Wallet;
+typedef Handle CollectionWallet__Handle;
 
-typedef GoUint8_ poly1305__Mac[16];
-typedef GoUint8_ poly1305__Key[32];
+/**
+ * MetaWallet__Handle Handle, slice of Wallet
+ */
+typedef Handle MetaWallet__Handle;
+
+/**
+ * MetaWallet__Handle Handle, slice of Wallet
+ */
+typedef Handle WalletSeedResponse__Handle;
+
+/**
+ * Distribution__Handle Handle, struct param.distribution
+ */
+typedef Handle Distribution__Handle;
+
+/**
+ * CreateWalletOptions__Handle Handle, struct api.CreateWalletOptions
+ */
+typedef Handle CreateWalletOptions__Handle;
+
+/**
+ * WalletRecoverRequest__Handle Handle, struct api.WalletRecoverRequest
+ */
+typedef Handle WalletRecoverRequest__Handle;
+
+/**
+ * PublicKey__Handle Handle, struct bip32.Publickey
+ */
+typedef Handle PublicKey__Handle;
+
+/**
+ * PrivateKey__Handle Handle, struct bip32.Privatekey
+ */
+typedef Handle PrivateKey__Handle;
+
+/**
+ * Path__Handle Handle, struct bip32.Path
+ */
+typedef Handle Path__Handle;
+
+/**
+ * Coin__Handle Handle, struct bip44.Coin
+ */
+typedef Handle Coin__Handle;
+
+/**
+ * Account__Handle Handle, struct bip44.Account
+ */
+typedef Handle Account__Handle;
+
+/**
+ * GetOutputser__Handle Handle, interface cli.GetOutputser
+ */
+
+typedef Handle GetOutputser__Handle;
 
 /**
  * Memory handle for internal object retrieving password to read
@@ -339,7 +395,7 @@ typedef Handle TransactionResult_Handle;
  * Memory handle to access to coin.SortableTransactions
  */
 
-typedef Handle SortableTransactionResult_Handle;
+typedef Handle SortableTransactions_Handle;
 
 /**
  * Memory handle to access to wallet.Notes

@@ -16,8 +16,11 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/skycoin/skycoin/src/api"
+	"github.com/skycoin/skycoin/src/cipher/bip32"
+	"github.com/skycoin/skycoin/src/cipher/bip44"
 	"github.com/skycoin/skycoin/src/cli"
 	"github.com/skycoin/skycoin/src/coin"
+	"github.com/skycoin/skycoin/src/params"
 	"github.com/skycoin/skycoin/src/readable"
 	"github.com/skycoin/skycoin/src/wallet"
 )
@@ -65,14 +68,42 @@ func lookupWalletHandle(handle C.Wallet__Handle) (*wallet.Wallet, bool) {
 	return nil, false
 }
 
-func registerReadableWalletHandle(obj *wallet.ReadableWallet) C.ReadableWallet__Handle {
+func registerCollectionWalletHandle(obj *wallet.CollectionWallet) C.CollectionWallet__Handle {
+	return (C.Wallet__Handle)(registerHandle(obj))
+}
+
+func lookupCollectionWalletHandle(handle C.Wallet__Handle) (*wallet.CollectionWallet, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*wallet.CollectionWallet); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerMetaWalletHandle(obj *wallet.Meta) C.MetaWallet__Handle {
+	return (C.MetaWallet__Handle)(registerHandle(obj))
+}
+
+func lookupMetaWalletHandle(handle C.MetaWallet__Handle) (*wallet.Meta, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*wallet.Meta); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerReadableWalletHandle(obj *wallet.Readable) C.ReadableWallet__Handle {
 	return (C.ReadableWallet__Handle)(registerHandle(obj))
 }
 
-func lookupReadableWalletHandle(handle C.ReadableWallet__Handle) (*wallet.ReadableWallet, bool) {
+func lookupReadableWalletHandle(handle C.ReadableWallet__Handle) (*wallet.Readable, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
-		if obj, isOK := (obj).(*wallet.ReadableWallet); isOK {
+		if obj, isOK := (obj).(*wallet.Readable); isOK {
 			return obj, true
 		}
 	}
@@ -359,11 +390,11 @@ func lookupTransactionResultHandle(handle C.TransactionResult_Handle) (*cli.TxnR
 	return nil, false
 }
 
-func registerSortableTransactiontHandle(obj *coin.SortableTransactions) C.SortableTransactionResult_Handle {
-	return (C.SortableTransactionResult_Handle)(registerHandle(obj))
+func registerSortableTransactiontHandle(obj *coin.SortableTransactions) C.SortableTransactions_Handle {
+	return (C.SortableTransactions_Handle)(registerHandle(obj))
 }
 
-func lookupSortableTransactionHandle(handle C.SortableTransactionResult_Handle) (*coin.SortableTransactions, bool) {
+func lookupSortableTransactionHandle(handle C.SortableTransactions_Handle) (*coin.SortableTransactions, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*coin.SortableTransactions); isOK {
@@ -485,6 +516,146 @@ func lookupBlockHeaderHandle(handle C.BlockHeader__Handle) (*coin.BlockHeader, b
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*coin.BlockHeader); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerWalletSeedResponseHandle(obj *api.WalletSeedResponse) C.WalletSeedResponse__Handle {
+	return (C.WalletResponse__Handle)(registerHandle(obj))
+}
+
+func lookupWalletSeedResponseHandle(handle C.WalletSeedResponse__Handle) (*api.WalletSeedResponse, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*api.WalletSeedResponse); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerDistributionHandle(obj *params.Distribution) C.Distribution__Handle {
+	return (C.Distribution__Handle)(registerHandle(obj))
+}
+
+func lookupDistributionHandle(handle C.Distribution__Handle) (*params.Distribution, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*params.Distribution); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerCreateWalletOptionsHandle(obj *api.CreateWalletOptions) C.CreateWalletOptions__Handle {
+	return (C.CreateWalletOptions__Handle)(registerHandle(obj))
+}
+
+func lookupCreateWalletOptionsHandle(handle C.CreateWalletOptions__Handle) (*api.CreateWalletOptions, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*api.CreateWalletOptions); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerWalletRecoverRequestHandle(obj *api.WalletRecoverRequest) C.WalletRecoverRequest__Handle {
+	return (C.CreateWalletOptions__Handle)(registerHandle(obj))
+}
+
+func lookupWalletRecoverRequestHandle(handle C.WalletRecoverRequest__Handle) (*api.WalletRecoverRequest, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*api.WalletRecoverRequest); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerPublicKeyHandle(obj *bip32.PublicKey) C.PublicKey__Handle {
+	return (C.PublicKey__Handle)(registerHandle(obj))
+}
+
+func lookupPublicKeyHandle(handle C.PublicKey__Handle) (*bip32.PublicKey, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip32.PublicKey); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerPrivateKeyHandle(obj *bip32.PrivateKey) C.PrivateKey__Handle {
+	return (C.PublicKey__Handle)(registerHandle(obj))
+}
+
+func lookupPrivateKeyHandle(handle C.PrivateKey__Handle) (*bip32.PrivateKey, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip32.PrivateKey); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerPathHandle(obj *bip32.Path) C.Path__Handle {
+	return (C.Path__Handle)(registerHandle(obj))
+}
+
+func lookupPathHandle(handle C.Path__Handle) (*bip32.Path, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip32.Path); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerCoinHandle(obj *bip44.Coin) C.Coin__Handle {
+	return (C.Coin__Handle)(registerHandle(obj))
+}
+
+func lookupCoinHandle(handle C.Coin__Handle) (*bip44.Coin, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip44.Coin); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerAccountHandle(obj *bip44.Account) C.Account__Handle {
+	return (C.Account__Handle)(registerHandle(obj))
+}
+
+func lookupAccountHandle(handle C.Account__Handle) (*bip44.Account, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*bip44.Account); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerGetOutputserHandle(obj *cli.GetOutputser) C.GetOutputser__Handle {
+	return (C.Account__Handle)(registerHandle(obj))
+}
+
+func lookupGetOutputserHandle(handle C.GetOutputser__Handle) (*cli.GetOutputser, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*cli.GetOutputser); isOK {
 			return obj, true
 		}
 	}

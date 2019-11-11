@@ -1,7 +1,6 @@
 package main
 
 import (
-	"reflect"
 	"unsafe"
 
 	http "github.com/skycoin/skycoin/src/util/http"
@@ -28,12 +27,12 @@ func SKY_httphelper_Address_UnmarshalJSON(_a *C.httphelper__Address, _b []byte) 
 }
 
 //export SKY_httphelper_Address_MarshalJSON
-func SKY_httphelper_Address_MarshalJSON(_a *C.httphelper__Address, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_httphelper_Address_MarshalJSON(_a *C.httphelper__Address, _arg0 *[]byte) (____error_code uint32) {
 	a := *inplaceHttpHelperAddress(_a)
 	__arg0, ____return_err := a.MarshalJSON()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+		*_arg0 = __arg0
 	}
 	return
 }
@@ -50,12 +49,12 @@ func SKY_httphelper_Coins_UnmarshalJSON(_c *C.httphelper__Coins, _b []byte) (___
 }
 
 //export SKY_httphelper_Coins_MarshalJSON
-func SKY_httphelper_Coins_MarshalJSON(_c *C.httphelper__Coins, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_httphelper_Coins_MarshalJSON(_c *C.httphelper__Coins, _arg0 *[]byte) (____error_code uint32) {
 	c := *(*http.Coins)(unsafe.Pointer(_c))
 	__arg0, ____return_err := c.MarshalJSON()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+		*_arg0 = __arg0
 	}
 	return
 }
@@ -80,12 +79,12 @@ func SKY_httphelper_Hours_UnmarshalJSON(_h *C.httphelper__Hours, _b []byte) (___
 }
 
 //export SKY_httphelper_Hours_MarshalJSON
-func SKY_httphelper_Hours_MarshalJSON(_h *C.httphelper__Hours, _arg0 *C.GoSlice_) (____error_code uint32) {
+func SKY_httphelper_Hours_MarshalJSON(_h *C.httphelper__Hours, _arg0 *[]byte) (____error_code uint32) {
 	h := *(*http.Hours)(unsafe.Pointer(_h))
 	__arg0, ____return_err := h.MarshalJSON()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+		*_arg0 = __arg0
 	}
 	return
 }

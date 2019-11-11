@@ -387,13 +387,13 @@ void ValidateSeedData(SeedTestData* seedData, InputTestData* inputData)
 {
     cipher__PubKey pubkey;
     cipher__SecKey seckey;
-    GoSlice keys;
+    GoSlice_ keys;
 
     // Force allocation of memory for slice buffer
     keys.len = keys.cap = 0;
     keys.data = NULL;
 
-    SKY_cipher_GenerateDeterministicKeyPairs(seedData->Seed, seedData->Keys.len, (GoSlice_*)&keys);
+    SKY_cipher_GenerateDeterministicKeyPairs(seedData->Seed, seedData->Keys.len, &keys);
 
     ck_assert_msg(keys.data != NULL,
         "SKY_cipher_GenerateDeterministicKeyPairs must allocate memory slice with zero cap");
@@ -444,7 +444,7 @@ void ValidateSeedData(SeedTestData* seedData, InputTestData* inputData)
         char bufferSecKey[101];
         strnhex((unsigned char*)s, bufferSecKey, sizeof(cipher__SecKey));
         GoSlice slseckey = {bufferSecKey, sizeof(cipher__SecKey), 65};
-        validSec  = SKY_secp256k1_VerifySecKey(slseckey);
+        validSec = SKY_secp256k1_VerifySecKey(slseckey);
         ck_assert_msg(validSec == 1, "SKY_secp256k1_VerifySeckey failed");
 
         GoInt validPub;

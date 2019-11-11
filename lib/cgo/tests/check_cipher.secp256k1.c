@@ -18,13 +18,13 @@ START_TEST(Test_Abnormal_Keys2)
 {
     for (size_t i = 0; i < 4; i++) {
         GoUint8_ buffer_seckey[1024];
-        coin__UxArray seckey1 = {buffer_seckey, 0, 1024};
+        GoSlice_ seckey1 = {buffer_seckey, 0, 1024};
         GoUint32_ err;
         err = SKY_base58_String2Hex(_testSeckey[i], &seckey1);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         GoUint8_ buffer_pubkey[1024];
         GoSlice seckey_slice = {seckey1.data, seckey1.len, seckey1.cap};
-        coin__UxArray pubkey1 = {buffer_pubkey, 0, 1024};
+        GoSlice_ pubkey1 = {buffer_pubkey, 0, 1024};
         err = SKY_secp256k1_PubkeyFromSeckey(seckey_slice, &pubkey1);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         GoSlice pubkey_slice = {pubkey1.data, pubkey1.len, pubkey1.cap};
@@ -38,32 +38,32 @@ START_TEST(Test_Abnormal_Keys3)
 {
     for (size_t i = 0; i < 4; i++) {
         GoUint8_ buffer_seckey[1024];
-        coin__UxArray seckey1 = {buffer_seckey, 0, 1024};
+        GoSlice_ seckey1 = {buffer_seckey, 0, 1024};
         GoUint32 err;
         err = SKY_base58_String2Hex(_testSeckey[i], &seckey1);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         GoUint8_ buffer_pubkey[1024];
         GoSlice seckey_slice = {seckey1.data, seckey1.len, seckey1.cap};
-        coin__UxArray pubkey1 = {buffer_pubkey, 0, 1024};
+        GoSlice_ pubkey1 = {buffer_pubkey, 0, 1024};
         err = SKY_secp256k1_PubkeyFromSeckey(seckey_slice, &pubkey1);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         GoSlice pubkey1_slice = {pubkey1.data, pubkey1.len, pubkey1.cap};
         GoInt n = rand() % 4;
 
         GoUint8_ buffer_seckey2[1024];
-        coin__UxArray seckey2 = {buffer_seckey, 0, 1024};
+        GoSlice_ seckey2 = {buffer_seckey, 0, 1024};
         err = SKY_base58_String2Hex(_testSeckey[n], &seckey2);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         GoUint8_ buffer_pubkey2[1024];
         GoSlice seckey2_slice = {seckey2.data, seckey2.len, seckey2.cap};
-        coin__UxArray pubkey2 = {buffer_pubkey2, 0, 1024};
+        GoSlice_ pubkey2 = {buffer_pubkey2, 0, 1024};
         err = SKY_secp256k1_PubkeyFromSeckey(seckey2_slice, &pubkey2);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         GoSlice pubkey2_slice = {pubkey2.data, pubkey2.len, pubkey2.cap};
         GoUint8 buffer_puba[1024];
-        coin__UxArray puba = {buffer_puba, 0, 1024};
+        GoSlice_ puba = {buffer_puba, 0, 1024};
         GoUint8 buffer_pubb[1024];
-        coin__UxArray pubb = {buffer_pubb, 0, 1024};
+        GoSlice_ pubb = {buffer_pubb, 0, 1024};
         err = SKY_secp256k1_ECDH(pubkey1_slice, seckey2_slice, &puba);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         err = SKY_secp256k1_ECDH(pubkey2_slice, seckey_slice, &pubb);

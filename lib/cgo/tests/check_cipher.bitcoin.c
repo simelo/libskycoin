@@ -1,9 +1,6 @@
-
 #include <stdio.h>
 #include <string.h>
 
-//#include <criterion/criterion.h>
-//#include <criterion/new/assert.h>
 #include "libskycoin.h"
 #include "skyerrors.h"
 #include "skystring.h"
@@ -43,18 +40,16 @@ START_TEST(TestBitcoinAddress)
         error = SKY_cipher_PubKeyFromHex(*pubKeyStr, &pubkey);
         ck_assert_msg(error == SKY_OK, "Create PubKey from Hex");
 
-        GoString_ str = {NULL, 0};
+        GoString str = {NULL, 0};
         SKY_cipher_BitcoinAddressFromPubKey(&pubkey, &btcAddr);
         SKY_cipher_BitcoinAddress_String(&btcAddr, &str);
-        registerMemCleanup((void*)str.p);
-        GoString tmpStr = {str.p, str.n};
-        ck_assert_str_eq(str.p, addrStr->p);
+        ck_assert(isGoStringEq(*addrStr, str));
 
         error = SKY_cipher_BitcoinAddressFromSecKey(&seckey, &btcAddr);
         ck_assert(error == SKY_OK);
         GoString_ tmpstr = {buff, 0};
-        SKY_cipher_BitcoinAddress_String(&btcAddr, &tmpstr);
-        ck_assert_str_eq(tmpStr.p, addrStr->p);
+        SKY_cipher_BitcoinAddress_String(&btcAddr, &str);
+        ck_assert(isGoStringEq(*addrStr, str));
     }
 }
 END_TEST
@@ -86,9 +81,9 @@ START_TEST(TestDecodeBase58BitcoinAddress)
     GoSlice b = {buffer_b, 0, 1024};
     GoUint8 buffer_h_temp[1024];
     GoString_ h_tmp = {buffer_h_temp, 0};
-    coin__UxArray b_temp = {buffer_b_temp, 0, 1024};
+    GoSlice_ b_temp = {buffer_b_temp, 0, 1024};
     SKY_cipher_BitcoinAddress_Bytes(&a, &b_temp);
-    copycoin_UxArraytoGoSlice(&b, &b_temp, b_temp.len);
+    copyGoSlice_toGoSlice(&b, &b_temp, b_temp.len);
     GoInt_ len_b = b.len;
     b.len = (GoInt_)(len_b / 2);
     GoUint8_ buffer_h[1024];
@@ -100,9 +95,9 @@ START_TEST(TestDecodeBase58BitcoinAddress)
     err = SKY_cipher_DecodeBase58BitcoinAddress(h, &a2);
     ck_assert_int_ne(err, SKY_OK);
 
-    memset(&b_temp, 0, sizeof(coin__UxArray));
+    memset(&b_temp, 0, sizeof(GoSlice_));
     SKY_cipher_BitcoinAddress_Bytes(&a, &b_temp);
-    err = copycoin_UxArraytoGoSlice(&b, &b_temp, b_temp.len);
+    err = copyGoSlice_toGoSlice(&b, &b_temp, b_temp.len);
     ck_assert_int_eq(err, SKY_OK);
     err = SKY_base58_Hex2Base58(b, &h_tmp);
     ck_assert_int_eq(err, SKY_OK);
@@ -235,28 +230,24 @@ START_TEST(TestBitcoinWIFRoundTrip)
     cipher__SecKey seckey;
     cipher__PubKey pubkey;
     SKY_cipher_GenerateKeyPair(&pubkey, &seckey);
-    unsigned char wip1_buff[50];
-    unsigned char wip2_buff[50];
-    GoString wip1;
-    GoString_ tmp_wip1 = {wip1_buff, 0};
-    SKY_cipher_BitcoinWalletImportFormatFromSeckey(&seckey, &tmp_wip1);
-    wip1.n = tmp_wip1.n;
-    wip1.p = tmp_wip1.p;
-    registerMemCleanup((void*)wip1.p);
+    GoUint8 wip1_buff[50];
+    GoUint8 wip2_buff[50];
+    GoString wip1 = {wip1_buff, 0};
+    SKY_cipher_BitcoinWalletImportFormatFromSeckey(&seckey, &wip1);
     cipher__SecKey seckey2;
     GoUint32 err;
     err = SKY_cipher_SecKeyFromBitcoinWalletImportFormat(wip1, &seckey2);
     ck_assert(err == SKY_OK);
-    GoString_ wip2;
+    GoString wip2 = {wip2_buff, 0};
     SKY_cipher_BitcoinWalletImportFormatFromSeckey(&seckey2, &wip2);
     ck_assert(isSecKeyEq(&seckey, &seckey2));
 
-    GoString_ seckeyhex1;
-    GoString_ seckeyhex2;
+    GoString seckeyhex1;
+    GoString seckeyhex2;
     SKY_cipher_SecKey_Hex(&seckey, &seckeyhex1);
     SKY_cipher_SecKey_Hex(&seckey2, &seckeyhex2);
-    ck_assert_str_eq((seckeyhex1.p), (seckeyhex2.p));
-    ck_assert_str_eq((tmp_wip1.p), (wip2.p));
+    ck_assert(isGoStringEq(seckeyhex1, seckeyhex2));
+    ck_assert(isGoStringEq(wip1, wip2));
 }
 END_TEST
 

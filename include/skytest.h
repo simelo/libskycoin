@@ -12,7 +12,7 @@
  *----------------------------------------------------------------------
  */
 
-void fprintbuff(FILE* f, void* buff, size_t n);
+// void fprintbuff(FILE* f, void* buff, size_t n);
 
 /*----------------------------------------------------------------------
  * Memory handling
@@ -43,9 +43,12 @@ int copyGoSlice_toGoSlice(GoSlice* pdest, GoSlice_* psource, int elem_size);
 int copycoin_UxArraytoGoSlice(GoSlice* pdest, coin__UxArray* psource, int elem_size);
 
 int cutSlice(GoSlice_* slice, int start, int end, int elem_size, GoSlice_* result);
+int cutUxArray(coin__UxArray* slice, int start, int end, int elem_size, coin__UxArray* result);
 
 int concatSlices(GoSlice_* slice1, GoSlice_* slice2, int elem_size, GoSlice_* result);
+int concatUxArray(coin__UxArray* slice1, coin__UxArray* slice2, int elem_size, coin__UxArray* result);
 
+int copyGoStringtoGoString_(GoString* pdest, GoString_* psource);
 /*----------------------------------------------------------------------
  * JSON helpers
  *----------------------------------------------------------------------
