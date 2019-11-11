@@ -18,8 +18,8 @@ import "C"
 
 //export SKY_cipher_RandByte
 func SKY_cipher_RandByte(_n int, _arg1 *C.GoSlice_) (____error_code uint32) {
-	b := cipher.RandByte(_n)
-	copyToGoSlice(reflect.ValueOf(b), _arg1)
+	__arg1 := cipher.RandByte(_n)
+	copyToGoSlice(reflect.ValueOf(__arg1), _arg1)
 	return
 }
 
@@ -86,8 +86,8 @@ func SKY_cipher_PubKey_Verify(_pk *C.cipher__PubKey) (____error_code uint32) {
 //export SKY_cipher_PubKey_Hex
 func SKY_cipher_PubKey_Hex(_pk *C.cipher__PubKey, _arg1 *C.GoString_) (____error_code uint32) {
 	pk := (*cipher.PubKey)(unsafe.Pointer(_pk))
-	s := pk.Hex()
-	copyString(s, _arg1)
+	__arg1 := pk.Hex()
+	copyString(__arg1, _arg1)
 	return SKY_OK
 }
 
@@ -132,8 +132,8 @@ func SKY_cipher_SecKey_Verify(_sk *C.cipher__SecKey) (____error_code uint32) {
 //export SKY_cipher_SecKey_Hex
 func SKY_cipher_SecKey_Hex(_sk *C.cipher__SecKey, _arg1 *C.GoString_) (____error_code uint32) {
 	sk := (*cipher.SecKey)(unsafe.Pointer(_sk))
-	s := sk.Hex()
-	copyString(s, _arg1)
+	__arg1 := sk.Hex()
+	copyString(__arg1, _arg1)
 	return
 }
 
@@ -173,7 +173,8 @@ func SKY_cipher_SigFromHex(_s string, _arg1 *C.cipher__Sig) (____error_code uint
 //export SKY_cipher_Sig_Hex
 func SKY_cipher_Sig_Hex(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
 	s := (*cipher.Sig)(unsafe.Pointer(_s))
-	copyString(s.Hex(), _arg1)
+	__arg1 := s.Hex()
+	copyString(__arg1,_arg1)
 	return
 }
 
@@ -283,5 +284,29 @@ func SKY_cipher_CheckSecKeyHash(_seckey *C.cipher__SecKey, _hash *C.cipher__SHA2
 
 	err := cipher.CheckSecKeyHash(*seckey, *hash)
 	____error_code = libErrorCode(err)
+	return
+}
+
+//export SKY_cipher_Sig_String
+func SKY_cipher_Sig_String(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
+	s := (*cipher.Sig)(unsafe.Pointer(_s))
+	__arg1 := s.String()
+	copyString(__arg1,_arg1)
+	return
+}
+
+//export SKY_cipher_VerifySignatureRecoverPubKey
+func SKY_cipher_VerifySignatureRecoverPubKey(_s *C.cipher__Sig, _hash *C.cipher__SHA256) (____error_code uint32) {
+	s := (*cipher.Sig)(unsafe.Pointer(_s))
+	hash := (*cipher.SHA256)(unsafe.Pointer(_hash))
+	__return_err := cipher.VerifySignatureRecoverPubKey(*s, *hash)
+	____error_code = libErrorCode(__return_err)
+	return
+}
+
+//export SKY_cipher_Sig_Null
+func SKY_cipher_Sig_Null(_s *C.cipher__Sig, _arg1 *bool) (____error_code uint32) {
+	s := (*cipher.Sig)(unsafe.Pointer(_s))
+	*_arg1 = s.Null()
 	return
 }

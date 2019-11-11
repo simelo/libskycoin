@@ -324,14 +324,14 @@ START_TEST(TestUxArraySub)
     ck_assert_msg(result == SKY_OK, "makeUxArray failed");
 
     int elems_size = sizeof(coin__UxOut);
-    cutSlice(&uxa, 0, 1, elems_size, &t1);
-    ck_assert_msg(result == SKY_OK, "cutSlice failed");
-    result = concatSlices(&t1, &uxb, elems_size, &t2);
-    ck_assert_msg(result == SKY_OK, "concatSlices failed");
-    result = cutSlice(&uxa, 1, 2, elems_size, &t3);
-    ck_assert_msg(result == SKY_OK, "cutSlice failed");
-    result = concatSlices(&t2, &t3, elems_size, &uxc);
-    ck_assert_msg(result == SKY_OK, "concatSlices failed");
+    cutUxArray(&uxa, 0, 1, elems_size, &t1);
+    ck_assert_msg(result == SKY_OK, "cutUxArray failed");
+    result = concatUxArray(&t1, &uxb, elems_size, &t2);
+    ck_assert_msg(result == SKY_OK, "concatUxArray failed");
+    result = cutUxArray(&uxa, 1, 2, elems_size, &t3);
+    ck_assert_msg(result == SKY_OK, "cutUxArray failed");
+    result = concatUxArray(&t2, &t3, elems_size, &uxc);
+    ck_assert_msg(result == SKY_OK, "concatUxArray failed");
     //   //TODO: Fix comparision
     memset(&uxd, 0, arraySize);
     result = SKY_coin_UxArray_Sub(&uxc, &uxa, &uxd);
@@ -342,7 +342,7 @@ START_TEST(TestUxArraySub)
     result = SKY_coin_UxArray_Sub(&uxc, &uxb, &uxd);
     ck_assert_msg(result == SKY_OK, "SKY_coin_UxArray_Sub failed");
     ck_assert_msg(uxd.len == 2, "uxd length must be 2 and it is: %s", uxd.len);
-    cutSlice(&uxa, 0, 2, elems_size, &t1);
+    cutUxArray(&uxa, 0, 2, elems_size, &t1);
     ck_assert(isUxArrayEq(&uxd, &t1));
 
     // No intersection

@@ -233,7 +233,7 @@ func SKY_coin_CreateUnspents(_bh *C.coin__BlockHeader, _tx C.Transaction__Handle
 		return
 	}
 	__arg2 := coin.CreateUnspents(bh, *tx)
-	copyToGoSlice(reflect.ValueOf(__arg2), _arg2)
+	copyTocoin_UxArray(reflect.ValueOf(__arg2), _arg2)
 	return
 }
 

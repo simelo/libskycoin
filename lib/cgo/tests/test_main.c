@@ -5,13 +5,18 @@ int main(void)
 {
     int number_failed = 0;
     int number_failed_fork = 0;
-    SRunner* sr = srunner_create(cipher_address());
+    SRunner* sr = srunner_create(common_check_cipher_address());
     SRunner* sr_fork = srunner_create(coin_transaction_fork());
+    srunner_add_suite(sr, common_check_cipher_hash());
+    srunner_add_suite(sr, common_check_cipher_crypto());
     srunner_add_suite(sr, cipher_bitcoin());
     srunner_add_suite(sr, cipher_crypto());
     srunner_add_suite(sr, cipher_secp256k1());
     srunner_add_suite(sr, cipher_encrypt_scrypt_chacha20poly1305());
     srunner_add_suite(sr, cipher_hash());
+    srunner_add_suite(sr, check_cipher_address());
+    srunner_add_suite(sr, cipher_bip32());
+    srunner_add_suite(sr, cipher_bip44());
     srunner_add_suite(sr, coin_blocks());
     srunner_add_suite(sr, coin_coin());
     srunner_add_suite(sr, coin_math());

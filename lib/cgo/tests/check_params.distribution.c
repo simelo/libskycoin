@@ -10,18 +10,23 @@
 
 START_TEST(TestDistributionAddressArrays)
 {
-    coin__UxArray all = {NULL, 0, 0};
-    coin__UxArray unlocked = {NULL, 0, 0};
-    coin__UxArray locked = {NULL, 0, 0};
-
-    SKY_params_GetDistributionAddresses(&all);
+    GoSlice_ all = {NULL, 0, 0};
+    GoSlice_ unlocked = {NULL, 0, 0};
+    GoSlice_ locked = {NULL, 0, 0};
+    Distribution__Handle dist = 0;
+    GoUint32 err = SKY_params_Distribution_GetMainNetDistribution(&dist);
+    ck_assert_int_eq(err, SKY_OK);
+    err = SKY_params_Distribution_GetAddresses(dist, &all);
+    ck_assert_int_eq(err, SKY_OK);
     ck_assert(all.len == 100);
 
     // At the time of this writing, there should be 25 addresses in the
     // unlocked pool and 75 in the locked pool.
-    SKY_params_GetUnlockedDistributionAddresses(&unlocked);
+    err = SKY_params_Distribution_UnlockedAddresses(dist, &unlocked);
+    ck_assert_int_eq(err, SKY_OK);
     ck_assert(unlocked.len == 25);
-    SKY_params_GetLockedDistributionAddresses(&locked);
+    err = SKY_params_Distribution_LockedAddresses(dist, &locked);
+    ck_assert_int_eq(err, SKY_OK);
     ck_assert(locked.len == 75);
 
     int i, j, k;
