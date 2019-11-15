@@ -20,6 +20,6 @@ ENV OS="Linux"
 RUN make -C $GOPATH/src/github.com/fibercrypto/libskycoin build
 RUN tar -czf libskycoin-${VERSION}-${OS}-${ARCH}.tar.gz -C $GOPATH/src/github.com/fibercrypto/libskycoin/build $GOPATH/src/github.com/fibercrypto/libskycoin/build/*
 RUN go get github.com/tcnksm/ghr
-RUN ghr -t ${GITHUB_OAUTH_TOKEN} -u ${PROJECT_USERNAME} -r ${PROJECT_REPONAME} -c ${SHA1} -replace -draft ${VERSION} libskycoin-${VERSION}-${OS}-${ARCH}.tar.gz
+RUN ghr -t ${GITHUB_OAUTH_TOKEN} -u ${PROJECT_USERNAME} -r ${PROJECT_REPONAME} -c ${SHA1} -replace -draft -n "libskycoin ${VERSION}" ${VERSION} libskycoin-${VERSION}-${OS}-${ARCH}.tar.gz
 
 RUN [ "cross-build-end" ]
