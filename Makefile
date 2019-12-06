@@ -216,7 +216,8 @@ install-deps-skyapi-osx:
 
 install-deps-skyapi-win:
 	mkdir -p C:/program
-	pacman -S curl
+	choco uninstall curl
+	choco install curl --version=7.58.0
 	# mkdir -p deps
 	# cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz
 	# cd deps && tar -xf curl-7.58.0.tar.gz 
