@@ -22,15 +22,15 @@ GoUint32_ makeUxOut(coin__UxOut* puxOut);
 
 GoUint32_ makeAddress(cipher__Address* paddress);
 
-coin__Transaction* makeTransactionFromUxOut(coin__UxOut* puxOut, cipher__SecKey* pseckey, Transaction__Handle* handle);
+void makeTransactionFromUxOut(coin__UxOut* puxOut, cipher__SecKey* pseckey, Transaction__Handle* handle);
 
-coin__Transaction* makeTransaction(Transaction__Handle* handle);
+void makeTransaction(Transaction__Handle* handle);
 
-coin__Transaction* makeEmptyTransaction(Transaction__Handle* handle);
+void makeEmptyTransaction(Transaction__Handle* handle);
 
 GoUint32_ makeTransactions(int n, Transactions__Handle* handle);
 
-coin__Transaction* copyTransaction(Transaction__Handle handle, Transaction__Handle* handle2);
+void copyTransaction(Transaction__Handle handle, Transaction__Handle* handle2);
 
 void makeRandHash(cipher__SHA256* phash);
 

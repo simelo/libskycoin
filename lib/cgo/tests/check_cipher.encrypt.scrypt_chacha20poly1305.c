@@ -143,7 +143,7 @@ END_TEST
 
 START_TEST(TestScryptChacha20poly1305Decrypt)
 {
-    coin__UxArray result;
+    GoSlice_ result;
     GoSlice nullData;
     GoSlice nullPassword;
     GoSlice_ text;

@@ -194,7 +194,7 @@ START_TEST(TestToString)
 {
     char buffer[BUFFER_SIZE];
     char bufferNull[BUFFER_SIZE];
-    GoString s = {buffer, 0};
+    GoString_ s = {buffer, 0};
     tmpstruct cases[] = {
         {.s = {"0.000000", 8}, .n = 0, .e = SKY_OK},
         {.s = {"0.000001", 8}, .n = 1, .e = SKY_OK},
@@ -207,16 +207,15 @@ START_TEST(TestToString)
     };
     int len = (sizeof(cases) / sizeof(tmpstruct));
 
-    GoString nullStr = {bufferNull, 0};
     int i;
     for (i = 0; i < len; i++) {
         tmpstruct tc = cases[i];
 
-        int err = SKY_droplet_ToString(tc.n, (GoString_*)&s);
+        int err = SKY_droplet_ToString(tc.n, &s);
 
         if (tc.e == SKY_OK) {
             ck_assert(err == SKY_OK);
-            ck_assert_str_eq(tc.s.p, s.p);
+            ck_assert(isGoString_toGoStringEq(s, tc.s));
         } else {
             ck_assert(err == tc.e);
         }

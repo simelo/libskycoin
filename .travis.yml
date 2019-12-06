@@ -1,6 +1,4 @@
 sudo: required
-services:
-  - docker
 language: go
 go:
   - "1.11.x"
@@ -12,9 +10,6 @@ matrix:
       # osx_image: xcode8.3
     - os: windows
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get update -qq;
-    fi
   - ./ci-scripts/install-travis-gcc.sh
   - eval "CC=gcc-6 && CXX=g++-6"
 env:
@@ -24,7 +19,7 @@ env:
     - LIB_DIR: lib
     - CGO_ENABLED: 1
     - VERSION_UPGRADE_TEST_WAIT_TIMEOUT: 60s
-    - PATH_DIR: "$GOPATH/src/github.com/skycoin/libskycoin/"
+    - PATH_DIR: "$GOPATH/src/github.com/fibercrypto/libskycoin/"
 install:
   # Install gox
   - go get github.com/gz-c/gox
@@ -56,7 +51,7 @@ deploy:
     draft: true
     overwrite: true
     on:
-      repo: skycoin/libskycoin
+      repo: fibercrypto/libskycoin
       tags: true
 notifications:
   email: false
