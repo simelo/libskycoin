@@ -156,12 +156,23 @@ docs-libc: ## Generate libskycoin documentation
 
 docs: docs-libc docs-skyapi docs-skyhwd ## Generate documentation for all libraries
 
-lint: ## Run linters. Use make install-linters first.
+lint-linux: ## Run linters. Use make install-linters first.
 	vendorcheck ./...
 	# lib/cgo needs separate linting rules
 	golangci-lint run -c .golangci.libcgo.yml ./lib/cgo/...
 	# The govet version in golangci-lint is out of date and has spurious warnings, run it separately
 	go vet -all ./...
+
+lint-osx: ## Run linters. Use make install-linters first.
+	vendorcheck ./...
+	# lib/cgo needs separate linting rules
+	golangci-lint run -c .golangci.libcgo.yml ./lib/cgo/...
+	# The govet version in golangci-lint is out of date and has spurious warnings, run it separately
+	go vet -all ./...
+
+lint-win:
+
+lint: lint-$(OSNAME)
 
 lint-libc: format-libc
 	# Linter LIBC
@@ -218,12 +229,6 @@ install-deps-skyapi-win:
 	mkdir -p C:/program
 	choco uninstall curl
 	choco install curl --version=7.58.0
-	# mkdir -p deps
-	# cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz
-	# cd deps && tar -xf curl-7.58.0.tar.gz 
-	# cd deps/curl-7.58.0/ && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ .. 
-	# cd deps/curl-7.58.0/ && make 
-	# cd deps/curl-7.58.0/ && sudo make install
 
 install-deps-libc: install-deps-libc-$(OSNAME) ## Install deps for libc
 
