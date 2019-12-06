@@ -70,9 +70,9 @@ ifeq ($(UNAME_S),Linux)
   LDPATH=$(shell printenv LD_LIBRARY_PATH)
   LDPATHVAR=LD_LIBRARY_PATH
   LDFLAGS=$(LIBC_FLAGS) $(STDC_FLAG)
-  OSNAME ?= linux
+  OSNAME = linux
 else ifeq ($(UNAME_S),Darwin)
-  OSNAME ?= osx
+  OSNAME = osx
   LDLIBS = $(LIBC_LIBS)
   LDPATH=$(shell printenv DYLD_LIBRARY_PATH)
   LDPATHVAR=DYLD_LIBRARY_PATH
@@ -82,6 +82,7 @@ else
   LDPATH=$(shell printenv LD_LIBRARY_PATH)
   LDPATHVAR=LD_LIBRARY_PATH
   LDFLAGS=$(LIBC_FLAGS)
+  OSNAME = win
 endif
 
 configure-build:
@@ -169,33 +170,33 @@ lint-libc: format-libc
 
 check: lint test-libc lint-libc test-skyapi ## Run tests and linters
 
-install-linters-Linux: ## Install linters on GNU/Linux
+install-linters-linux: ## Install linters on GNU/Linux
 	sudo apt-get update
 	sudo apt-get install $(PKG_CLANG_FORMAT) -y
 	sudo apt-get install $(PKG_CLANG_LINTER) -y
 
-install-linters-MSYS_NT-10.0: ## Install linters on Windows
+install-linters-win: ## Install linters on Windows
 
 
-install-linters-Darwin: ## Install linters on Mac OSX
+install-linters-osx: ## Install linters on Mac OSX
 	# brew install $(PKG_CLANG_FORMAT)
 	brew install llvm
 	ln -s "/usr/local/opt/llvm/bin/clang-format" "/usr/local/bin/clang-format"
 	ln -s "/usr/local/opt/llvm/bin/clang-tidy" "/usr/local/bin/clang-tidy"
 
-install-deps-Linux: ## Install deps on GNU/Linux
+install-deps-linux: ## Install deps on GNU/Linux
 	sudo apt-get install $(PKG_LIB_TEST)
 
-install-deps-Darwin: ## Install deps on Mac OSX
+install-deps-osx: ## Install deps on Mac OSX
 	brew install $(PKG_LIB_TEST)
 
 
 
-install-linters: install-linters-$(UNAME_S) ## Install linters
+install-linters: install-linters-$(OSNAME) ## Install linters
 	go get -u github.com/FiloSottile/vendorcheck
 	cat ./ci-scripts/install-golangci-lint.sh | sh -s -- -b $(GOPATH)/bin v1.10.2
 
-install-deps-skyapi-Linux:
+install-deps-skyapi-linux:
 	mkdir -p deps
 	sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
 	sudo apt-get update
@@ -205,7 +206,7 @@ install-deps-skyapi-Linux:
 	(cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz && tar -xvf curl-7.58.0.tar.gz && cd curl-7.58.0/ && ./configure && make && sudo make install)
 	(cd deps && git clone https://github.com/uncrustify/uncrustify.git && cd uncrustify && mkdir build && cd build && cmake .. && make && sudo make install)
 
-install-deps-skyapi-Darwin:
+install-deps-skyapi-osx:
 	export LDFLAGS="-L/usr/local/opt/curl/lib"
 	export CPPFLAGS="-I/usr/local/opt/curl/include"
 	mkdir -p deps
@@ -213,7 +214,7 @@ install-deps-skyapi-Darwin:
 	brew install openssl curl uncrustify || true
 	(cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz && tar -xf curl-7.58.0.tar.gz && cd curl-7.58.0/ && mkdir build && cd build && cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl .. && make && sudo make install)
 
-install-deps-skyapi-MSYS_NT-10.0:
+install-deps-skyapi-win:
 	mkdir -p deps
 	cd deps && wget http://curl.haxx.se/download/curl-7.58.0.tar.gz
 	cd deps && tar -xf curl-7.58.0.tar.gz 
@@ -221,21 +222,21 @@ install-deps-skyapi-MSYS_NT-10.0:
 	cd deps/curl-7.58.0/ && make 
 	cd deps/curl-7.58.0/ && sudo make install
 
-install-deps-libc: install-deps-libc-$(UNAME_S) ## Install deps for libc
+install-deps-libc: install-deps-libc-$(OSNAME) ## Install deps for libc
 
-install-deps-skyapi: install-deps-skyapi-$(UNAME_S) ## Install skyapi(libcurl based) library.
+install-deps-skyapi: install-deps-skyapi-$(OSNAME) ## Install skyapi(libcurl based) library.
 
-install-deps-libc-Linux: configure-build check-0.12.0/src/.libs/libcheck.so ## Install locally dependencies for testing libskycoin
+install-deps-libc-linux: configure-build check-0.12.0/src/.libs/libcheck.so ## Install locally dependencies for testing libskycoin
 
 check-0.12.0/src/.libs/libcheck.so: ## Install libcheck
 	wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
 	tar -xzf check-0.12.0.tar.gz
 	cd check-0.12.0 && ./configure --prefix=/usr --disable-static && make && sudo make install
 
-install-deps-libc-Darwin: configure-build ## Install locally dependencies for testing libskycoin
+install-deps-libc-osx: configure-build ## Install locally dependencies for testing libskycoin
 	brew install check
 
-install-deps-libc-MSYS_NT-10.0: ## Install deps on Windows
+install-deps-libc-win: ## Install deps on Windows
 	# mkdir C:/program
 	# wget -c https://github.com/libcheck/check/releases/download/0.12.0/check-0.12.0.tar.gz
 	# tar -xvf check-0.12.0.tar.gz
