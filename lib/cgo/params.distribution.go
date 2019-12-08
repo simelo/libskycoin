@@ -3,7 +3,7 @@ package main
 import (
 	"reflect"
 
-	"github.com/skycoin/skycoin/src/params"
+	"github.com/SkycoinProject/skycoin/src/params"
 )
 
 /*
