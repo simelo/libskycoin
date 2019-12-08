@@ -1,7 +1,7 @@
 
 # Skycoin SWIG interfaces for generating client libraries
 
-[![Build Status](https://travis-ci.org/skycoin/skycoin.svg)](https://travis-ci.org/skycoin/skycoin)
+[![Build Status](https://travis-ci.org/SkycoinProject/skycoin.svg)](https://travis-ci.org/SkycoinProject/skycoin)
 
 Skycoin SWIG interfaces provide the basic and resubale tools to build Skycoin client libraries
 for [SWIG compatible programming languages](http://www.swig.org/compat.html) by linking against
@@ -31,11 +31,11 @@ case, make it almost impossible to achieve that goal. Some steps are recommended
 - Create a project workspace for your client library project, which might include
   * version control (e.g. git) repository
   * compiler, linker, linter, make, build tools and the rest of the language-specific toolchain
-- Add [skycoin/skycoin](https://github.com/skycoin/skycoin) source code at
-  `./gopath/src/github.com/skycoin/skycoin` subfolder.
+- Add [SkycoinProject/skycoin](https://github.com/SkycoinProject/skycoin) source code at
+  `./gopath/src/github.com/SkycoinProject/skycoin` subfolder.
   * if using `git` then the right way to do it should be
     ```sh
-    git submodule add -b master https://github.com/skycoin/skycoin gopath/src/github.com/skycoin/skycoin
+    git submodule add -b master https://github.com/SkycoinProject/skycoin gopath/src/github.com/SkycoinProject/skycoin
     ```
   * feel free to checkout submodule `develop` branch for bleeding edge features or
     `master` branch if using stable interfaces is preferred
@@ -52,8 +52,8 @@ case, make it almost impossible to achieve that goal. Some steps are recommended
   PWD = $(shell pwd)
   # Internal GOPATH directory, needed for compiling libskycoin
   GOPATH_DIR = $(PWD)/gopath
-  # Relative path to skycoin/skycoin submodule
-  SKYCOIN_DIR = gopath/src/github.com/skycoin/skycoin
+  # Relative path to SkycoinProject/skycoin submodule
+  SKYCOIN_DIR = gopath/src/github.com/SkycoinProject/skycoin
   # Relative path to libskycoin temporary build folder
   SKYBUILD_DIR = $(SKYCOIN_DIR)/build
   # Relative path to build libskycoin shared and/or static libraries
@@ -62,7 +62,7 @@ case, make it almost impossible to achieve that goal. Some steps are recommended
   FULL_PATH_LIB = $(PWD)/$(BUILDLIBC_DIR)
   # Relative path to libskycoin source code folder
   LIBC_DIR = $(SKYCOIN_DIR)/lib/cgo
-  # Relative path to top-level source code folder for skycoin/skycoin SWIG interfaces 
+  # Relative path to top-level source code folder for SkycoinProject/skycoin SWIG interfaces 
   LIBSWIG_DIR = $(SKYCOIN_DIR)/lib/swig
   # Client library build dir
   BUILD_DIR = build
@@ -141,6 +141,6 @@ case, make it almost impossible to achieve that goal. Some steps are recommended
 - Create other targets you might consider appropriate e.g. `install-deps`,
   `install`, `lint`, `test`, ...
 - Write a test suite for your client library. Consider
-  [libskycoin test suite](https://github.com/skycoin/skycoin/tree/master/lib/cgo/tests)
+  [libskycoin test suite](https://github.com/SkycoinProject/skycoin/tree/master/lib/cgo/tests)
   as a reference
 
