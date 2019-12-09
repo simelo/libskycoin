@@ -3,7 +3,7 @@ package main
 import (
 	"unsafe"
 
-	"github.com/skycoin/skycoin/src/cipher/bip32"
+	"github.com/SkycoinProject/skycoin/src/cipher/bip32"
 )
 
 /*

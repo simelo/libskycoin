@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/skycoin/skycoin/src/cipher"
-	httphelper "github.com/skycoin/skycoin/src/util/http"
+	"github.com/SkycoinProject/skycoin/src/cipher"
+	httphelper "github.com/SkycoinProject/skycoin/src/util/http"
 )
 
 /*

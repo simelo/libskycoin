@@ -3,7 +3,7 @@ package main
 import (
 	"unsafe"
 
-	"github.com/skycoin/skycoin/src/cli"
+	"github.com/SkycoinProject/skycoin/src/cli"
 )
 
 /*

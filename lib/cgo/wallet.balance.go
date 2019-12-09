@@ -3,8 +3,8 @@ package main
 import (
 	"unsafe"
 
-	coin "github.com/skycoin/skycoin/src/coin"
-	wallet "github.com/skycoin/skycoin/src/wallet"
+	coin "github.com/SkycoinProject/skycoin/src/coin"
+	wallet "github.com/SkycoinProject/skycoin/src/wallet"
 )
 
 /*

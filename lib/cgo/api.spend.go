@@ -3,11 +3,11 @@ package main
 import (
 	"unsafe"
 
-	"github.com/skycoin/skycoin/src/visor"
+	"github.com/SkycoinProject/skycoin/src/visor"
 
-	api "github.com/skycoin/skycoin/src/api"
-	cipher "github.com/skycoin/skycoin/src/cipher"
-	coin "github.com/skycoin/skycoin/src/coin"
+	api "github.com/SkycoinProject/skycoin/src/api"
+	cipher "github.com/SkycoinProject/skycoin/src/cipher"
+	coin "github.com/SkycoinProject/skycoin/src/coin"
 )
 
 /*

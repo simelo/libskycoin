@@ -1,7 +1,7 @@
 package main
 
 import (
-	mathutil "github.com/skycoin/skycoin/src/util/mathutil"
+	mathutil "github.com/SkycoinProject/skycoin/src/util/mathutil"
 )
 
 /*

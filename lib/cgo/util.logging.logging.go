@@ -1,6 +1,6 @@
 package main
 
-import logging "github.com/skycoin/skycoin/src/util/logging"
+import logging "github.com/SkycoinProject/skycoin/src/util/logging"
 
 /*
 

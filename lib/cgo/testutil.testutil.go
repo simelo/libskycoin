@@ -5,10 +5,10 @@ import (
 	"reflect"
 	"unsafe"
 
-	cipher "github.com/skycoin/skycoin/src/cipher"
-	"github.com/skycoin/skycoin/src/cipher/bip39"
-	"github.com/skycoin/skycoin/src/cipher/bip44"
-	testutil "github.com/skycoin/skycoin/src/testutil"
+	cipher "github.com/SkycoinProject/skycoin/src/cipher"
+	"github.com/SkycoinProject/skycoin/src/cipher/bip39"
+	"github.com/SkycoinProject/skycoin/src/cipher/bip44"
+	testutil "github.com/SkycoinProject/skycoin/src/testutil"
 )
 
 /*

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"unsafe"
 
-	cipher "github.com/skycoin/skycoin/src/cipher"
+	cipher "github.com/SkycoinProject/skycoin/src/cipher"
 )
 
 /*
@@ -174,7 +174,7 @@ func SKY_cipher_SigFromHex(_s string, _arg1 *C.cipher__Sig) (____error_code uint
 func SKY_cipher_Sig_Hex(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
 	s := (*cipher.Sig)(unsafe.Pointer(_s))
 	__arg1 := s.Hex()
-	copyString(__arg1,_arg1)
+	copyString(__arg1, _arg1)
 	return
 }
 
@@ -291,7 +291,7 @@ func SKY_cipher_CheckSecKeyHash(_seckey *C.cipher__SecKey, _hash *C.cipher__SHA2
 func SKY_cipher_Sig_String(_s *C.cipher__Sig, _arg1 *C.GoString_) (____error_code uint32) {
 	s := (*cipher.Sig)(unsafe.Pointer(_s))
 	__arg1 := s.String()
-	copyString(__arg1,_arg1)
+	copyString(__arg1, _arg1)
 	return
 }
 

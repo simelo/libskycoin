@@ -1,6 +1,6 @@
 package main
 
-import droplet "github.com/skycoin/skycoin/src/util/droplet"
+import droplet "github.com/SkycoinProject/skycoin/src/util/droplet"
 
 /*
 
