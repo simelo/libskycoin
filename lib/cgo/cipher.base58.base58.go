@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/hex"
 	"reflect"
 	"unsafe"
 
@@ -17,62 +16,32 @@ import (
 */
 import "C"
 
-//export SKY_base58_Hex2Base58
-func SKY_base58_Hex2Base58(_val []byte, _arg1 *C.GoString_) (____error_code uint32) {
-	val := *(*[]byte)(unsafe.Pointer(&_val))
-	if val == nil {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	__arg1 := string(base58.Encode(val))
-	copyString(__arg1, _arg1)
+//export SKY_base58_NewAlphabet
+func SKY_base58_NewAlphabet(_s string, _arg1 *C.base58__Alphabet) (____error_code uint32) {
+	____error_code = 0
+	s := _s
+	__arg1 := base58.NewAlphabet(s)
+	*_arg1 = *(*C.base58__Alphabet)(unsafe.Pointer(__arg1))
 	return
 }
 
 //export SKY_base58_Encode
 func SKY_base58_Encode(_bin []byte, _arg1 *C.GoString_) (____error_code uint32) {
+	____error_code = 0
 	bin := *(*[]byte)(unsafe.Pointer(&_bin))
-	if bin == nil {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
 	__arg1 := base58.Encode(bin)
 	copyString(__arg1, _arg1)
 	return
 }
 
 //export SKY_base58_Decode
-func SKY_base58_Decode(_s string, _arg1 *C.GoSlice_) (____error_code uint32) {
-	s := _s
-	__arg1, ____return_err := base58.Decode(s)
+func SKY_base58_Decode(_str string, _arg1 *C.GoSlice_) (____error_code uint32) {
+	____error_code = 0
+	str := _str
+	__arg1, ____return_err := base58.Decode(str)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
 		copyToGoSlice(reflect.ValueOf(__arg1), _arg1)
 	}
-
-	return
-}
-
-//export SKY_base58_String2Hex
-func SKY_base58_String2Hex(_s string, _arg1 *C.GoSlice_) (____error_code uint32) {
-	s := _s
-	__arg1, ____return_err := hex.DecodeString(s)
-	____error_code = libErrorCode(____return_err)
-	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg1), _arg1)
-	}
-
-	return
-}
-
-//export SKY_base58_Hex2String
-func SKY_base58_Hex2String(_b []byte, _arg1 *C.GoString_) (____error_code uint32) {
-	bin := *(*[]byte)(unsafe.Pointer(&_b))
-	if bin == nil {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	__arg1 := hex.EncodeToString(bin)
-	copyString(__arg1, _arg1)
 	return
 }
