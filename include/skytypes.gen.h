@@ -10,6 +10,7 @@
 #include "cipher.secp256k1-go.secp256k1-go2.field.go.h"
 #include "cipher.secp256k1-go.secp256k1-go2.xy.go.h"
 #include "cipher.secp256k1-go.secp256k1-go2.xyz.go.h"
+#include "cipher.base58.base58.go.h"
 
 #include "cli.cli.go.h"
 #include "cli.create_rawtx.go.h"
