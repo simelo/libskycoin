@@ -16,95 +16,190 @@ import (
 */
 import "C"
 
+//export SKY_cipher_Ripemd160_MustSet
+func SKY_cipher_Ripemd160_MustSet(_rd *C.cipher__Ripemd160, _b []byte) (____error_code uint32) {
+	____error_code = 0
+	rd := (*cipher.Ripemd160)(unsafe.Pointer(_rd))
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	rd.MustSet(b)
+	return
+}
+
 //export SKY_cipher_Ripemd160_Set
 func SKY_cipher_Ripemd160_Set(_rd *C.cipher__Ripemd160, _b []byte) (____error_code uint32) {
+	____error_code = 0
 	rd := (*cipher.Ripemd160)(unsafe.Pointer(_rd))
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	____return_err := rd.Set(b)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+	}
+	return
+}
 
-	err := rd.Set(_b)
-	____error_code = libErrorCode(err)
+//export SKY_cipher_Ripemd160FromBytes
+func SKY_cipher_Ripemd160FromBytes(_b []byte, _arg1 *C.cipher__Ripemd160) (____error_code uint32) {
+	____error_code = 0
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	__arg1, ____return_err := cipher.Ripemd160FromBytes(b)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+		copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofRipemd160))
+	}
+	return
+}
+
+//export SKY_cipher_MustRipemd160FromBytes
+func SKY_cipher_MustRipemd160FromBytes(_b []byte, _arg1 *C.cipher__Ripemd160) (____error_code uint32) {
+	____error_code = 0
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	__arg1 := cipher.MustRipemd160FromBytes(b)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofRipemd160))
 	return
 }
 
 //export SKY_cipher_HashRipemd160
 func SKY_cipher_HashRipemd160(_data []byte, _arg1 *C.cipher__Ripemd160) (____error_code uint32) {
-	rd := cipher.HashRipemd160(_data)
+	____error_code = 0
+	data := *(*[]byte)(unsafe.Pointer(&_data))
+	__arg1 := cipher.HashRipemd160(data)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofRipemd160))
+	return
+}
 
-	copyToBuffer(reflect.ValueOf(rd[:]), unsafe.Pointer(_arg1), uint(SizeofRipemd160))
+//export SKY_cipher_SHA256_MustSet
+func SKY_cipher_SHA256_MustSet(_g *C.cipher__SHA256, _b []byte) (____error_code uint32) {
+	____error_code = 0
+	g := (*cipher.SHA256)(unsafe.Pointer(_g))
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	g.MustSet(b)
 	return
 }
 
 //export SKY_cipher_SHA256_Set
 func SKY_cipher_SHA256_Set(_g *C.cipher__SHA256, _b []byte) (____error_code uint32) {
+	____error_code = 0
 	g := (*cipher.SHA256)(unsafe.Pointer(_g))
-	err := g.Set(_b)
-	____error_code = libErrorCode(err)
-	return
-}
-
-//export SKY_cipher_SHA256_Hex
-func SKY_cipher_SHA256_Hex(_g *C.cipher__SHA256, _arg1 *C.GoString_) (____error_code uint32) {
-	g := (*cipher.SHA256)(unsafe.Pointer(_g))
-	__arg1 := g.Hex()
-	copyString(__arg1, _arg1)
-	return
-}
-
-//export SKY_cipher_SHA256_Xor
-func SKY_cipher_SHA256_Xor(_g *C.cipher__SHA256, _b *C.cipher__SHA256, _arg1 *C.cipher__SHA256) (____error_code uint32) {
-	g := (*cipher.SHA256)(unsafe.Pointer(_g))
-	b := (*cipher.SHA256)(unsafe.Pointer(_b))
-
-	x := g.Xor(*b)
-	copyToBuffer(reflect.ValueOf(x[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
-	return
-}
-
-//export SKY_cipher_SumSHA256
-func SKY_cipher_SumSHA256(_b []byte, _arg1 *C.cipher__SHA256) (____error_code uint32) {
-	h := cipher.SumSHA256(_b)
-
-	copyToBuffer(reflect.ValueOf(h[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
-	return
-}
-
-//export SKY_cipher_SHA256FromHex
-func SKY_cipher_SHA256FromHex(_hs string, _arg1 *C.cipher__SHA256) (____error_code uint32) {
-	h, err := cipher.SHA256FromHex(_hs)
-	____error_code = libErrorCode(err)
-	if err == nil {
-		copyToBuffer(reflect.ValueOf(h[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	____return_err := g.Set(b)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
 	}
 	return
 }
 
-//export SKY_cipher_DoubleSHA256
-func SKY_cipher_DoubleSHA256(_b []byte, _arg1 *C.cipher__SHA256) (____error_code uint32) {
-	h := cipher.DoubleSHA256(_b)
-	copyToBuffer(reflect.ValueOf(h[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+//export SKY_cipher_SHA256_String
+func SKY_cipher_SHA256_String(_g *C.cipher__SHA256, _arg0 *C.GoString_) (____error_code uint32) {
+	____error_code = 0
+	g := *(*cipher.SHA256)(unsafe.Pointer(_g))
+	__arg0 := g.String()
+	copyString(__arg0, _arg0)
 	return
 }
 
-//export SKY_cipher_AddSHA256
-func SKY_cipher_AddSHA256(_a *C.cipher__SHA256, _b *C.cipher__SHA256, _arg2 *C.cipher__SHA256) (____error_code uint32) {
-	a := (*cipher.SHA256)(unsafe.Pointer(_a))
-	b := (*cipher.SHA256)(unsafe.Pointer(_b))
-
-	h := cipher.AddSHA256(*a, *b)
-	copyToBuffer(reflect.ValueOf(h[:]), unsafe.Pointer(_arg2), uint(SizeofSHA256))
-	return
-}
-
-//export SKY_cipher_Merkle
-func SKY_cipher_Merkle(_h0 *[]C.cipher__SHA256, _arg1 *C.cipher__SHA256) (____error_code uint32) {
-	h0 := (*[]cipher.SHA256)(unsafe.Pointer(_h0))
-	h := cipher.Merkle(*h0)
-	copyToBuffer(reflect.ValueOf(h[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+//export SKY_cipher_SHA256_Hex
+func SKY_cipher_SHA256_Hex(_g *C.cipher__SHA256, _arg0 *C.GoString_) (____error_code uint32) {
+	____error_code = 0
+	g := *(*cipher.SHA256)(unsafe.Pointer(_g))
+	__arg0 := g.Hex()
+	copyString(__arg0, _arg0)
 	return
 }
 
 //export SKY_cipher_SHA256_Null
 func SKY_cipher_SHA256_Null(_g *C.cipher__SHA256, _arg0 *bool) (____error_code uint32) {
+	____error_code = 0
+	g := *(*cipher.SHA256)(unsafe.Pointer(_g))
+	__arg0 := g.Null()
+	*_arg0 = __arg0
+	return
+}
+
+//export SKY_cipher_SHA256_Xor
+func SKY_cipher_SHA256_Xor(_g *C.cipher__SHA256, _b *C.cipher__SHA256, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
 	g := (*cipher.SHA256)(unsafe.Pointer(_g))
-	*_arg0 = g.Null()
+	b := *(*cipher.SHA256)(unsafe.Pointer(_b))
+	__arg1 := g.Xor(b)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	return
+}
+
+//export SKY_cipher_SHA256FromHex
+func SKY_cipher_SHA256FromHex(_hs string, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	hs := _hs
+	__arg1, ____return_err := cipher.SHA256FromHex(hs)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+		copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	}
+	return
+}
+
+//export SKY_cipher_MustSHA256FromHex
+func SKY_cipher_MustSHA256FromHex(_hs string, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	hs := _hs
+	__arg1 := cipher.MustSHA256FromHex(hs)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	return
+}
+
+//export SKY_cipher_SHA256FromBytes
+func SKY_cipher_SHA256FromBytes(_b []byte, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	__arg1, ____return_err := cipher.SHA256FromBytes(b)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+		copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	}
+	return
+}
+
+//export SKY_cipher_MustSHA256FromBytes
+func SKY_cipher_MustSHA256FromBytes(_b []byte, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	__arg1 := cipher.MustSHA256FromBytes(b)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	return
+}
+
+//export SKY_cipher_SumSHA256
+func SKY_cipher_SumSHA256(_b []byte, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	__arg1 := cipher.SumSHA256(b)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	return
+}
+
+//export SKY_cipher_DoubleSHA256
+func SKY_cipher_DoubleSHA256(_b []byte, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	b := *(*[]byte)(unsafe.Pointer(&_b))
+	__arg1 := cipher.DoubleSHA256(b)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
+	return
+}
+
+//export SKY_cipher_AddSHA256
+func SKY_cipher_AddSHA256(_a *C.cipher__SHA256, _b *C.cipher__SHA256, _arg2 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	a := *(*cipher.SHA256)(unsafe.Pointer(_a))
+	b := *(*cipher.SHA256)(unsafe.Pointer(_b))
+	__arg2 := cipher.AddSHA256(a, b)
+	copyToBuffer(reflect.ValueOf(__arg2[:]), unsafe.Pointer(_arg2), uint(SizeofSHA256))
+	return
+}
+
+//export SKY_cipher_Merkle
+func SKY_cipher_Merkle(_h0 []C.cipher__SHA256, _arg1 *C.cipher__SHA256) (____error_code uint32) {
+	____error_code = 0
+	h0 := *(*[]cipher.SHA256)(unsafe.Pointer(&_h0))
+	__arg1 := cipher.Merkle(h0)
+	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofSHA256))
 	return
 }
