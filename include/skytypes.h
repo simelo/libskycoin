@@ -227,17 +227,6 @@ typedef Handle GoStringMap_;
 typedef Handle Wallets__Handle;
 
 /**
- *  ReadableOutputSet Handle
- * */
-typedef Handle ReadableOutputSet_Handle;
-
-/**
- *  CreateTransactionParams wallet.CreateTransactionParams
- */
-typedef Handle CreateTransactionParams__Handle;
-
-
-/**
  * CollectionWallets Handle, slice of Wallet
  */
 typedef Handle CollectionWallet__Handle;
