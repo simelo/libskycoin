@@ -69,7 +69,7 @@ func lookupWalletHandle(handle C.Wallet__Handle) (*wallet.Wallet, bool) {
 }
 
 func registerCollectionWalletHandle(obj *wallet.CollectionWallet) C.CollectionWallet__Handle {
-	return (C.Wallet__Handle)(registerHandle(obj))
+	return (C.CollectionWallet__Handle)(registerHandle(obj))
 }
 
 func lookupCollectionWalletHandle(handle C.Wallet__Handle) (*wallet.CollectionWallet, bool) {
