@@ -166,11 +166,6 @@ typedef GoUint8_ poly1305__Key[32];
 typedef GoInt64_ Handle;
 
 /**
- * Webrpc Client Handle
- */
-typedef Handle WebRpcClient__Handle;
-
-/**
  * Wallet Handle
  */
 typedef Handle Wallet__Handle;
@@ -294,26 +289,6 @@ typedef Handle GetOutputser__Handle;
 typedef Handle PasswordReader__Handle;
 
 /**
- * Memory handle to perform Skycoin RPC API calls
- * encrypted wallets.
- */
-typedef Handle WebRpcClient__Handle;
-
-/**
- * Memory handle providing access to wallet data
- */
-typedef Handle Wallet__Handle;
-
-/**
- * Memory handle Options Handle
- */
-typedef Handle Options__Handle;
-
-/**
- * Memory handle to access to Skycoin CLI configuration
- */
-typedef Handle Config__Handle;
-/**
  * Memory handle to access to coin.Transaction
  */
 typedef Handle Transaction__Handle;
@@ -369,13 +344,7 @@ typedef Handle BlockHeader__Handle;
 typedef Handle BalanceResult_Handle;
 
 /**
- * Memory handle to access to api.SpendResult
- */
-
-typedef Handle SpendResult_Handle;
-
-/**
- * Memory handle to access to coin.Transactions
+ * Memory handle to access to cli.TxnResult
  */
 
 typedef Handle TransactionResult_Handle;
@@ -387,23 +356,13 @@ typedef Handle TransactionResult_Handle;
 typedef Handle SortableTransactions_Handle;
 
 /**
- * Memory handle to access to wallet.Notes
- */
-
-/**
- * Memory handle to access to wallet.ReadableNotes
- */
-
-typedef Handle WalletReadableNotes_Handle;
-
-/**
  * Memory handle to access to webrpc.OutputsResult
  */
 
 typedef Handle OutputsResult_Handle;
 
 /**
- * Memory handle to access to webrpc.StatusResult
+ * Memory handle to access to cli.StatusResult
  */
 
 typedef Handle StatusResult_Handle;
@@ -433,17 +392,6 @@ typedef Handle ReadableUnspentOutputsSummary_Handle;
 
 typedef Handle Hash_Handle;
 
-/**
- * Handle for Number type
- */
-
-typedef Handle Number_Handle;
-
-/**
- * Handle for Signature type
- */
-
-typedef Handle Signature_Handle;
 /**
  * Handle for readable.UnspentOutputsSummary
  * */
