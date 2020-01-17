@@ -35,6 +35,7 @@ func SKY_coin_SignedBlock_VerifySignature(_b *C.SignedBlock__Handle, _pubkey *C.
 	return
 }
 
+//export SKY_coin_NewBlock
 func SKY_coin_NewBlock(_b C.Block__Handle, _currentTime uint64, _hash *C.cipher__SHA256, _txns C.Transactions__Handle, pFeeCalc *C.FeeCalculator, _arg2 *C.Block__Handle) (____error_code uint32) {
 	feeCalc := func(pTx *coin.Transaction) (uint64, error) {
 		var fee C.GoUint64_

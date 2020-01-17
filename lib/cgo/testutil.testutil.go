@@ -34,7 +34,7 @@ func SKY_testutil_MakePubKey(_arg0 *C.cipher__PubKey) (____error_code uint32) {
 	return
 }
 
-// RandBytes returns n random bytes
+//export SKY_testutil_RandBytes
 func SKY_testutil_RandBytes(n int, _arg0 *C.GoSlice_) (____error_code uint32) {
 	b := make([]byte, n)
 	_, err := rand.Read(b)
