@@ -42,3 +42,4 @@ CGOGEN HANDLES readable__BuildInfo|BuildInfo
 CGOGEN HANDLES readable__UnspentOutputsSummary|UnspentOutputsSummary
 CGOGEN HANDLES hash__Hash|Hash
 CGOGEN HANDLES readable__UnspentOutputsSummary|UnspentOutputsSummary
+CGOGEN coin__FeeCalculator|FeeCalculator

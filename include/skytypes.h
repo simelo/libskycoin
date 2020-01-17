@@ -397,6 +397,11 @@ typedef Handle Hash_Handle;
  * */
 typedef Handle UnspentOutputsSummary_Handle;
 
+/**
+ * Handle for coin.SortableTransactions
+ * */
+typedef Handle SortableTransactions__Handle;
+
 typedef GoUint32_ (*FeeCalcFunc)(Transaction__Handle handle, GoUint64_* pFee, void* context);
 
 typedef struct {
