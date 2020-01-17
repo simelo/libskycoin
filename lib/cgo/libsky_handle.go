@@ -264,6 +264,20 @@ func lookupTransactionsHandle(handle C.Transactions__Handle) (*coin.Transactions
 	return nil, false
 }
 
+func registerSortableTransactionsHandle(obj *coin.SortableTransactions) C.SortableTransactions__Handle {
+	return (C.Transactions__Handle)(registerHandle(obj))
+}
+
+func lookupSortableTransactionsHandle(handle C.SortableTransactions__Handle) (*coin.SortableTransactions, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*coin.SortableTransactions); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
 func registerBlockHandle(obj *coin.Block) C.Block__Handle {
 	return (C.Block__Handle)(registerHandle(obj))
 }
