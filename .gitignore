@@ -166,3 +166,4 @@ qemu_*
 core
 #Generate in Dolphin
 .directory
+.history
