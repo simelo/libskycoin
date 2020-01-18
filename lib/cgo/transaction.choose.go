@@ -5,7 +5,7 @@ import (
 	"unsafe"
 
 	coin "github.com/SkycoinProject/skycoin/src/coin"
-	"github.com/SkycoinProject/skycoin/src/transaction"
+	transaction "github.com/SkycoinProject/skycoin/src/transaction"
 )
 
 /*
@@ -14,29 +14,15 @@ import (
   #include <stdlib.h>
 
   #include "skytypes.h"
-	#include "skyfee.h"
+  #include "skyfee.h"
 */
 import "C"
 
-//export SKY_transaction_ChooseSpendsMaximizeUxOuts
-func SKY_transaction_ChooseSpendsMaximizeUxOuts(_uxa []C.transaction__UxBalance, _coins, _hours uint64, _arg2 *C.GoSlice_) (____error_code uint32) {
-	txa := *(*[]transaction.UxBalance)(unsafe.Pointer(&_uxa))
-	coins := _coins
-	hours := _hours
-	__arg2, ____return_err := transaction.ChooseSpendsMaximizeUxOuts(txa, coins, hours)
-	____error_code = libErrorCode(____return_err)
-	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg2), _arg2)
-	}
-	return
-}
-
-//export SKY_transaction_ChooseSpendsMinimizeUxOuts
-func SKY_transaction_ChooseSpendsMinimizeUxOuts(_uxa []C.transaction__UxBalance, _coins, _hours uint64, _arg2 *C.GoSlice_) (____error_code uint32) {
-	uxa := *(*[]transaction.UxBalance)(unsafe.Pointer(&_uxa))
-	coins := _coins
-	hours := _hours
-	__arg2, ____return_err := transaction.ChooseSpendsMinimizeUxOuts(uxa, coins, hours)
+//export SKY_transaction_NewUxBalances
+func SKY_transaction_NewUxBalances(_uxa *C.coin__UxArray, _headTime uint64, _arg2 *C.GoSlice_) (____error_code uint32) {
+	uxa := *(*coin.UxArray)(unsafe.Pointer(_uxa))
+	headTime := _headTime
+	__arg2, ____return_err := transaction.NewUxBalances(uxa, headTime)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
 		copyToGoSlice(reflect.ValueOf(__arg2), _arg2)
@@ -56,14 +42,42 @@ func SKY_transaction_NewUxBalance(_headTime uint64, _ux *C.coin__UxOut, _arg2 *C
 	return
 }
 
-//export SKY_transaction_NewUxBalances
-func SKY_transaction_NewUxBalances(_headTime uint64, _uxa *C.coin__UxArray, _arg2 *C.GoSlice_) (____error_code uint32) {
-	headTime := _headTime
-	uxa := *(*coin.UxArray)(unsafe.Pointer(_uxa))
-	__arg2, ____return_err := transaction.NewUxBalances(uxa, headTime)
+//export SKY_transaction_ChooseSpendsMinimizeUxOuts
+func SKY_transaction_ChooseSpendsMinimizeUxOuts(_uxa []C.transaction__UxBalance, _coins, _hours uint64, _arg2 *C.GoSlice_) (____error_code uint32) {
+	uxa := *(*[]transaction.UxBalance)(unsafe.Pointer(&_uxa))
+	coins := _coins
+	hours := _hours
+	__arg2, ____return_err := transaction.ChooseSpendsMinimizeUxOuts(uxa, coins, hours)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
 		copyToGoSlice(reflect.ValueOf(__arg2), _arg2)
+	}
+	return
+}
+
+//export SKY_transaction_ChooseSpendsMaximizeUxOuts
+func SKY_transaction_ChooseSpendsMaximizeUxOuts(_uxa []C.transaction__UxBalance, _coins, _hours uint64, _arg2 *C.GoSlice_) (____error_code uint32) {
+	uxa := *(*[]transaction.UxBalance)(unsafe.Pointer(&_uxa))
+	coins := _coins
+	hours := _hours
+	__arg2, ____return_err := transaction.ChooseSpendsMaximizeUxOuts(uxa, coins, hours)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+		copyToGoSlice(reflect.ValueOf(__arg2), _arg2)
+	}
+	return
+}
+
+//export SKY_transaction_ChooseSpends
+func SKY_transaction_ChooseSpends(_uxa []C.transaction__UxBalance, _coins, _hours uint64, _sortStrategy, _arg3 *C.GoSlice_) (____error_code uint32) {
+	uxa := *(*[]transaction.UxBalance)(unsafe.Pointer(&_uxa))
+	coins := _coins
+	hours := _hours
+	sortStrategy := copyToFunc(_sortStrategy)
+	__arg3, ____return_err := transaction.ChooseSpends(uxa, coins, hours, sortStrategy)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+		copyToGoSlice(reflect.ValueOf(__arg3), _arg3)
 	}
 	return
 }
