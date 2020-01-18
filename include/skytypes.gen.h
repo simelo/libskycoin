@@ -1,4 +1,5 @@
 // clang-format off
+#include <stdbool.h>
 #include "api.client.go.h"
 
 #include "cipher.hash.go.h"
@@ -14,6 +15,7 @@
 
 #include "cli.cli.go.h"
 #include "cli.create_rawtx.go.h"
+#include "cli.check_balance.go.h"
 
 #include "coin.transactions.go.h"
 #include "coin.block.go.h"
@@ -32,4 +34,8 @@
 #include "transaction.choose.go.h"
 #include "api.send.go.h"
 
+#include "cipher.bip32.bip32.go.h"
 #include "cipher.bip32.path.go.h"
+#include "cipher.bip44.bip44.go.h"
+
+#include "params.distribution.go.h"

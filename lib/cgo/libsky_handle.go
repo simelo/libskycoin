@@ -663,13 +663,27 @@ func lookupAccountHandle(handle C.Account__Handle) (*bip44.Account, bool) {
 }
 
 func registerGetOutputserHandle(obj *cli.GetOutputser) C.GetOutputser__Handle {
-	return (C.Account__Handle)(registerHandle(obj))
+	return (C.GetOutputser__Handle)(registerHandle(obj))
 }
 
 func lookupGetOutputserHandle(handle C.GetOutputser__Handle) (*cli.GetOutputser, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*cli.GetOutputser); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerUnspentOutputsSummaryHandle(obj *readable.UnspentOutputsSummary) C.UnspentOutputsSummary__Handle {
+	return (C.UnspentOutputsSummary__Handle)(registerHandle(obj))
+}
+
+func lookupUnspentOutputsSummaryHandle(handle C.UnspentOutputsSummary__Handle) (*readable.UnspentOutputsSummary, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*readable.UnspentOutputsSummary); isOK {
 			return obj, true
 		}
 	}
