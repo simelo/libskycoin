@@ -15,8 +15,8 @@ CGOGEN HANDLES api__WalletSeedResponse|WalletSeedResponse
 CGOGEN HANDLES params__Distribution|Distribution
 CGOGEN HANDLES api__CreateWalletOptions|CreateWalletOptions
 CGOGEN HANDLES api__WalletRecoverRequest|WalletRecoverRequest
-CGOGEN HANDLES bip32__Publickey|Publickey
-CGOGEN HANDLES bip32__Privatekey|Privatekey
+CGOGEN HANDLES bip32__PublicKey|PublicKey
+CGOGEN HANDLES bip32__PrivateKey|PrivateKey
 CGOGEN HANDLES bip32__Path|Path
 CGOGEN HANDLES bip44__Coin|Coin
 CGOGEN HANDLES bip44__Account|Account
