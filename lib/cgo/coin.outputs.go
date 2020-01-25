@@ -16,6 +16,7 @@ import (
   #include "skyfee.h"
 */
 import "C"
+
 // FIXES: HERE
 //export SKY_coin_UxOut_Hash
 func SKY_coin_UxOut_Hash(_uo *C.coin__UxOut, _arg0 *C.cipher__SHA256) (____error_code uint32) {

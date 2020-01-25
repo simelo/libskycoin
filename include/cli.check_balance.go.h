@@ -1,4 +1,4 @@
-typedef struct{create_rawtx.go.h
+typedef struct{
     GoString_ Coins;
     GoString_ Hours;
 } cli__Balance;

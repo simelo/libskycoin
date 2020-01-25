@@ -341,61 +341,61 @@ typedef Handle BlockHeader__Handle;
  * Memory handle to access to cli.BalanceResult
  */
 
-typedef Handle BalanceResult_Handle;
+typedef Handle BalanceResult__Handle;
 
 /**
  * Memory handle to access to cli.TxnResult
  */
 
-typedef Handle TransactionResult_Handle;
+typedef Handle TransactionResult__Handle;
 
 /**
  * Memory handle to access to coin.SortableTransactions
  */
 
-typedef Handle SortableTransactions_Handle;
+typedef Handle SortableTransactions__Handle;
 
 /**
  * Memory handle to access to webrpc.OutputsResult
  */
 
-typedef Handle OutputsResult_Handle;
+typedef Handle OutputsResult__Handle;
 
 /**
  * Memory handle to access to cli.StatusResult
  */
 
-typedef Handle StatusResult_Handle;
+typedef Handle StatusResult__Handle;
 
 /**
  * Memory handle to access to coin.AddressUxOuts
  */
 
-typedef Handle AddressUxOuts_Handle;
+typedef Handle AddressUxOuts__Handle;
 
 /**
  * Memory handle to access to readable.BuildInfo (BuildInfo)
  */
 
-typedef Handle BuildInfo_Handle;
+typedef Handle BuildInfo__Handle;
 
 /**
  * Memory handle to access to readable.UnspentOutputsSummary
  * (UnspentOutputsSummary)
  */
 
-typedef Handle ReadableUnspentOutputsSummary_Handle;
+typedef Handle ReadableUnspentOutputsSummary__Handle;
 
 /**
  * Memory handle for hash (ripemd160.digest)
  */
 
-typedef Handle Hash_Handle;
+typedef Handle Hash__Handle;
 
 /**
  * Handle for readable.UnspentOutputsSummary
  * */
-typedef Handle UnspentOutputsSummary_Handle;
+typedef Handle UnspentOutputsSummary__Handle;
 
 /**
  * Handle for coin.SortableTransactions
