@@ -1,11 +1,10 @@
 package main
 
 import (
-	"reflect"
-	"unsafe"
-
 	cipher "github.com/SkycoinProject/skycoin/src/cipher"
 	cli "github.com/SkycoinProject/skycoin/src/cli"
+	"reflect"
+	"unsafe"
 )
 
 /*
@@ -37,7 +36,7 @@ func SKY_cli_GenerateAddressesInFile(_walletFile string, _num uint64, _pr *C.Pas
 }
 
 //export SKY_cli_FormatAddressesAsJSON
-func SKY_cli_FormatAddressesAsJSON(_addrs []C.cipher__Addresser, _arg1 *C.GoString_) (____error_code uint32) {
+func SKY_cli_FormatAddressesAsJSON(_addrs *C.Addresser__Handle, _arg1 *C.GoString_) (____error_code uint32) {
 	addrs := *(*[]cipher.Addresser)(unsafe.Pointer(&_addrs))
 	__arg1, ____return_err := cli.FormatAddressesAsJSON(addrs)
 	____error_code = libErrorCode(____return_err)
@@ -48,7 +47,7 @@ func SKY_cli_FormatAddressesAsJSON(_addrs []C.cipher__Addresser, _arg1 *C.GoStri
 }
 
 //export SKY_cli_FormatAddressesAsJoinedArray
-func SKY_cli_FormatAddressesAsJoinedArray(_addrs []C.cipher__Addresser, _arg1 *C.GoString_) (____error_code uint32) {
+func SKY_cli_FormatAddressesAsJoinedArray(_addrs *C.Addresser__Handle, _arg1 *C.GoString_) (____error_code uint32) {
 	addrs := *(*[]cipher.Addresser)(unsafe.Pointer(&_addrs))
 	__arg1 := cli.FormatAddressesAsJoinedArray(addrs)
 	copyString(__arg1, _arg1)
@@ -56,7 +55,7 @@ func SKY_cli_FormatAddressesAsJoinedArray(_addrs []C.cipher__Addresser, _arg1 *C
 }
 
 //export SKY_cli_AddressesToStrings
-func SKY_cli_AddressesToStrings(_addrs []C.cipher__Addresser, _arg1 *C.GoSlice_) (____error_code uint32) {
+func SKY_cli_AddressesToStrings(_addrs *C.Addresser__Handle, _arg1 *C.GoSlice_) (____error_code uint32) {
 	addrs := *(*[]cipher.Addresser)(unsafe.Pointer(&_addrs))
 	__arg1 := cli.AddressesToStrings(addrs)
 	copyToGoSlice(reflect.ValueOf(__arg1), _arg1)

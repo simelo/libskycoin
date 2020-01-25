@@ -402,6 +402,12 @@ typedef Handle UnspentOutputsSummary__Handle;
  * */
 typedef Handle SortableTransactions__Handle;
 
+/**
+ * Handle for cipher.Addresser
+ * */
+
+typedef Handle Addresser__Handle;
+
 typedef GoUint32_ (*FeeCalcFunc)(Transaction__Handle handle, GoUint64_* pFee, void* context);
 
 typedef struct {

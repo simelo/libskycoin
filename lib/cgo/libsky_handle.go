@@ -376,11 +376,11 @@ func lookupCreateTransactionResponseHandle(handle C.CreateTransactionResponse__H
 	return nil, false
 }
 
-func registerBalanceResultHandle(obj *cli.BalanceResult) C.BalanceResult_Handle {
-	return (C.BalanceResult_Handle)(registerHandle(obj))
+func registerBalanceResultHandle(obj *cli.BalanceResult) C.BalanceResult__Handle {
+	return (C.BalanceResult__Handle)(registerHandle(obj))
 }
 
-func lookupBalanceResultHandle(handle C.BalanceResult_Handle) (*cli.BalanceResult, bool) {
+func lookupBalanceResultHandle(handle C.BalanceResult__Handle) (*cli.BalanceResult, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*cli.BalanceResult); isOK {
@@ -390,11 +390,11 @@ func lookupBalanceResultHandle(handle C.BalanceResult_Handle) (*cli.BalanceResul
 	return nil, false
 }
 
-func registerTransactionResultHandle(obj *cli.TxnResult) C.TransactionResult_Handle {
-	return (C.TransactionResult_Handle)(registerHandle(obj))
+func registerTransactionResultHandle(obj *cli.TxnResult) C.TransactionResult__Handle {
+	return (C.TransactionResult__Handle)(registerHandle(obj))
 }
 
-func lookupTransactionResultHandle(handle C.TransactionResult_Handle) (*cli.TxnResult, bool) {
+func lookupTransactionResultHandle(handle C.TransactionResult__Handle) (*cli.TxnResult, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*cli.TxnResult); isOK {
@@ -404,11 +404,11 @@ func lookupTransactionResultHandle(handle C.TransactionResult_Handle) (*cli.TxnR
 	return nil, false
 }
 
-func registerSortableTransactiontHandle(obj *coin.SortableTransactions) C.SortableTransactions_Handle {
-	return (C.SortableTransactions_Handle)(registerHandle(obj))
+func registerSortableTransactiontHandle(obj *coin.SortableTransactions) C.SortableTransactions__Handle {
+	return (C.SortableTransactions__Handle)(registerHandle(obj))
 }
 
-func lookupSortableTransactionHandle(handle C.SortableTransactions_Handle) (*coin.SortableTransactions, bool) {
+func lookupSortableTransactionHandle(handle C.SortableTransactions__Handle) (*coin.SortableTransactions, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*coin.SortableTransactions); isOK {
@@ -418,11 +418,11 @@ func lookupSortableTransactionHandle(handle C.SortableTransactions_Handle) (*coi
 	return nil, false
 }
 
-func registerOutputsResultHandle(obj *cli.OutputsResult) C.OutputsResult_Handle {
-	return (C.OutputsResult_Handle)(registerHandle(obj))
+func registerOutputsResultHandle(obj *cli.OutputsResult) C.OutputsResult__Handle {
+	return (C.OutputsResult__Handle)(registerHandle(obj))
 }
 
-func lookupOutputsResultHandle(handle C.OutputsResult_Handle) (*cli.OutputsResult, bool) {
+func lookupOutputsResultHandle(handle C.OutputsResult__Handle) (*cli.OutputsResult, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*cli.OutputsResult); isOK {
@@ -432,11 +432,11 @@ func lookupOutputsResultHandle(handle C.OutputsResult_Handle) (*cli.OutputsResul
 	return nil, false
 }
 
-func registerStatusResultHandle(obj *cli.StatusResult) C.StatusResult_Handle {
-	return (C.StatusResult_Handle)(registerHandle(obj))
+func registerStatusResultHandle(obj *cli.StatusResult) C.StatusResult__Handle {
+	return (C.StatusResult__Handle)(registerHandle(obj))
 }
 
-func lookupStatusResultHandle(handle C.StatusResult_Handle) (*cli.StatusResult, bool) {
+func lookupStatusResultHandle(handle C.StatusResult__Handle) (*cli.StatusResult, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*cli.StatusResult); isOK {
@@ -446,11 +446,11 @@ func lookupStatusResultHandle(handle C.StatusResult_Handle) (*cli.StatusResult, 
 	return nil, false
 }
 
-func registerAddressUxOutHandle(obj *coin.AddressUxOuts) C.AddressUxOuts_Handle {
-	return (C.AddressUxOuts_Handle)(registerHandle(obj))
+func registerAddressUxOutHandle(obj *coin.AddressUxOuts) C.AddressUxOuts__Handle {
+	return (C.AddressUxOuts__Handle)(registerHandle(obj))
 }
 
-func lookupAddressUxOutHandle(handle C.AddressUxOuts_Handle) (*coin.AddressUxOuts, bool) {
+func lookupAddressUxOutHandle(handle C.AddressUxOuts__Handle) (*coin.AddressUxOuts, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*coin.AddressUxOuts); isOK {
@@ -460,11 +460,11 @@ func lookupAddressUxOutHandle(handle C.AddressUxOuts_Handle) (*coin.AddressUxOut
 	return nil, false
 }
 
-func registerHashHandle(obj *hash.Hash) C.Hash_Handle {
-	return (C.Hash_Handle)(registerHandle(obj))
+func registerHashHandle(obj *hash.Hash) C.Hash__Handle {
+	return (C.Hash__Handle)(registerHandle(obj))
 }
 
-func lookupHashHandle(handle C.Hash_Handle) (*hash.Hash, bool) {
+func lookupHashHandle(handle C.Hash__Handle) (*hash.Hash, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*hash.Hash); isOK {
@@ -494,11 +494,11 @@ func SKY_handle_copy(handle C.Handle, copy *C.Handle) uint32 {
 	}
 }
 
-func registerReadableUnspentOutputsSummaryHandle(obj *readable.UnspentOutputsSummary) C.ReadableUnspentOutputsSummary_Handle {
-	return (C.ReadableUnspentOutputsSummary_Handle)(registerHandle(obj))
+func registerReadableUnspentOutputsSummaryHandle(obj *readable.UnspentOutputsSummary) C.ReadableUnspentOutputsSummary__Handle {
+	return (C.ReadableUnspentOutputsSummary__Handle)(registerHandle(obj))
 }
 
-func lookupReadableUnspentOutputsSummaryHandle(handle C.ReadableUnspentOutputsSummary_Handle) (*readable.UnspentOutputsSummary, bool) {
+func lookupReadableUnspentOutputsSummaryHandle(handle C.ReadableUnspentOutputsSummary__Handle) (*readable.UnspentOutputsSummary, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*readable.UnspentOutputsSummary); isOK {
@@ -508,11 +508,11 @@ func lookupReadableUnspentOutputsSummaryHandle(handle C.ReadableUnspentOutputsSu
 	return nil, false
 }
 
-func registerBuildInfoHandle(obj *readable.BuildInfo) C.BuildInfo_Handle {
-	return (C.BuildInfo_Handle)(registerHandle(obj))
+func registerBuildInfoHandle(obj *readable.BuildInfo) C.BuildInfo__Handle {
+	return (C.BuildInfo__Handle)(registerHandle(obj))
 }
 
-func lookupBuildInfoHandle(handle C.BuildInfo_Handle) (*readable.BuildInfo, bool) {
+func lookupBuildInfoHandle(handle C.BuildInfo__Handle) (*readable.BuildInfo, bool) {
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*readable.BuildInfo); isOK {

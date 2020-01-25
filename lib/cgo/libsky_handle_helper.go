@@ -279,7 +279,7 @@ func SKY_api_Handle_GetWalletLastSeed(handle C.MetaWallet__Handle,
 }
 
 //export SKY_api_Handle_GetBuildInfoData
-func SKY_api_Handle_GetBuildInfoData(handle C.BuildInfo_Handle,
+func SKY_api_Handle_GetBuildInfoData(handle C.BuildInfo__Handle,
 	version *C.GoString_, commit *C.GoString_, branch *C.GoString_) uint32 {
 	bi, ok := lookupBuildInfoHandle(handle)
 	if ok {

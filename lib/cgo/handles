@@ -41,5 +41,5 @@ CGOGEN HANDLES coin__AddressUxOuts|AddressUxOuts
 CGOGEN HANDLES readable__BuildInfo|BuildInfo
 CGOGEN HANDLES readable__UnspentOutputsSummary|UnspentOutputsSummary
 CGOGEN HANDLES hash__Hash|Hash
-CGOGEN HANDLES readable__UnspentOutputsSummary|UnspentOutputsSummary
+CGOGEN HANDLES cipher__Addresser|Addresser
 CGOGEN TYPES_CONVERSION coin__FeeCalculator|FeeCalculator

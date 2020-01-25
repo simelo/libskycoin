@@ -836,7 +836,7 @@ func SKY_coin_SortTransactions(tsh C.Transactions__Handle, pFeeCalc *C.FeeCalcul
 }
 
 //export SKY_coin_NewSortableTransactions
-func SKY_coin_NewSortableTransactions(tsh C.Transactions__Handle, pFeeCalc *C.FeeCalculator, ptsh *C.SortableTransactions_Handle) (____error_code uint32) {
+func SKY_coin_NewSortableTransactions(tsh C.Transactions__Handle, pFeeCalc *C.FeeCalculator, ptsh *C.SortableTransactions__Handle) (____error_code uint32) {
 	feeCalc := func(pTx *coin.Transaction) (uint64, error) {
 		var fee C.GoUint64_
 		handle := registerTransactionHandle(pTx)
