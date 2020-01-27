@@ -35,7 +35,6 @@ var (
 func registerHandle(obj interface{}) C.Handle {
 	handlesCounter++
 	handle := handlesCounter
-	//handle := *(*Handle)(unsafe.Pointer(&obj))
 	handleMap[Handle(handle)] = obj
 	return (C.Handle)(handle)
 }
@@ -684,6 +683,20 @@ func lookupUnspentOutputsSummaryHandle(handle C.UnspentOutputsSummary__Handle) (
 	obj, ok := lookupHandle(C.Handle(handle))
 	if ok {
 		if obj, isOK := (obj).(*readable.UnspentOutputsSummary); isOK {
+			return obj, true
+		}
+	}
+	return nil, false
+}
+
+func registerAddressUxOutsHandle(obj *coin.AddressUxOuts) C.AddressUxOuts__Handle {
+	return (C.AddressUxOuts__Handle)(registerHandle(obj))
+}
+
+func lookupAddressUxOutsHandle(handle C.AddressUxOuts__Handle) (*coin.AddressUxOuts, bool) {
+	obj, ok := lookupHandle(C.Handle(handle))
+	if ok {
+		if obj, isOK := (obj).(*coin.AddressUxOuts); isOK {
 			return obj, true
 		}
 	}

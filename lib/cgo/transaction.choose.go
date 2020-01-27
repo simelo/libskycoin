@@ -67,17 +67,3 @@ func SKY_transaction_ChooseSpendsMaximizeUxOuts(_uxa []C.transaction__UxBalance,
 	}
 	return
 }
-
-//export SKY_transaction_ChooseSpends
-func SKY_transaction_ChooseSpends(_uxa []C.transaction__UxBalance, _coins, _hours uint64, _sortStrategy, _arg3 *C.GoSlice_) (____error_code uint32) {
-	uxa := *(*[]transaction.UxBalance)(unsafe.Pointer(&_uxa))
-	coins := _coins
-	hours := _hours
-	sortStrategy := copyToFunc(_sortStrategy)
-	__arg3, ____return_err := transaction.ChooseSpends(uxa, coins, hours, sortStrategy)
-	____error_code = libErrorCode(____return_err)
-	if ____return_err == nil {
-		copyToGoSlice(reflect.ValueOf(__arg3), _arg3)
-	}
-	return
-}
