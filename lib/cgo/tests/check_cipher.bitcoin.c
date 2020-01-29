@@ -88,7 +88,7 @@ START_TEST(TestDecodeBase58BitcoinAddress)
     b.len = (GoInt_)(len_b / 2);
     GoUint8_ buffer_h[1024];
     GoString h = {buffer_h, 0};
-    err = SKY_base58_Hex2Base58(b, &h_tmp);
+    err = SKY_base58_Encode(b, &h_tmp);
     ck_assert_int_eq(err, SKY_OK);
     h.n = h_tmp.n;
     h.p = h_tmp.p;
@@ -99,7 +99,7 @@ START_TEST(TestDecodeBase58BitcoinAddress)
     SKY_cipher_BitcoinAddress_Bytes(&a, &b_temp);
     err = copyGoSlice_toGoSlice(&b, &b_temp, b_temp.len);
     ck_assert_int_eq(err, SKY_OK);
-    err = SKY_base58_Hex2Base58(b, &h_tmp);
+    err = SKY_base58_Encode(b, &h_tmp);
     ck_assert_int_eq(err, SKY_OK);
     h.n = h_tmp.n;
     h.p = h_tmp.p;

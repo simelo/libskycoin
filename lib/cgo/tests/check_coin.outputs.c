@@ -654,7 +654,7 @@ START_TEST(TestAddressUxOutsAdd)
     result = SKY_coin_AddressUxOuts_Set(h2, &(pData + 2)->Body.Address, &ux6);
     ck_assert_msg(result == SKY_OK, "SKY_coin_AddressUxOut_Set failed");
 
-    result = SKY_coin_AddressUxOuts_Add(h1, h2, &h3);
+    result = SKY_coin_AddressUxOuts_Add(&h1, &h2, &h3);
     ck_assert_msg(result == SKY_OK, "SKY_coin_AddressUxOuts_Add failed");
     registerHandleClose(h3);
 

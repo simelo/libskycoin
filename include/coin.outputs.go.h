@@ -9,9 +9,15 @@ typedef struct {
     GoUint64_ Hours;
 } coin__UxBody;
 typedef GoMap_ coin__UxHashSet;
-typedef GoSlice_ coin__UxArray;
 typedef GoMap_ coin__AddressUxOuts;
 typedef struct {
     coin__UxHead Head;
     coin__UxBody Body;
 } coin__UxOut;
+
+typedef struct {
+    void* data;
+    GoInt_ len;
+    GoInt_ cap;
+    GoInt_ a;
+} coin__UxArray;

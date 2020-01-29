@@ -466,3 +466,16 @@ func SKY_bip32_PublicKey_GetParentFingerprint(_pk C.PublicKey__Handle, _arg0 *C.
 	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
 	return
 }
+
+//export SKY_bip32_PrivateKey_Publickey
+func SKY_bip32_PrivateKey_Publickey(_pk C.PrivateKey__Handle, _pp *C.PublicKey__Handle) (___error_code uint32) {
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	pp := pk.PublicKey()
+	*_pp = registerPublicKeyHandle(pp)
+	return
+}
