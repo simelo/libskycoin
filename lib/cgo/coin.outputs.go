@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"unsafe"
 
+	cipher "github.com/SkycoinProject/skycoin/src/cipher"
 	coin "github.com/SkycoinProject/skycoin/src/coin"
 )
 
@@ -222,5 +223,84 @@ func SKY_coin_UxArray_Add(_ua *C.coin__UxArray, _other *C.coin__UxArray, _arg1 *
 	other := *(*coin.UxArray)(unsafe.Pointer(_other))
 	__arg1 := ua.Add(other)
 	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofUxArray))
+	return
+}
+
+// Helpers
+
+//export SKY_coin_AddressUxOuts_Get
+func SKY_coin_AddressUxOuts_Get(handle C.AddressUxOuts__Handle, _key *C.cipher__Address, _uxOuts *C.coin__UxArray) (____error_code uint32) {
+	a, ok := lookupAddressUxOutHandle(handle)
+	if ok {
+		key := *(*cipher.Address)(unsafe.Pointer(_key))
+		uxOuts, found := (*a)[key]
+		if found {
+			copyTocoin_UxArray(reflect.ValueOf(uxOuts), _uxOuts)
+			____error_code = SKY_OK
+		}
+	} else {
+		____error_code = SKY_BAD_HANDLE
+	}
+	return
+}
+
+//export SKY_coin_AddressUxOuts_HasKey
+func SKY_coin_AddressUxOuts_HasKey(handle C.AddressUxOuts__Handle, _key *C.cipher__Address, _hasKey *bool) (____error_code uint32) {
+	a, ok := lookupAddressUxOutHandle(handle)
+	if ok {
+		key := *(*cipher.Address)(unsafe.Pointer(_key))
+		_, found := (*a)[key]
+		*_hasKey = found
+		____error_code = SKY_OK
+	} else {
+		____error_code = SKY_BAD_HANDLE
+	}
+	return
+}
+
+//export SKY_coin_AddressUxOuts_GetOutputLength
+func SKY_coin_AddressUxOuts_GetOutputLength(handle C.AddressUxOuts__Handle, _key *C.cipher__Address, _length *int) (____error_code uint32) {
+	a, ok := lookupAddressUxOutHandle(handle)
+	if ok {
+		key := *(*cipher.Address)(unsafe.Pointer(_key))
+		uxOuts, found := (*a)[key]
+		if found {
+			*_length = len(uxOuts)
+			____error_code = SKY_OK
+		}
+	} else {
+		____error_code = SKY_BAD_HANDLE
+	}
+	return
+}
+
+//export SKY_coin_AddressUxOuts_Length
+func SKY_coin_AddressUxOuts_Length(handle C.AddressUxOuts__Handle, _length *int) (____error_code uint32) {
+	a, ok := lookupAddressUxOutHandle(handle)
+	if ok {
+		*_length = len(*a)
+		____error_code = SKY_OK
+	} else {
+		____error_code = SKY_BAD_HANDLE
+	}
+	return
+}
+
+//export SKY_coin_AddressUxOuts_Set
+func SKY_coin_AddressUxOuts_Set(handle C.AddressUxOuts__Handle, _key *C.cipher__Address, _uxOuts *C.coin__UxArray) (____error_code uint32) {
+	a, ok := lookupAddressUxOutHandle(handle)
+	if ok {
+		key := *(*cipher.Address)(unsafe.Pointer(_key))
+		//Copy the slice because it is going to be kept
+		//We can't hold memory allocated outside Go
+		tempUxOuts := *(*coin.UxArray)(unsafe.Pointer(_uxOuts))
+		uxOuts := make(coin.UxArray, 0, len(tempUxOuts))
+
+		uxOuts = append(uxOuts, tempUxOuts...)
+		(*a)[key] = uxOuts
+		____error_code = SKY_OK
+	} else {
+		____error_code = SKY_BAD_HANDLE
+	}
 	return
 }

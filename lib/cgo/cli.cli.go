@@ -35,17 +35,6 @@ func SKY_cli_Config_FullDBPath(_c *C.cli__Config, _arg0 *C.GoString_) (____error
 	return
 }
 
-//export SKY_cli_NewCLI
-func SKY_cli_NewCLI(_cfg *C.cli__Config, _arg1 *C.CLI__Handle) (____error_code uint32) {
-	cfg := *(*cli.Config)(unsafe.Pointer(_cfg))
-	__arg1, ____return_err := cli.NewCLI(cfg)
-	____error_code = libErrorCode(____return_err)
-	if ____return_err == nil {
-		*_arg1 = registerCLIHandle(__arg1)
-	}
-	return
-}
-
 //export SKY_cli_WalletLoadError_Error
 func SKY_cli_WalletLoadError_Error(_e *C.cli__WalletLoadError, _arg0 *C.GoString_) (____error_code uint32) {
 	e := *(*cli.WalletLoadError)(unsafe.Pointer(_e))
