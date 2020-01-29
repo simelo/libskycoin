@@ -460,3 +460,29 @@ func SKY_coin_BlockHeader_PrevHash(_b C.BlockHeader__Handle, _arg0 *C.cipher__SH
 	}
 	return
 }
+
+//export SKY_coin_NewGenesisBlock
+func SKY_coin_NewGenesisBlock(_genesisAddr *C.cipher__Address, _genesisCoins, _timestamp uint64, _arg2 *C.Block__Handle) (____error_code uint32) {
+	genesisAddr := *(*cipher.Address)(unsafe.Pointer(_genesisAddr))
+	genesisCoins := uint64(_genesisCoins)
+	timestamp := uint64(_timestamp)
+	__arg2, ____return_err := coin.NewGenesisBlock(genesisAddr, genesisCoins, timestamp)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+		__arg2.Head.Time = timestamp
+		*_arg2 = registerBlockHandle(__arg2)
+	}
+	return
+}
+
+//export SKY_coin_Block_HashBody
+func SKY_coin_Block_HashBody(_b C.Block__Handle, _arg0 *C.cipher__SHA256) (____error_code uint32) {
+	b, ok := lookupBlockHandle(_b)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	__arg0 := b.Body.Hash()
+	*_arg0 = *(*C.cipher__SHA256)(unsafe.Pointer(&__arg0))
+	return
+}
