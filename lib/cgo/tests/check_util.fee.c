@@ -13,7 +13,7 @@
 #define BUFFER_SIZE 1024
 #define BurnFactor 2
 
-unsigned long long MaxUint64 = 0xFFFFFFFFFFFFFFFF;
+uint64_t MaxUint64 = 0xFFFFFFFFFFFFFFFF;
 unsigned int MaxUint16 = 0xFFFF;
 typedef struct {
     GoInt64 inputHours;
@@ -68,7 +68,7 @@ START_TEST(TestVerifyTransactionFee)
     Transaction__Handle emptyTxn;
     makeEmptyTransaction(&emptyTxn);
     GoUint64 hours;
-    GoUint64 err = SKY_coin_Transaction_OutputHours(emptyTxn, &hours);
+    GoUint64 err = SKY_coin_Transaction_OutputHours(&emptyTxn, &hours);
     ck_assert(err == SKY_OK);
     ck_assert(hours == 0);
 
@@ -85,12 +85,12 @@ START_TEST(TestVerifyTransactionFee)
     coin__TransactionOutput* txnOut;
     cipher__Address addr;
     makeAddress(&addr);
-    err = SKY_coin_Transaction_PushOutput(txn, &addr, 0, 1000000);
+    err = SKY_coin_Transaction_PushOutput(&txn, &addr, 0, 1000000);
     ck_assert(err == SKY_OK);
-    err = SKY_coin_Transaction_PushOutput(txn, &addr, 0, 3000000);
+    err = SKY_coin_Transaction_PushOutput(&txn, &addr, 0, 3000000);
     ck_assert(err == SKY_OK);
 
-    err = SKY_coin_Transaction_OutputHours(txn, &hours);
+    err = SKY_coin_Transaction_OutputHours(&txn, &hours);
     ck_assert(err == SKY_OK);
     ck_assert(hours == 4000000);
 
@@ -101,11 +101,11 @@ START_TEST(TestVerifyTransactionFee)
     ck_assert(err == SKY_ErrTxnInsufficientFee);
 
     // A txn with sufficient net coinhours burn fee is valid
-    err = SKY_coin_Transaction_OutputHours(txn, &hours);
+    err = SKY_coin_Transaction_OutputHours(&txn, &hours);
     ck_assert(err == SKY_OK);
     err = SKY_fee_VerifyTransactionFee(txn, hours, 2);
     ck_assert(err == SKY_OK);
-    err = SKY_coin_Transaction_OutputHours(txn, &hours);
+    err = SKY_coin_Transaction_OutputHours(&txn, &hours);
     ck_assert(err == SKY_OK);
     err = SKY_fee_VerifyTransactionFee(txn, (hours * 10), 2);
     ck_assert(err == SKY_OK);
@@ -115,7 +115,7 @@ START_TEST(TestVerifyTransactionFee)
     ck_assert(err == SKY_ERROR);
 
     // txn has overflowing output hours
-    err = SKY_coin_Transaction_PushOutput(txn, &addr, 0,
+    err = SKY_coin_Transaction_PushOutput(&txn, &addr, 0,
         (MaxUint64 - 1000000 - 3000000 + 1));
     ck_assert(err == SKY_OK);
     err = SKY_fee_VerifyTransactionFee(txn, 10, 2);
@@ -126,7 +126,7 @@ START_TEST(TestVerifyTransactionFee)
     for (int i = 0; i < len; i++) {
         makeEmptyTransaction(&txn);
         verifyTxFeeTestCase tc = cases[i];
-        err = SKY_coin_Transaction_PushOutput(txn, &addr, 0, tc.outputHours);
+        err = SKY_coin_Transaction_PushOutput(&txn, &addr, 0, tc.outputHours);
         ck_assert(err == SKY_OK);
         ck_assert(tc.inputHours >= tc.outputHours);
         err =
@@ -261,7 +261,7 @@ START_TEST(TestTransactionFee)
         makeEmptyTransaction(&tx);
         for (int k = 0; k < tc.lens[1]; k++) {
             GoInt64 h = tc.out[k];
-            err = SKY_coin_Transaction_PushOutput(tx, &addr, 0, h);
+            err = SKY_coin_Transaction_PushOutput(&tx, &addr, 0, h);
             ck_assert(err == SKY_OK);
         }
 

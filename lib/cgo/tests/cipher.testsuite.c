@@ -444,12 +444,13 @@ void ValidateSeedData(SeedTestData* seedData, InputTestData* inputData)
         char bufferSecKey[101];
         strnhex((unsigned char*)s, bufferSecKey, sizeof(cipher__SecKey));
         GoSlice slseckey = {bufferSecKey, sizeof(cipher__SecKey), 65};
-        validSec = SKY_secp256k1_VerifySecKey(slseckey);
+        SKY_secp256k1_VerifySeckey(slseckey, &validSec);
         ck_assert_msg(validSec == 1, "SKY_secp256k1_VerifySeckey failed");
 
         GoInt validPub;
         GoSlice slpubkey = {&p, sizeof(cipher__PubKey), sizeof(cipher__PubKey)};
-        validPub = SKY_secp256k1_VerifyPubkey(slpubkey);
+        GoUint32_ err = SKY_secp256k1_VerifyPubkey(slpubkey, &validPub);
+        ck_assert_int_eq(err, SKY_OK);
         ck_assert_msg(validPub == 1, "SKY_secp256k1_VerifyPubkey failed");
 
         int cond = (!(inputData == NULL && expected->Signatures.len != 0));

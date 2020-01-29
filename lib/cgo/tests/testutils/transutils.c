@@ -108,7 +108,7 @@ void makeTransactionFromUxOut(coin__UxOut* puxOut, cipher__SecKey* pseckey, Tran
     result = SKY_coin_UxOut_Hash(puxOut, &sha256);
     ck_assert_msg(result == SKY_OK, "SKY_coin_UxOut_Hash failed");
     GoUint16 r;
-    result = SKY_coin_Transaction_PushInput(*handle, &sha256);
+    result = SKY_coin_Transaction_PushInput(handle, &sha256);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_PushInput failed");
 
     cipher__Address address1, address2;
@@ -117,15 +117,15 @@ void makeTransactionFromUxOut(coin__UxOut* puxOut, cipher__SecKey* pseckey, Tran
     result = makeAddress(&address2);
     ck_assert_msg(result == SKY_OK, "makeAddress failed");
 
-    result = SKY_coin_Transaction_PushOutput(*handle, &address1, 1000000, 50);
+    result = SKY_coin_Transaction_PushOutput(handle, &address1, 1000000, 50);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_PushOutput failed");
-    result = SKY_coin_Transaction_PushOutput(*handle, &address2, 5000000, 50);
+    result = SKY_coin_Transaction_PushOutput(handle, &address2, 5000000, 50);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_PushOutput failed");
 
     GoSlice secKeys = {pseckey, 1, 1};
-    result = SKY_coin_Transaction_SignInputs(*handle, secKeys);
+    result = SKY_coin_Transaction_SignInputs(handle, secKeys);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_SignInputs failed");
-    result = SKY_coin_Transaction_UpdateHeader(*handle);
+    result = SKY_coin_Transaction_UpdateHeader(handle);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_UpdateHeader failed");
 }
 
@@ -192,7 +192,7 @@ GoUint32_ sortTransactions(Transactions__Handle txns_handle,
         result = SKY_coin_Transactions_GetAt(txns_handle, i, &pTrans[i].handle);
         ck_assert(result == SKY_OK);
         registerHandleClose(pTrans[i].handle);
-        result = SKY_coin_Transaction_Hash(pTrans[i].handle, &pTrans[i].hash);
+        result = SKY_coin_Transaction_Hash(&pTrans[i].handle, &pTrans[i].hash);
         ck_assert(result == SKY_OK);
     }
 

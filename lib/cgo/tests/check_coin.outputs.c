@@ -498,7 +498,7 @@ START_TEST(TestAddressUxOutsKeys)
     }
 
     coin__UxArray uxa = {uxs, test_count, test_count};
-    AddressUxOuts_Handle uxOutsHandle;
+    AddressUxOuts__Handle uxOutsHandle;
     result = SKY_coin_NewAddressUxOuts(&uxa, &uxOutsHandle);
     ck_assert_msg(result == SKY_OK, "SKY_coin_NewAddressUxOuts failed");
     GoSlice_ keys = {NULL, 0, 0};
@@ -539,7 +539,7 @@ START_TEST(TestAddressUxOutsSub)
     makeUxArray(&uxa, 4);
     coin__UxOut* pData = uxa.data;
     memset(&empty, 0, sizeof(coin__UxArray));
-    AddressUxOuts_Handle h1, h2, h3;
+    AddressUxOuts__Handle h1, h2, h3;
     result = SKY_coin_NewAddressUxOuts(&empty, &h1);
     ck_assert_msg(result == SKY_OK, "SKY_coin_NewAddressUxOuts failed");
     registerHandleClose(h1);
@@ -628,7 +628,7 @@ START_TEST(TestAddressUxOutsAdd)
     makeUxArray(&uxa, 4);
     coin__UxOut* pData = uxa.data;
     memset(&empty, 0, sizeof(coin__UxArray));
-    AddressUxOuts_Handle h1, h2, h3;
+    AddressUxOuts__Handle h1, h2, h3;
     result = SKY_coin_NewAddressUxOuts(&empty, &h1);
     ck_assert_msg(result == SKY_OK, "SKY_coin_NewAddressUxOuts failed");
     registerHandleClose(h1);
@@ -735,7 +735,7 @@ START_TEST(TestAddressUxOutsFlatten)
     coin__UxOut* pData = uxa.data;
     memcpy(&(pData + 2)->Body.Address, &(pData + 1)->Body.Address, sizeof(cipher__Address));
     memset(&emptyArray, 0, sizeof(coin__UxArray));
-    AddressUxOuts_Handle h;
+    AddressUxOuts__Handle h;
     result = SKY_coin_NewAddressUxOuts(&emptyArray, &h);
     ck_assert_msg(result == SKY_OK, "SKY_coin_NewAddressUxOuts failed");
     registerHandleClose(h);
@@ -792,7 +792,7 @@ START_TEST(TestNewAddressUxOuts)
     memcpy(&(pData + 1)->Body.Address, &(pData)->Body.Address, sizeof(cipher__Address));
     memcpy(&(pData + 3)->Body.Address, &(pData + 2)->Body.Address, sizeof(cipher__Address));
     memcpy(&(pData + 4)->Body.Address, &(pData + 2)->Body.Address, sizeof(cipher__Address));
-    AddressUxOuts_Handle h;
+    AddressUxOuts__Handle h;
     result = SKY_coin_NewAddressUxOuts(&uxa, &h);
     ck_assert_msg(result == SKY_OK, "SKY_coin_NewAddressUxOuts failed");
     registerHandleClose(h);

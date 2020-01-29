@@ -184,16 +184,18 @@ START_TEST(TestBitcoinAddressNull)
 {
     cipher__BitcoinAddress a;
     memset(&a, 0, sizeof(cipher__BitcoinAddress));
-    GoUint8 err = SKY_cipher_BitcoinAddress_Null(&a);
-    ck_assert_int_eq(err, 1);
+    GoUint8 nulls;
+    GoUint32_ err = SKY_cipher_BitcoinAddress_Null(&a, &nulls);
+    ck_assert_int_eq(err, SKY_OK);
+    ck_assert_int_eq(nulls, 1);
 
     cipher__PubKey p;
     cipher__SecKey s;
     err = SKY_cipher_GenerateKeyPair(&p, &s);
     memset(&a, 0, sizeof(cipher__BitcoinAddress));
     SKY_cipher_BitcoinAddressFromPubKey(&p, &a);
-    err = SKY_cipher_BitcoinAddress_Null(&a);
-    ck_assert_int_eq(err, 0);
+    err = SKY_cipher_BitcoinAddress_Null(&a, &nulls);
+    ck_assert_int_eq(nulls, 0);
 }
 END_TEST
 

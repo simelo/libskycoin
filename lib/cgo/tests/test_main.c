@@ -31,7 +31,7 @@ int main(void)
     srunner_run_all(sr, CK_VERBOSE);
     srunner_run_all(sr_fork, CK_VERBOSE);
     number_failed = srunner_ntests_failed(sr);
-    number_failed_fork = srunner_ntests_failed(sr_fork);
+    // number_failed_fork = srunner_ntests_failed(sr_fork);
     srunner_free(sr);
     srunner_free(sr_fork);
     sr = NULL;

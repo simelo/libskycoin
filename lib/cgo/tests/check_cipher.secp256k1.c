@@ -28,8 +28,9 @@ START_TEST(Test_Abnormal_Keys2)
         err = SKY_secp256k1_PubkeyFromSeckey(seckey_slice, &pubkey1);
         ck_assert_msg(err == SKY_OK, "Fail in iteration %d, err %x != %x", i, err, SKY_OK);
         GoSlice pubkey_slice = {pubkey1.data, pubkey1.len, pubkey1.cap};
-        err = SKY_secp256k1_VerifyPubkey(pubkey_slice);
-        ck_assert_msg(err == 1, "generates key that fails validation in ite #%d", i);
+        GoInt verf;
+        err = SKY_secp256k1_VerifyPubkey(pubkey_slice, &verf);
+        ck_assert_msg(verf == 1, "generates key that fails validation in ite #%d", i);
     }
 }
 END_TEST
