@@ -1,4 +1,4 @@
-typedef struct{
+typedef struct {
     cipher__SHA256 Hash;
     GoUint64_ BkSeq;
     GoUint64_ Time;
