@@ -293,3 +293,176 @@ func SKY_bip32_DeserializePublicKey(_data []byte, _arg1 *C.PublicKey__Handle) (_
 	}
 	return
 }
+
+// Helpers
+
+//export SKY_bip32_PrivateKey_GetKey
+func SKY_bip32_PrivateKey_GetKey(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	__arg0 := pk.Key
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	return
+}
+
+//export SKY_bip32_PublicKey_GetKey
+func SKY_bip32_PublicKey_GetKey(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	__arg0 := pk.Key
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetDepth
+func SKY_bip32_PrivateKey_GetDepth(_pk C.PrivateKey__Handle, _arg0 *byte) (___error_code uint32) {
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	arg0 := pk.Depth
+	*_arg0 = arg0
+	return
+}
+
+//export SKY_bip32_PublicKey_GetDepth
+func SKY_bip32_PublicKey_GetDepth(_pk C.PublicKey__Handle, _arg0 *byte) (___error_code uint32) {
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+	arg0 := pk.Depth
+	*_arg0 = arg0
+	return
+}
+
+//export SKY_bip32_PrivateKey_ChildNumber
+func SKY_bip32_PrivateKey_ChildNumber(_pk C.PrivateKey__Handle, _arg0 *uint32) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	__arg0 := pk.ChildNumber()
+	*_arg0 = uint32(__arg0)
+	return
+}
+
+//export SKY_bip32_PublicKey_ChildNumber
+func SKY_bip32_PublicKey_ChildNumber(_pk C.PublicKey__Handle, _arg0 *uint32) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	__arg0 := uint32(pk.ChildNumber())
+	*_arg0 = __arg0
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetChainCode
+func SKY_bip32_PrivateKey_GetChainCode(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	__arg0 := pk.ChainCode
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	return
+}
+
+//export SKY_bip32_PublicKey_GetChainCode
+func SKY_bip32_PublicKey_GetChainCode(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	__arg0 := pk.ChainCode
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetVersion
+func SKY_bip32_PrivateKey_GetVersion(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	__arg0 := pk.Version
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	return
+}
+
+//export SKY_bip32_PublicKey_GetVersion
+func SKY_bip32_PublicKey_GetVersion(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	copyToGoSlice(reflect.ValueOf(pk.Version), _arg0)
+	return
+}
+
+//export SKY_bip32_PrivateKey_GetParentFingerprint
+func SKY_bip32_PrivateKey_GetParentFingerprint(_pk C.PrivateKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+
+	pk, okpk := lookupPrivateKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	__arg0 := pk.ParentFingerprint
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	return
+}
+
+//export SKY_bip32_PublicKey_GetParentFingerprint
+func SKY_bip32_PublicKey_GetParentFingerprint(_pk C.PublicKey__Handle, _arg0 *C.GoSlice_) (___error_code uint32) {
+
+	pk, okpk := lookupPublicKeyHandle(_pk)
+
+	if !okpk {
+		___error_code = SKY_BAD_HANDLE
+		return
+	}
+
+	__arg0 := pk.ParentFingerprint
+	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
+	return
+}
