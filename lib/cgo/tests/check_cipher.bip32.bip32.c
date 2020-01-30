@@ -47,7 +47,7 @@ void assertPrivateKeySerialization(PrivateKey__Handle key, GoString expected)
     ck_assert_int_eq(SKY_OK, err);
     GoUint8 bufferserialized[1024];
     GoSlice serialized = {bufferserialized, 0, 1024};
-    err = SKY_bip32_PrivateKey_Serialize(key, &serialized);
+    err = SKY_bip32_PrivateKey_Serialize(&key, &serialized);
     ck_assert_int_eq(SKY_OK, err);
     ck_assert(isGoSliceEq(&expectedBytes, &serialized));
     PrivateKey__Handle key2 = 0;
@@ -68,7 +68,7 @@ void assertPublicKeySerialization(PublicKey__Handle key, GoString expected)
     ck_assert_int_eq(SKY_OK, err);
     GoUint8 bufferserialized[1024];
     GoSlice serialized = {bufferserialized, 0, 1024};
-    err = SKY_bip32_PublicKey_Serialize(key, &serialized);
+    err = SKY_bip32_PublicKey_Serialize(&key, &serialized);
     ck_assert_int_eq(SKY_OK, err);
     ck_assert(isGoSliceEq(&expectedBytes, &serialized));
     PublicKey__Handle key2 = 0;
@@ -122,10 +122,10 @@ void testVectorKeyPairs(testMasterKey vector)
     GoUint8 bufferstringPubKey[1024];
     GoString_ stringPrivKey = {bufferstringPrivKey, 0};
     GoString_ stringPubKey = {bufferstringPubKey, 0};
-    err = SKY_bip32_PrivateKey_String(privkey, &stringPrivKey);
+    err = SKY_bip32_PrivateKey_String(&privkey, &stringPrivKey);
     ck_assert_int_eq(err, SKY_OK);
     ck_assert(isGoString_toGoStringEq(stringPrivKey, vector.privkey));
-    err = SKY_bip32_PublicKey_String(pubkey, &stringPubKey);
+    err = SKY_bip32_PublicKey_String(&pubkey, &stringPubKey);
     ck_assert_int_eq(err, SKY_OK);
     ck_assert(isGoString_toGoStringEq(stringPubKey, vector.pubKey));
 
@@ -184,9 +184,9 @@ void testVectorKeyPairs(testMasterKey vector)
     GoString priv_Fringerprint = {bufferpriv_Fringerprint, 0};
     GoUint8 bufferpub_Fringerprint[MAXBUFFER];
     GoString pub_Fringerprint = {bufferpub_Fringerprint, 0};
-    err = SKY_bip32_PrivateKey_Fingerprint(privkey, &privFringerprint_tmp);
+    err = SKY_bip32_PrivateKey_Fingerprint(&privkey, &privFringerprint_tmp);
     ck_assert_int_eq(SKY_OK, err);
-    err = SKY_bip32_PublicKey_Fingerprint(pubkey, &pubFringerprint_tmp);
+    err = SKY_bip32_PublicKey_Fingerprint(&pubkey, &pubFringerprint_tmp);
     ck_assert_int_eq(SKY_OK, err);
     GoSlice privFringerprint;
     copyGoSlice_toGoSlice(&privFringerprint, &privFringerprint_tmp, privFringerprint_tmp.len);
@@ -206,9 +206,9 @@ void testVectorKeyPairs(testMasterKey vector)
     GoSlice_ pubIdentifier_tmp;
     GoString_ priv_Identifier;
     GoString_ pub_Identifier;
-    err = SKY_bip32_PrivateKey_Identifier(privkey, &privIdentifier_tmp);
+    err = SKY_bip32_PrivateKey_Identifier(&privkey, &privIdentifier_tmp);
     ck_assert_int_eq(SKY_OK, err);
-    err = SKY_bip32_PublicKey_Identifier(pubkey, &pubIdentifier_tmp);
+    err = SKY_bip32_PublicKey_Identifier(&pubkey, &pubIdentifier_tmp);
     ck_assert_int_eq(SKY_OK, err);
     GoSlice privIdentifier;
     GoSlice pubIdentifier;
@@ -286,10 +286,10 @@ void testVectorKeyPairs(testMasterKey vector)
 
         ck_assert(isPrivateKeyEq(xx, privkey));
 
-        err = SKY_bip32_PrivateKey_String(privkey, &stringPrivKey);
+        err = SKY_bip32_PrivateKey_String(&privkey, &stringPrivKey);
         ck_assert_int_eq(err, SKY_OK);
         ck_assert(isGoString_toGoStringEq(stringPrivKey, tck.privKey));
-        err = SKY_bip32_PublicKey_String(pubkey, &stringPubKey);
+        err = SKY_bip32_PublicKey_String(&pubkey, &stringPubKey);
         ck_assert_int_eq(err, SKY_OK);
         ck_assert(isGoString_toGoStringEq(stringPubKey, tck.pubKey));
 
@@ -305,10 +305,10 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert(isGoString_toGoStringEq(pub_ChainCode, tck.chainCode));
 
         GoSlice_ privFringerprint_tmp;
-        err = SKY_bip32_PrivateKey_Fingerprint(privkey, &privFringerprint_tmp);
+        err = SKY_bip32_PrivateKey_Fingerprint(&privkey, &privFringerprint_tmp);
         ck_assert_int_eq(SKY_OK, err);
         GoSlice_ pubFringerprint_tmp;
-        err = SKY_bip32_PublicKey_Fingerprint(pubkey, &pubFringerprint_tmp);
+        err = SKY_bip32_PublicKey_Fingerprint(&pubkey, &pubFringerprint_tmp);
         ck_assert_int_eq(SKY_OK, err);
         copyGoSlice_toGoSlice(&privFringerprint, &privFringerprint_tmp, privFringerprint_tmp.len);
         err = SKY_base58_Hex2String(privFringerprint, &priv_Fringerprint_tmp);
@@ -319,9 +319,9 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert(isGoString_toGoStringEq(pub_Fringerprint_tmp, tck.fingerprint));
         ck_assert(isGoString_toGoStringEq(pub_Fringerprint_tmp, tck.fingerprint));
 
-        err = SKY_bip32_PrivateKey_Identifier(privkey, &privIdentifier);
+        err = SKY_bip32_PrivateKey_Identifier(&privkey, &privIdentifier);
         ck_assert_int_eq(SKY_OK, err);
-        err = SKY_bip32_PublicKey_Identifier(pubkey, &pubIdentifier);
+        err = SKY_bip32_PublicKey_Identifier(&pubkey, &pubIdentifier);
         ck_assert_int_eq(SKY_OK, err);
         err = SKY_base58_Hex2String(privIdentifier, &priv_Identifier);
         ck_assert_int_eq(SKY_OK, err);
@@ -863,7 +863,7 @@ START_TEST(TestParentPublicChildDerivation)
         bip32__PathNode element_tmp;
         err = SKY_bip32_Path_GetElements(path, 1, &element_tmp);
         ck_assert_int_eq(err, SKY_OK);
-        err = SKY_bip32_PublicKey_NewPublicChildKey(extendedMasterPublic, element_tmp.ChildNumber, &pubKey);
+        err = SKY_bip32_PublicKey_NewPublicChildKey(&extendedMasterPublic, element_tmp.ChildNumber, &pubKey);
         ck_assert_int_eq(err, SKY_OK);
         GoUint8 buffer_pubkey_key_tmp[1024];
         GoSlice_ pubkey_key_tmp = {buffer_pubkey_key_tmp, 0, 1024};
@@ -878,12 +878,12 @@ START_TEST(TestParentPublicChildDerivation)
         ck_assert(isGoString_toGoStringEq(pubkey_hexpubkey, child.hexPubKey));
 
         PublicKey__Handle pubKey2 = 0;
-        err = SKY_bip32_PrivateKey_NewPublicChildKey(extendedMasterPrivate, element_tmp.ChildNumber, &pubKey2);
+        err = SKY_bip32_PrivateKey_NewPublicChildKey(&extendedMasterPrivate, element_tmp.ChildNumber, &pubKey2);
         ck_assert_int_eq(err, SKY_OK);
         ck_assert(isPublicKeyEq(pubKey, pubKey2));
 
         PrivateKey__Handle privKey = 0;
-        err = SKY_bip32_PrivateKey_NewPrivateChildKey(extendedMasterPrivate, element_tmp.ChildNumber, &privKey);
+        err = SKY_bip32_PrivateKey_NewPrivateChildKey(&extendedMasterPrivate, element_tmp.ChildNumber, &privKey);
         ck_assert_int_eq(err, SKY_OK);
 
         cipher__SecKey expectedPrivKey;
@@ -909,7 +909,7 @@ START_TEST(TestMaxChildDepthError)
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 reached = 0;
     for (size_t i = 0; i < 256; i++) {
-        err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, 0, &key);
+        err = SKY_bip32_PrivateKey_NewPrivateChildKey(&key, 0, &key);
         switch (i) {
         case 255:
             ck_assert_int_eq(err, SKY_ErrMaxDepthReached);
@@ -1069,11 +1069,11 @@ START_TEST(TestCantCreateHardenedPublicChild)
 
     // Test that it works for private keys
     PrivateKey__Handle priv_temp = 0;
-    err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, FirstHardenedChild - 1, &priv_temp);
+    err = SKY_bip32_PrivateKey_NewPrivateChildKey(&key, FirstHardenedChild - 1, &priv_temp);
     ck_assert(err == SKY_OK);
-    err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, FirstHardenedChild, &priv_temp);
+    err = SKY_bip32_PrivateKey_NewPrivateChildKey(&key, FirstHardenedChild, &priv_temp);
     ck_assert(err == SKY_OK);
-    err = SKY_bip32_PrivateKey_NewPrivateChildKey(key, FirstHardenedChild + 1, &priv_temp);
+    err = SKY_bip32_PrivateKey_NewPrivateChildKey(&key, FirstHardenedChild + 1, &priv_temp);
     ck_assert(err == SKY_OK);
 
     // Test that it throws an error for public keys if hardened
@@ -1082,11 +1082,11 @@ START_TEST(TestCantCreateHardenedPublicChild)
     ck_assert(err == SKY_OK);
 
     PublicKey__Handle pub_temp = 0;
-    err = SKY_bip32_PublicKey_NewPublicChildKey(pubkey, FirstHardenedChild - 1, &pub_temp);
+    err = SKY_bip32_PublicKey_NewPublicChildKey(&pubkey, FirstHardenedChild - 1, &pub_temp);
     ck_assert(err == SKY_OK);
-    err = SKY_bip32_PublicKey_NewPublicChildKey(pubkey, FirstHardenedChild, &pub_temp);
+    err = SKY_bip32_PublicKey_NewPublicChildKey(&pubkey, FirstHardenedChild, &pub_temp);
     ck_assert_int_eq(err, SKY_ErrHardenedChildPublicKey);
-    err = SKY_bip32_PublicKey_NewPublicChildKey(pubkey, FirstHardenedChild + 1, &pub_temp);
+    err = SKY_bip32_PublicKey_NewPublicChildKey(&pubkey, FirstHardenedChild + 1, &pub_temp);
     ck_assert_int_eq(err, SKY_ErrHardenedChildPublicKey);
 }
 END_TEST
@@ -1152,7 +1152,7 @@ START_TEST(TestNewPrivateKeyFromPath)
         if (err == SKY_OK) {
             GoUint8 bufferk_string[MAXBUFFER];
             GoString_ k_string = {bufferk_string, 0};
-            err = SKY_bip32_PrivateKey_String(k, &k_string);
+            err = SKY_bip32_PrivateKey_String(&k, &k_string);
             ck_assert(err == SKY_OK);
             ck_assert(isGoString_toGoStringEq(k_string, tc.key));
         }
