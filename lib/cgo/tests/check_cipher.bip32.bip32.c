@@ -319,10 +319,12 @@ void testVectorKeyPairs(testMasterKey vector)
         ck_assert(isGoString_toGoStringEq(pub_Fringerprint_tmp, tck.fingerprint));
         ck_assert(isGoString_toGoStringEq(pub_Fringerprint_tmp, tck.fingerprint));
 
-        err = SKY_bip32_PrivateKey_Identifier(&privkey, &privIdentifier);
+        err = SKY_bip32_PrivateKey_Identifier(&privkey, &privIdentifier_tmp);
         ck_assert_int_eq(SKY_OK, err);
-        err = SKY_bip32_PublicKey_Identifier(&pubkey, &pubIdentifier);
+        copyGoSlice_toGoSlice(&privIdentifier, &privIdentifier_tmp, privIdentifier_tmp.len);
+        err = SKY_bip32_PublicKey_Identifier(&pubkey, &pubIdentifier_tmp);
         ck_assert_int_eq(SKY_OK, err);
+        copyGoSlice_toGoSlice(&pubIdentifier, &pubIdentifier_tmp, pubIdentifier_tmp.len);
         err = SKY_base58_Hex2String(privIdentifier, &priv_Identifier);
         ck_assert_int_eq(SKY_OK, err);
         err = SKY_base58_Hex2String(pubIdentifier, &pub_Identifier);
@@ -986,13 +988,14 @@ START_TEST(TestDeserializePrivateInvalidStrings)
 
     for (size_t i = 0; i < 12; i++) {
         tests_Struct test = tests[i];
+        GoUint8 bufferb_tmp[MAXBUFFER];
         GoUint8 bufferb[MAXBUFFER];
-        GoSlice_ b_tmp = {bufferb, 0, MAXBUFFER};
+        GoSlice_ b_tmp = {bufferb_tmp, 0, MAXBUFFER};
         GoUint32 err = SKY_base58_Decode(test.base58, &b_tmp);
         ck_assert_int_eq(err, SKY_OK);
 
         PrivateKey__Handle rest_priv = 0;
-        GoSlice b;
+        GoSlice b = {bufferb, 0, MAXBUFFER};
         copyGoSlice_toGoSlice(&b, &b_tmp, b_tmp.len);
         err = SKY_bip32_DeserializePrivateKey(b, &rest_priv);
         ck_assert_int_eq(err, test.err);

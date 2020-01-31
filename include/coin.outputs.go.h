@@ -19,5 +19,4 @@ typedef struct {
     void* data;
     GoInt_ len;
     GoInt_ cap;
-    GoInt_ a;
 } coin__UxArray;

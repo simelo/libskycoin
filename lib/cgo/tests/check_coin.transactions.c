@@ -619,12 +619,12 @@ START_TEST(TestTransactionSerialization)
     makeTransaction(&handle);
     unsigned char buffer[1024];
     unsigned char buffer_tmp[1024];
-    GoSlice d = {buffer, 0, 1024};
-    coin__UxArray d_tmp = {buffer_tmp, 0, 1024};
+    GoSlice_ d_tmp = {buffer_tmp, 0, 1024};
     result = SKY_coin_Transaction_Serialize(&handle, &d_tmp);
     ck_assert(result == SKY_OK);
     Transaction__Handle handle2 = 0;
-    copycoin_UxArraytoGoSlice(&d, &d_tmp, sizeof(d_tmp));
+    GoSlice d = {buffer, 0, 1024};
+    copyGoSlice_toGoSlice(&d, &d_tmp, sizeof(d_tmp));
     result = SKY_coin_DeserializeTransaction(d, &handle2);
     ck_assert(result == SKY_OK);
     ck_assert(isTransactionHandleEq(&handle, &handle2));

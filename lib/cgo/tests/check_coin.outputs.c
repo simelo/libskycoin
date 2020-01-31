@@ -11,6 +11,7 @@
 
 START_TEST(TestUxBodyHash)
 {
+    printf("TestUxBodyHash\n");
     GoUint32 result;
     coin__UxBody uxbody;
     result = makeUxBody(&uxbody);
@@ -26,6 +27,7 @@ END_TEST
 
 START_TEST(TestUxOutHash)
 {
+    printf("TestUxOutHash\n");
     int result;
     coin__UxBody uxbody;
     result = makeUxBody(&uxbody);
@@ -53,6 +55,7 @@ END_TEST
 
 START_TEST(TestUxOutSnapshotHash)
 {
+    printf("TestUxOutSnapshotHash\n");
     GoUint32 result;
     coin__UxOut uxout, uxout2;
     result = makeUxOut(&uxout);
@@ -100,6 +103,7 @@ END_TEST
 
 START_TEST(TestUxOutCoinHours)
 {
+    printf("TestUxOutCoinHours\n");
     GoUint64 _genCoins = 1000000000;
     GoUint64 _genCoinHours = 1000 * 1000;
 
@@ -214,6 +218,7 @@ END_TEST
 
 START_TEST(TestUxArrayCoins)
 {
+    printf("TestUxArrayCoins\n");
     coin__UxArray uxs;
     int result = makeUxArray(&uxs, 4);
     ck_assert_msg(result == SKY_OK, "makeUxArray failed");
@@ -231,6 +236,7 @@ END_TEST
 
 START_TEST(TestUxArrayCoinHours)
 {
+    printf("TestUxArrayCoinHours\n");
     coin__UxArray uxs;
     int result = makeUxArray(&uxs, 4);
     ck_assert_msg(result == SKY_OK, "makeUxArray failed");
@@ -260,6 +266,7 @@ END_TEST
 
 START_TEST(TestUxArrayHashArray)
 {
+    printf("TestUxArrayHashArray\n");
     coin__UxArray uxs;
     int result = makeUxArray(&uxs, 4);
     ck_assert_msg(result == SKY_OK, "makeUxArray failed");
@@ -286,6 +293,7 @@ END_TEST
 
 START_TEST(TestUxArrayHasDupes)
 {
+    printf("TestUxArrayHasDupes\n");
     coin__UxArray uxs;
     int result = makeUxArray(&uxs, 4);
     ck_assert_msg(result == SKY_OK, "makeUxArray failed");
@@ -304,6 +312,7 @@ END_TEST
 
 START_TEST(TestUxArraySub)
 {
+    printf("TestUxArraySub\n");
     int result, equal;
     coin__UxArray uxa, uxb, uxc, uxd;
     coin__UxArray t1, t2, t3, t4;
@@ -396,6 +405,7 @@ int isUxArraySorted(coin__UxArray* uxa)
 
 START_TEST(TestUxArraySorting)
 {
+    printf("TestUxArraySorting\n");
     int result;
     coin__UxArray uxa;
     result = makeUxArray(&uxa, 4);
@@ -419,6 +429,7 @@ END_TEST
 
 START_TEST(TestUxArrayLen)
 {
+    printf("TestUxArrayLen\n");
     int result;
     coin__UxArray uxa;
     result = makeUxArray(&uxa, 4);
@@ -433,6 +444,7 @@ END_TEST
 
 START_TEST(TestUxArrayLess)
 {
+    printf("TestUxArrayLess\n");
     int result;
     coin__UxArray uxa;
     result = makeUxArray(&uxa, 2);
@@ -461,6 +473,7 @@ END_TEST
 
 START_TEST(TestUxArraySwap)
 {
+    printf("TestUxArraySwap\n");
     int result;
     coin__UxArray uxa;
     result = makeUxArray(&uxa, 2);
@@ -489,6 +502,7 @@ END_TEST
 
 START_TEST(TestAddressUxOutsKeys)
 {
+    printf("TestAddressUxOutsKeys\n");
     int result;
     int test_count = 3;
     coin__UxOut uxs[test_count];
@@ -502,7 +516,7 @@ START_TEST(TestAddressUxOutsKeys)
     result = SKY_coin_NewAddressUxOuts(&uxa, &uxOutsHandle);
     ck_assert_msg(result == SKY_OK, "SKY_coin_NewAddressUxOuts failed");
     GoSlice_ keys = {NULL, 0, 0};
-    result = SKY_coin_AddressUxOuts_Keys(uxOutsHandle, &keys);
+    result = SKY_coin_AddressUxOuts_Keys(&uxOutsHandle, &keys);
     ck_assert_msg(result == SKY_OK, "SKY_coin_AddressUxOuts_Keys failed");
     registerMemCleanup(keys.data);
     ck_assert(keys.len == test_count);
@@ -534,6 +548,7 @@ END_TEST
 
 START_TEST(TestAddressUxOutsSub)
 {
+    printf("TestAddressUxOutsSub\n");
     int result;
     coin__UxArray uxa, empty;
     makeUxArray(&uxa, 4);
@@ -565,7 +580,7 @@ START_TEST(TestAddressUxOutsSub)
     result = SKY_coin_AddressUxOuts_Set(h2, &(pData + 2)->Body.Address, &ux6);
     ck_assert_msg(result == SKY_OK, "SKY_coin_AddressUxOut_Set failed");
 
-    result = SKY_coin_AddressUxOuts_Sub(h1, h2, &h3);
+    result = SKY_coin_AddressUxOuts_Sub(&h1, &h2, &h3);
     ck_assert_msg(result == SKY_OK, "SKY_coin_AddressUxOut_Sub failed");
     registerHandleClose(h3);
 
@@ -623,6 +638,7 @@ END_TEST
 
 START_TEST(TestAddressUxOutsAdd)
 {
+    printf("TestAddressUxOutsAdd\n");
     int result;
     coin__UxArray uxa, empty;
     makeUxArray(&uxa, 4);
@@ -729,6 +745,7 @@ END_TEST
 
 START_TEST(TestAddressUxOutsFlatten)
 {
+    printf("TestAddressUxOutsFlatten\n");
     int result;
     coin__UxArray uxa, emptyArray;
     makeUxArray(&uxa, 3);
@@ -752,7 +769,7 @@ START_TEST(TestAddressUxOutsFlatten)
 
     coin__UxArray flatArray;
     memset(&flatArray, 0, sizeof(coin__UxArray));
-    result = SKY_coin_AddressUxOuts_Flatten(h, &flatArray);
+    result = SKY_coin_AddressUxOuts_Flatten(&h, &flatArray);
     ck_assert_msg(result == SKY_OK, "SKY_coin_AddressUxOuts_Flatten failed");
     registerMemCleanup(flatArray.data);
     ck_assert(flatArray.len == 3);
@@ -785,6 +802,7 @@ END_TEST
 
 START_TEST(TestNewAddressUxOuts)
 {
+    printf("TestNewAddressUxOuts\n");
     int result;
     coin__UxArray uxa, ux2;
     makeUxArray(&uxa, 6);

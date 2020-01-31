@@ -57,7 +57,7 @@ START_TEST(TestNewCoin)
     err = SKY_bip44_Coin_Account(&c, 0, &account);
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 bufferAccStr[1024];
-    GoString acc_string = {bufferAccStr, 0};
+    GoString_ acc_string = {bufferAccStr, 0};
     err = SKY_bip44_Account_String(account, &acc_string);
     ck_assert_int_eq(err, SKY_OK);
     ck_assert_str_eq(acc_string.p, "xprv9yKAFQtFghZSe4mfdpdqFm1WWmGeQbYMB4MSGUB85zbKGQgSxty4duZb8k6hNoHVd2UR7Y3QhWU3rS9wox9ewgVG7gDLyYTL4yzEuqUCjvF");
@@ -68,7 +68,7 @@ START_TEST(TestNewCoin)
     err = SKY_bip32_PrivateKey_Publickey(privk, &pubk);
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 bufferPubKStr[1024];
-    GoString pubk_string = {bufferPubKStr, 0};
+    GoString_ pubk_string = {bufferPubKStr, 0};
     err = SKY_bip32_PublicKey_String(&pubk, &pubk_string);
     ck_assert_int_eq(err, SKY_OK);
     ck_assert_str_eq(pubk_string.p, "xpub6CJWevR9X57jrYr8jrAqctxF4o78p4GCYHH34rajeL8J9D1bWSHKBht4yzwiTQ4FP4HyQpx99iLxvU54rbEbcxBUgxzTGGudBVXb1N2gcHF");
@@ -98,7 +98,7 @@ START_TEST(TestNewCoin)
     err = SKY_bip44_Account_External(&account, &external);
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 bufferPrivKStr[1024];
-    GoString privk_string = {bufferPrivKStr, 0};
+    GoString_ privk_string = {bufferPrivKStr, 0};
     err = SKY_bip32_PrivateKey_String(&external, &privk_string);
     ck_assert_int_eq(err, SKY_OK);
     ck_assert_str_eq(privk_string.p, "xprv9zjsvjLiqSerDzbeRXPeXwz8tuQ7eRUABkgFAgLPHw1KzGKkgBhJhGaMYHM8j2KDXBZTCv4m19qjxrrD7gusrtdpZ7xzJywdXHaMZEjf3Uv");

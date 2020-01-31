@@ -150,8 +150,12 @@ func SKY_coin_NewBlockHeader(_prev *C.coin__BlockHeader, _uxHash *C.cipher__SHA2
 }
 
 //export SKY_coin_BlockHeader_Hash
-func SKY_coin_BlockHeader_Hash(_bh *C.coin__BlockHeader, _arg0 *C.cipher__SHA256) (____error_code uint32) {
-	bh := (*coin.BlockHeader)(unsafe.Pointer(_bh))
+func SKY_coin_BlockHeader_Hash(_bh C.BlockHeader__Handle, _arg0 *C.cipher__SHA256) (____error_code uint32) {
+	bh, ok := lookupBlockHeaderHandle(_bh)
+	if !ok {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
 	__arg0 := bh.Hash()
 	*_arg0 = *(*C.cipher__SHA256)(unsafe.Pointer(&__arg0))
 	return
