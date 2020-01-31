@@ -49,7 +49,7 @@ GoUint32 makeNewBlock(cipher__SHA256* uxHash, Block__Handle* newBlock)
     BlockBody__Handle body = 0;
     result = SKY_coin_GetBlockBody(block, &body);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Get_Block_Body failed");
-    result = SKY_coin_BlockBody_Hash(body, &bodyhash);
+    result = SKY_coin_BlockBody_Hash(&body, &bodyhash);
     ck_assert_msg(result == SKY_OK, "SKY_coin_BlockBody_Hash failed");
     FeeCalculator zf = {zeroFeeCalculator, NULL};
     result = SKY_coin_NewBlock(block, 100 + 200, uxHash, transactions, &zf, newBlock);
@@ -155,13 +155,13 @@ START_TEST(TestBlockHashHeader)
 
     cipher__SHA256 hash1 = "";
     cipher__SHA256 hash2 = "";
-    result = SKY_coin_Block_HashHeader(block, &hash1);
+    result = SKY_coin_Block_HashHeader(&block, &hash1);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Block_HashHeader failed");
     BlockHeader__Handle blockheader = 0;
     coin__BlockHeader* pblockheader = NULL;
     result = SKY_coin_Block_GetBlockHeader(block, &blockheader);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Block_GetBlockHeader failed");
-    result = SKY_coin_BlockHeader_Hash(blockheader, &hash2);
+    result = SKY_coin_BlockHeader_Hash(&blockheader, &hash2);
     ck_assert_msg(result == SKY_OK, "SKY_coin_BlockHeader_Hash failed");
     ck_assert(isU8Eq(hash1, hash2, sizeof(cipher__SHA256)));
     strcpy(hash2, "");
@@ -191,7 +191,7 @@ START_TEST(TestBlockHashBody)
     BlockBody__Handle blockbody = 0;
     result = SKY_coin_GetBlockBody(block, &blockbody);
     ck_assert_msg(result == SKY_OK, "SKY_coin_GetBlockBody failed");
-    result = SKY_coin_BlockBody_Hash(blockbody, &hash2);
+    result = SKY_coin_BlockBody_Hash(&blockbody, &hash2);
     ck_assert_msg(result == SKY_OK, "SKY_coin_BlockBody_Hash failed");
     ck_assert(isU8Eq(hash1, hash2, sizeof(cipher__SHA256)));
 }
@@ -291,7 +291,7 @@ START_TEST(TestCreateUnspent)
     coin__Transaction* ptx;
     Transaction__Handle handle;
     makeEmptyTransaction(&handle);
-    result = SKY_coin_Transaction_PushOutput(handle, &address, 11000000, 255);
+    result = SKY_coin_Transaction_PushOutput(&handle, &address, 11000000, 255);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_PushOutput failed");
     coin__BlockHeader bh;
     memset(&bh, 0, sizeof(coin__BlockHeader));
@@ -306,7 +306,7 @@ START_TEST(TestCreateUnspent)
     int tests_count = sizeof(t) / sizeof(testcase_unspent);
     for (int i = 0; i < tests_count; i++) {
         memset(&ux, 0, sizeof(coin__UxOut));
-        result = SKY_coin_CreateUnspent(&bh, handle, t[i].index, &ux);
+        result = SKY_coin_CreateUnspent(&bh, &handle, t[i].index, &ux);
         if (t[i].failure) {
             ck_assert_msg(result == SKY_ERROR, "SKY_coin_CreateUnspent should have failed");
             continue;
@@ -316,7 +316,7 @@ START_TEST(TestCreateUnspent)
         ck_assert(bh.Time == ux.Head.Time);
         ck_assert(bh.BkSeq == ux.Head.BkSeq);
         strcpy(hash, " ");
-        result = SKY_coin_Transaction_Hash(handle, &hash);
+        result = SKY_coin_Transaction_Hash(&handle, &hash);
         ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_Hash failed");
         ck_assert(isU8Eq(hash, ux.Body.SrcTransaction, sizeof(cipher__SHA256)));
         GoInt ptxLen;
@@ -343,7 +343,7 @@ START_TEST(TestCreateUnspents)
     coin__Transaction* ptx;
     Transaction__Handle handle;
     makeEmptyTransaction(&handle);
-    result = SKY_coin_Transaction_PushOutput(handle, &address, 11000000, 255);
+    result = SKY_coin_Transaction_PushOutput(&handle, &address, 11000000, 255);
     ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_PushOutput failed");
     coin__BlockHeader bh;
     memset(&bh, 0, sizeof(coin__BlockHeader));
@@ -351,7 +351,7 @@ START_TEST(TestCreateUnspents)
     bh.BkSeq = 1;
 
     coin__UxArray uxs = {NULL, 0, 0};
-    result = SKY_coin_CreateUnspents(&bh, handle, &uxs);
+    result = SKY_coin_CreateUnspents(&bh, &handle, &uxs);
     ck_assert_msg(result == SKY_OK, "SKY_coin_CreateUnspents failed");
     registerMemCleanup(uxs.data);
     GoInt ptxLen;
@@ -363,7 +363,7 @@ START_TEST(TestCreateUnspents)
         SKY_coin_Transaction_GetOutputAt(handle, i, &ptxout);
         ck_assert(bh.Time == pout->Head.Time);
         ck_assert(bh.BkSeq == pout->Head.BkSeq);
-        result = SKY_coin_Transaction_Hash(handle, &hash);
+        result = SKY_coin_Transaction_Hash(&handle, &hash);
         ck_assert_msg(result == SKY_OK, "SKY_coin_Transaction_Hash failed");
         ck_assert(isU8Eq(hash, pout->Body.SrcTransaction, sizeof(cipher__SHA256)));
         ck_assert(isAddressEq(&pout->Body.Address, &ptxout.Address));
