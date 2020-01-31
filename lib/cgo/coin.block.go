@@ -36,36 +36,45 @@ func SKY_coin_SignedBlock_VerifySignature(_b *C.SignedBlock__Handle, _pubkey *C.
 }
 
 //export SKY_coin_NewBlock
-func SKY_coin_NewBlock(_b C.Block__Handle, _currentTime uint64, _hash *C.cipher__SHA256, _txns C.Transactions__Handle, pFeeCalc *C.FeeCalculator, _arg2 *C.Block__Handle) (____error_code uint32) {
-	feeCalc := func(pTx *coin.Transaction) (uint64, error) {
+func SKY_coin_NewBlock(_prev *C.Block__Handle, _currentTime uint64, _uxHash *C.cipher__SHA256, _txns *C.Transactions__Handle, _calc *C.FeeCalculator, _arg5 *C.Block__Handle) (____error_code uint32) {
+	__prev, okprev := lookupBlockHandle(*_prev)
+	if !okprev {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	prev := *__prev
+	currentTime := _currentTime
+	uxHash := *(*cipher.SHA256)(unsafe.Pointer(_uxHash))
+	__txns, oktxns := lookupTransactionsHandle(*_txns)
+	if !oktxns {
+		____error_code = SKY_BAD_HANDLE
+		return
+	}
+	txns := *__txns
+	calc := func(pTx *coin.Transaction) (uint64, error) {
 		var fee C.GoUint64_
 		handle := registerTransactionHandle(pTx)
-		result := C.callFeeCalculator(pFeeCalc, handle, &fee)
+		result := C.callFeeCalculator(_calc, handle, &fee)
 		closeHandle(Handle(handle))
 		if result == SKY_OK {
 			return uint64(fee), nil
-		} else {
-			err := errorFromLibCode(uint32(result))
-			if err == nil {
-				err = errors.New("Error in libskycoin fee calculator")
-			}
-			return 0, err
 		}
+		return 0, errors.New("Error calculating fee")
 	}
+	__arg5, ____return_err := coin.NewBlock(prev, currentTime, uxHash, txns, calc)
+	____error_code = libErrorCode(____return_err)
+	if ____return_err == nil {
+		*_arg5 = registerBlockHandle(__arg5)
+	}
+	return
+}
 
-	b, ok := lookupBlockHandle(_b)
-	if !ok {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	hash := *(*cipher.SHA256)(unsafe.Pointer(_hash))
-	txns, ok := lookupTransactionsHandle(_txns)
-	if !ok {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	currentTime := uint64(_currentTime)
-	__arg2, ____return_err := coin.NewBlock(*b, currentTime, hash, *txns, feeCalc)
+//export SKY_coin_NewGenesisBlock
+func SKY_coin_NewGenesisBlock(_genesisAddr *C.cipher__Address, _genesisCoins, _timestamp uint64, _arg2 *C.Block__Handle) (____error_code uint32) {
+	genesisAddr := *(*cipher.Address)(unsafe.Pointer(_genesisAddr))
+	genesisCoins := _genesisCoins
+	timestamp := _timestamp
+	__arg2, ____return_err := coin.NewGenesisBlock(genesisAddr, genesisCoins, timestamp)
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
 		*_arg2 = registerBlockHandle(__arg2)
@@ -129,72 +138,52 @@ func SKY_coin_Block_Size(_b *C.Block__Handle, _arg0 *uint32) (____error_code uin
 }
 
 //export SKY_coin_NewBlockHeader
-func SKY_coin_NewBlockHeader(_prev *C.BlockHeader__Handle, _uxHash *C.cipher__SHA256, _currentTime, _fee uint64, _body *C.BlockBody__Handle, _arg4 *C.BlockHeader__Handle) (____error_code uint32) {
-	__prev, okprev := lookupBlockHeaderHandle(*_prev)
-	if !okprev {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	prev := *__prev
+func SKY_coin_NewBlockHeader(_prev *C.coin__BlockHeader, _uxHash *C.cipher__SHA256, _currentTime, _fee uint64, _body *C.coin__BlockBody, _arg4 *C.coin__BlockHeader) (____error_code uint32) {
+	prev := *(*coin.BlockHeader)(unsafe.Pointer(_prev))
 	uxHash := *(*cipher.SHA256)(unsafe.Pointer(_uxHash))
 	currentTime := _currentTime
 	fee := _fee
-	__body, okbody := lookupBlockBodyHandle(*_body)
-	if !okbody {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	body := *__body
+	body := *(*coin.BlockBody)(unsafe.Pointer(_body))
 	__arg4 := coin.NewBlockHeader(prev, uxHash, currentTime, fee, body)
-	*_arg4 = registerBlockHeaderHandle(&__arg4)
+	*_arg4 = *(*C.coin__BlockHeader)(unsafe.Pointer(&__arg4))
 	return
 }
 
 //export SKY_coin_BlockHeader_Hash
-func SKY_coin_BlockHeader_Hash(_bh *C.BlockHeader__Handle, _arg0 *C.cipher__SHA256) (____error_code uint32) {
-	bh, okbh := lookupBlockHeaderHandle(*_bh)
-	if !okbh {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
+func SKY_coin_BlockHeader_Hash(_bh *C.coin__BlockHeader, _arg0 *C.cipher__SHA256) (____error_code uint32) {
+	bh := (*coin.BlockHeader)(unsafe.Pointer(_bh))
 	__arg0 := bh.Hash()
 	*_arg0 = *(*C.cipher__SHA256)(unsafe.Pointer(&__arg0))
 	return
 }
 
 //export SKY_coin_BlockHeader_Bytes
-func SKY_coin_BlockHeader_Bytes(_bh *C.BlockHeader__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
-	bh, okbh := lookupBlockHeaderHandle(*_bh)
-	if !okbh {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
+func SKY_coin_BlockHeader_Bytes(_bh *C.coin__BlockHeader, _arg0 *C.GoSlice_) (____error_code uint32) {
+	bh := (*coin.BlockHeader)(unsafe.Pointer(_bh))
 	__arg0 := bh.Bytes()
 	copyToGoSlice(reflect.ValueOf(__arg0), _arg0)
 	return
 }
 
 //export SKY_coin_BlockBody_Hash
-func SKY_coin_BlockBody_Hash(_bb *C.BlockBody__Handle, _arg0 *C.cipher__SHA256) (____error_code uint32) {
-	__bb, okbb := lookupBlockBodyHandle(*_bb)
-	if !okbb {
+func SKY_coin_BlockBody_Hash(_body C.BlockBody__Handle, _arg0 *C.cipher__SHA256) (____error_code uint32) {
+	body, ok := lookupBlockBodyHandle(_body)
+	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	bb := *__bb
-	__arg0 := bb.Hash()
+	__arg0 := body.Hash()
 	*_arg0 = *(*C.cipher__SHA256)(unsafe.Pointer(&__arg0))
 	return
 }
 
 //export SKY_coin_BlockBody_Size
 func SKY_coin_BlockBody_Size(_bb *C.BlockBody__Handle, _arg0 *uint32) (____error_code uint32) {
-	__bb, okbb := lookupBlockBodyHandle(*_bb)
-	if !okbb {
+	bb, ok := lookupBlockBodyHandle(*_bb)
+	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
-	bb := *__bb
 	__arg0, ____return_err := bb.Size()
 	____error_code = libErrorCode(____return_err)
 	if ____return_err == nil {
@@ -204,9 +193,9 @@ func SKY_coin_BlockBody_Size(_bb *C.BlockBody__Handle, _arg0 *uint32) (____error
 }
 
 //export SKY_coin_BlockBody_Bytes
-func SKY_coin_BlockBody_Bytes(_bb *C.BlockBody__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
-	bb, okbb := lookupBlockBodyHandle(*_bb)
-	if !okbb {
+func SKY_coin_BlockBody_Bytes(_bb C.BlockBody__Handle, _arg0 *C.GoSlice_) (____error_code uint32) {
+	bb, ok := lookupBlockBodyHandle(_bb)
+	if !ok {
 		____error_code = SKY_BAD_HANDLE
 		return
 	}
@@ -216,13 +205,8 @@ func SKY_coin_BlockBody_Bytes(_bb *C.BlockBody__Handle, _arg0 *C.GoSlice_) (____
 }
 
 //export SKY_coin_CreateUnspents
-func SKY_coin_CreateUnspents(_bh *C.BlockHeader__Handle, _txn *C.Transaction__Handle, _arg2 *C.coin__UxArray) (____error_code uint32) {
-	__bh, okbh := lookupBlockHeaderHandle(*_bh)
-	if !okbh {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	bh := *__bh
+func SKY_coin_CreateUnspents(_bh *C.coin__BlockHeader, _txn *C.Transaction__Handle, _arg2 *C.coin__UxArray) (____error_code uint32) {
+	bh := *(*coin.BlockHeader)(unsafe.Pointer(_bh))
 	__txn, oktxn := lookupTransactionHandle(*_txn)
 	if !oktxn {
 		____error_code = SKY_BAD_HANDLE
@@ -235,13 +219,8 @@ func SKY_coin_CreateUnspents(_bh *C.BlockHeader__Handle, _txn *C.Transaction__Ha
 }
 
 //export SKY_coin_CreateUnspent
-func SKY_coin_CreateUnspent(_bh *C.BlockHeader__Handle, _txn *C.Transaction__Handle, _outIndex int, _arg3 *C.coin__UxOut) (____error_code uint32) {
-	__bh, okbh := lookupBlockHeaderHandle(*_bh)
-	if !okbh {
-		____error_code = SKY_BAD_HANDLE
-		return
-	}
-	bh := *__bh
+func SKY_coin_CreateUnspent(_bh *C.coin__BlockHeader, _txn *C.Transaction__Handle, _outIndex int, _arg3 *C.coin__UxOut) (____error_code uint32) {
+	bh := *(*coin.BlockHeader)(unsafe.Pointer(_bh))
 	__txn, oktxn := lookupTransactionHandle(*_txn)
 	if !oktxn {
 		____error_code = SKY_BAD_HANDLE
@@ -457,20 +436,6 @@ func SKY_coin_BlockHeader_PrevHash(_b C.BlockHeader__Handle, _arg0 *C.cipher__SH
 		____error_code = SKY_BAD_HANDLE
 	} else {
 		*_arg0 = *(*C.cipher__SHA256)(unsafe.Pointer(&b.PrevHash))
-	}
-	return
-}
-
-//export SKY_coin_NewGenesisBlock
-func SKY_coin_NewGenesisBlock(_genesisAddr *C.cipher__Address, _genesisCoins, _timestamp uint64, _arg2 *C.Block__Handle) (____error_code uint32) {
-	genesisAddr := *(*cipher.Address)(unsafe.Pointer(_genesisAddr))
-	genesisCoins := uint64(_genesisCoins)
-	timestamp := uint64(_timestamp)
-	__arg2, ____return_err := coin.NewGenesisBlock(genesisAddr, genesisCoins, timestamp)
-	____error_code = libErrorCode(____return_err)
-	if ____return_err == nil {
-		__arg2.Head.Time = timestamp
-		*_arg2 = registerBlockHandle(__arg2)
 	}
 	return
 }

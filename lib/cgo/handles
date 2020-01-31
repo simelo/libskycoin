@@ -31,7 +31,6 @@ CGOGEN HANDLES api__CreateTransactionResponse|CreateTransactionResponse
 CGOGEN HANDLES coin__Block|Block
 CGOGEN HANDLES coin__SignedBlock|SignedBlock
 CGOGEN HANDLES coin__BlockBody|BlockBody
-CGOGEN HANDLES coin__BlockHeader|BlockHeader
 CGOGEN HANDLES cli__BalanceResult|BalanceResult
 CGOGEN HANDLES cli__TxnResult|TransactionResult
 CGOGEN HANDLES coin__SortableTransactions|SortableTransactions
