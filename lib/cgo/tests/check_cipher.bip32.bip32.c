@@ -1047,12 +1047,13 @@ START_TEST(TestDeserializePublicInvalidStrings)
     for (size_t i = 0; i < 9; i++) {
         tests_Struct test = tests[i];
         GoUint8 bufferb[MAXBUFFER];
-        GoSlice_ b_tmp = {bufferb, 0, MAXBUFFER};
+        GoUint8 bufferb_tmp[MAXBUFFER];
+        GoSlice_ b_tmp = {bufferb_tmp, 0, MAXBUFFER};
         GoUint32 err = SKY_base58_Decode(test.base58, &b_tmp);
         ck_assert_msg(err == SKY_OK, " Iter %d", i);
 
         PublicKey__Handle rest_pub = 0;
-        GoSlice b;
+        GoSlice b = {bufferb, 0, MAXBUFFER};
         copyGoSlice_toGoSlice(&b, &b_tmp, b_tmp.len);
         err = SKY_bip32_DeserializePublicKey(b, &rest_pub);
         ck_assert_msg(err == test.err, "Iter %d", i);
