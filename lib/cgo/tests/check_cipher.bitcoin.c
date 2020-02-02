@@ -235,16 +235,17 @@ END_TEST
 START_TEST(TestBitcoinWIFRoundTrip)
 {
     printf("TestBitcoinWIFRoundTrip\n");
-    cipher__SecKey seckey;
-    cipher__PubKey pubkey;
+    cipher__SecKey seckey = "";
+    cipher__PubKey pubkey = "";
     GoUint32 err = SKY_cipher_GenerateKeyPair(&pubkey, &seckey);
     ck_assert_int_eq(err, SKY_OK);
     GoUint8 wip1_buff[50];
+    GoUint8 wip1_tmp_buff[50];
     GoUint8 wip2_buff[50];
-    GoString_ wip1_tmp = {wip1_buff, 0};
+    GoString_ wip1_tmp = {wip1_tmp_buff, 0};
     err = SKY_cipher_BitcoinWalletImportFormatFromSeckey(&seckey, &wip1_tmp);
     ck_assert_int_eq(err, SKY_OK);
-    cipher__SecKey seckey2;
+    cipher__SecKey seckey2 = "";
 
     GoString wip1 = {wip1_buff, 0};
     copyGoStringtoGoString_(&wip1, &wip1_tmp);

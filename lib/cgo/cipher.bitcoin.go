@@ -11,7 +11,6 @@ import (
 
   #include <string.h>
   #include <stdlib.h>
-  #include <stdbool.h>
 
   #include "skytypes.h"
   #include "skyfee.h"

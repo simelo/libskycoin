@@ -377,6 +377,6 @@ int concatUxArray(coin__UxArray* slice1, coin__UxArray* slice2, int elem_size, c
 
 int copyGoStringtoGoString_(GoString* pdest, GoString_* psource)
 {
-    pdest->n = psource->p;
+    pdest->n = psource->n;
     strncpy(pdest->p, psource->p, psource->n);
 }
