@@ -686,6 +686,7 @@ func libErrorCode(err error) uint32 {
 	return SKY_ERROR
 }
 
+// nolint unused
 func errorFromLibCode(errcode uint32) error {
 	if err, exists := codeToErrorMap[errcode]; exists {
 		return err

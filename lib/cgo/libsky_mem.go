@@ -4,8 +4,6 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/spf13/cobra"
-
 	"github.com/SkycoinProject/skycoin/src/cipher"
 	httphelper "github.com/SkycoinProject/skycoin/src/util/http"
 )
@@ -22,6 +20,7 @@ import (
 */
 import "C"
 
+// nolint unused
 const (
 	SizeofRipemd160         = unsafe.Sizeof(C.cipher__Ripemd160{})
 	SizeOfAddress           = unsafe.Sizeof(C.cipher__Address{})
@@ -48,11 +47,6 @@ func inplaceAddress(p *C.cipher__Address) *cipher.Address {
 
 func inplaceHttpHelperAddress(p *C.httphelper__Address) *httphelper.Address {
 	return (*httphelper.Address)(unsafe.Pointer(p))
-}
-
-func inplaceCobraCommand(p interface{}) (cmd *cobra.Command, isInstance bool) {
-	cmd, isInstance = p.(*cobra.Command)
-	return
 }
 
 /**
@@ -127,6 +121,7 @@ func copyToGoSlice(src reflect.Value, dest *C.GoSlice_) {
 	}
 }
 
+// nolint unused
 func copyToStringMap(gomap map[string]string, dest *C.GoStringMap_) {
 	*dest = (C.GoStringMap_)(registerHandle(gomap))
 }
