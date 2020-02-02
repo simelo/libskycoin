@@ -752,7 +752,7 @@ START_TEST(TestAddressUxOutsFlatten)
     coin__UxOut* pData = uxa.data;
     memcpy(&(pData + 2)->Body.Address, &(pData + 1)->Body.Address, sizeof(cipher__Address));
     memset(&emptyArray, 0, sizeof(coin__UxArray));
-    AddressUxOuts__Handle h;
+    AddressUxOuts__Handle h = 0;
     result = SKY_coin_NewAddressUxOuts(&emptyArray, &h);
     ck_assert_msg(result == SKY_OK, "SKY_coin_NewAddressUxOuts failed");
     registerHandleClose(h);

@@ -166,7 +166,7 @@ func SKY_coin_AddressUxOuts_Flatten(_auo *C.AddressUxOuts__Handle, _arg0 *C.coin
 	}
 	auo := *__auo
 	__arg0 := auo.Flatten()
-	copyToBuffer(reflect.ValueOf(__arg0[:]), unsafe.Pointer(_arg0), uint(SizeofUxArray))
+	copyTocoin_UxArray(reflect.ValueOf(__arg0), _arg0)
 	return
 }
 
@@ -213,7 +213,7 @@ func SKY_coin_UxArray_Sub(_ua *C.coin__UxArray, _other *C.coin__UxArray, _arg1 *
 	ua := *(*coin.UxArray)(unsafe.Pointer(_ua))
 	other := *(*coin.UxArray)(unsafe.Pointer(_other))
 	__arg1 := ua.Sub(other)
-	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofUxArray))
+	copyTocoin_UxArray(reflect.ValueOf(__arg1), _arg1)
 	return
 }
 
@@ -222,7 +222,7 @@ func SKY_coin_UxArray_Add(_ua *C.coin__UxArray, _other *C.coin__UxArray, _arg1 *
 	ua := *(*coin.UxArray)(unsafe.Pointer(_ua))
 	other := *(*coin.UxArray)(unsafe.Pointer(_other))
 	__arg1 := ua.Add(other)
-	copyToBuffer(reflect.ValueOf(__arg1[:]), unsafe.Pointer(_arg1), uint(SizeofUxArray))
+	copyTocoin_UxArray(reflect.ValueOf(__arg1), _arg1)
 	return
 }
 
