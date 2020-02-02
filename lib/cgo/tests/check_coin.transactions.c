@@ -638,7 +638,7 @@ START_TEST(TestTransactionOutputHours)
     makeEmptyTransaction(&handle);
     cipher__Address addr;
     makeAddress(&addr);
-    int result;
+    GoUint32_ result;
     result = SKY_coin_Transaction_PushOutput(&handle, &addr, 1000000, 100);
     ck_assert(result == SKY_OK);
     makeAddress(&addr);
