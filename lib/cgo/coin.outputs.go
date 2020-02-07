@@ -166,7 +166,7 @@ func SKY_coin_AddressUxOuts_Flatten(_auo *C.AddressUxOuts__Handle, _arg0 *C.coin
 	}
 	auo := *__auo
 	__arg0 := auo.Flatten()
-	copyTocoin_UxArray(reflect.ValueOf(__arg0), _arg0)
+	copyTocoin__UxArray(reflect.ValueOf(__arg0), _arg0)
 	return
 }
 
@@ -213,7 +213,7 @@ func SKY_coin_UxArray_Sub(_ua *C.coin__UxArray, _other *C.coin__UxArray, _arg1 *
 	ua := *(*coin.UxArray)(unsafe.Pointer(_ua))
 	other := *(*coin.UxArray)(unsafe.Pointer(_other))
 	__arg1 := ua.Sub(other)
-	copyTocoin_UxArray(reflect.ValueOf(__arg1), _arg1)
+	copyTocoin__UxArray(reflect.ValueOf(__arg1), _arg1)
 	return
 }
 
@@ -222,7 +222,7 @@ func SKY_coin_UxArray_Add(_ua *C.coin__UxArray, _other *C.coin__UxArray, _arg1 *
 	ua := *(*coin.UxArray)(unsafe.Pointer(_ua))
 	other := *(*coin.UxArray)(unsafe.Pointer(_other))
 	__arg1 := ua.Add(other)
-	copyTocoin_UxArray(reflect.ValueOf(__arg1), _arg1)
+	copyTocoin__UxArray(reflect.ValueOf(__arg1), _arg1)
 	return
 }
 
@@ -235,7 +235,7 @@ func SKY_coin_AddressUxOuts_Get(handle C.AddressUxOuts__Handle, _key *C.cipher__
 		key := *(*cipher.Address)(unsafe.Pointer(_key))
 		uxOuts, found := (*a)[key]
 		if found {
-			copyTocoin_UxArray(reflect.ValueOf(uxOuts), _uxOuts)
+			copyTocoin__UxArray(reflect.ValueOf(uxOuts), _uxOuts)
 			____error_code = SKY_OK
 		}
 	} else {

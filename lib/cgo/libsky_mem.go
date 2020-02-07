@@ -126,7 +126,7 @@ func copyToStringMap(gomap map[string]string, dest *C.GoStringMap_) {
 	*dest = (C.GoStringMap_)(registerHandle(gomap))
 }
 
-func copyTocoin_UxArray(src reflect.Value, dest *C.coin__UxArray) {
+func copyTocoin__UxArray(src reflect.Value, dest *C.coin__UxArray) {
 	srcLen := src.Len()
 	if srcLen == 0 {
 		dest.len = 0
