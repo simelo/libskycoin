@@ -14,9 +14,9 @@ import (
 	"encoding/json"
 	"path/filepath"
 
-	api "github.com/skycoin/skycoin/src/api"
-	"github.com/skycoin/skycoin/src/daemon"
-	"github.com/skycoin/skycoin/src/readable"
+	api "github.com/SkycoinProject/skycoin/src/api"
+	"github.com/SkycoinProject/skycoin/src/daemon"
+	"github.com/SkycoinProject/skycoin/src/readable"
 )
 
 //export SKY_JsonEncode_Handle

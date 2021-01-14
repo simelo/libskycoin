@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"unsafe"
 
-	coin "github.com/skycoin/skycoin/src/coin"
-	"github.com/skycoin/skycoin/src/transaction"
+	coin "github.com/SkycoinProject/skycoin/src/coin"
+	"github.com/SkycoinProject/skycoin/src/transaction"
 )
 
 /*

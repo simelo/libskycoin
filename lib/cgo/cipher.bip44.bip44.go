@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/skycoin/skycoin/src/cipher/bip44"
+	"github.com/SkycoinProject/skycoin/src/cipher/bip44"
 )
 
 /*

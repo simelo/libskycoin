@@ -1,7 +1,7 @@
 package main
 
 import (
-	cli "github.com/skycoin/skycoin/src/cli"
+	cli "github.com/SkycoinProject/skycoin/src/cli"
 )
 
 /*

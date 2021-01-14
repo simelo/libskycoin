@@ -1,7 +1,7 @@
 package main
 
 import (
-	cert "github.com/skycoin/skycoin/src/util/certutil"
+	cert "github.com/SkycoinProject/skycoin/src/util/certutil"
 )
 
 /*
